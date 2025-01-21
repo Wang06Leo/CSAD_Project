@@ -18,16 +18,16 @@ if (isset($_POST["username"])&& isset($_POST["password"]) && !isset($_POST["emai
     $username = ($_POST['username']);
     $password = ($_POST['password']);
     $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-    $stmt->execute([ 'username' => $username ]);
-    if ($stmt->fetch(PDO::FETCH_ASSOC)) {
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE password = :password');
-        $stmt->execute([ 'password' => $password ]);
-        if (password_verify($password, $stmt->fetch(PDO::FETCH_ASSOC))) header("location: menu.html");
-        else {
-            header("location: ../../login.html?e=p");
+    $stmt->execute([':username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user) {
+        if (password_verify($password, $user['password'])) {
+            header("Location: menu.html");
+        } else {
+            header("Location: ../../login.html?e=p");
         }
     } else {
-        header("location: ../../login.html?e=u");
+        header("Location: ../../login.html?e=u");
     }
 }
 if (isset($_POST["username"])&& isset($_POST["password"]) && isset($_POST["email"])) { // is signing in
