@@ -157,6 +157,16 @@ header nav a:hover {
         .register-form button:hover {
             background-color: #009900;
         }
+        #error {
+            margin-top: 20px;
+            color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 0px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -182,17 +192,75 @@ header nav a:hover {
     <div class="register-container">
         <h1>Steak</h1>
         <div class="box">Box</div>
-        <form class="register-form">
+        <form class="register-form" action="src/php/server.php" method="POST" onsubmit="return validateForm()">
             <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username">
+            <input type="text" id="username" placeholder="Enter your username" name="username">
             <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email">
+            <input type="email" id="email" placeholder="Enter your email" name="email">
             <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password">
+            <input type="password" id="password" placeholder="Enter your password" name="password">
             <label for="confirm-password">Confirm Password:</label>
             <input type="password" id="confirm-password" placeholder="Confirm your password">
-            <button type="button" onclick="window.location.href='login.html'">Register</button>
+            <div id="error"></div>
+            <button type="submit">Register</button>
         </form>
     </div>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var cfmPassword = document.getElementById("confirm-password").value;
+            var email =  document.getElementById("email").value;
+            var errMsg = "";
+            var missingFields = [];
+            if (username.trim() == "") missingFields.push("username");
+            if (email.trim() == "") missingFields.push("email");
+            if (password.trim() == "") missingFields.push("password");
+            if (cfmPassword.trim() == "" && password !== "") missingFields.push("confirm password");
+            if (cfmPassword && password && cfmPassword !== password) missingFields.push("passwords don't match");
+            if (missingFields != 0 && missingFields[0] == "passwords don't match") { // so that "Enter your passwords don't match" changes to below
+                errMsg = "Passwords don't match";
+                document.getElementById("error").innerText = errMsg;
+            } else if (missingFields.length > 0) {
+                errMsg = `Enter your ${missingFields.join(" and ")}`;
+                document.getElementById("error").innerText = errMsg;
+            } else {
+                return true;
+            }
+            document.getElementById("error").innerText = errMsg; // if in one of the if/else-if
+            return changeErrH();
+        }
+        function changeErrH() {
+            document.getElementById("error").style.height = "50px";
+            return false;
+        }
+        function userRefreshed() {
+            return ((window.performance.navigation && window.performance.navigation.type === 1) ||
+                    window.performance
+                    .getEntriesByType('navigation')
+                    .map((nav) => nav.type)
+                    .includes('reload'));
+        }
+        function removeUrlParam() {
+            let currentUrl = window.location.href;
+            // Check if the URL has parameters
+            if (currentUrl.indexOf('?') > -1) {
+                let baseUrl = currentUrl.split('?')[0];
+                window.history.replaceState(null, null, baseUrl);
+            }
+        }
+        function searchErrUrlParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const err = urlParams.get("e");
+            if (err == "t") {
+                document.getElementById("error").innerText = "Username is taken";
+                changeErrH();
+            }
+        }
+        if (userRefreshed()) {
+            removeUrlParam();
+        }
+        searchErrUrlParam();
+    </script>
 </body>
 </html>

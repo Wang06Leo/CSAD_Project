@@ -177,6 +177,16 @@ header nav a:hover {
         .login-form a:hover {
             text-decoration: underline;
         }
+        #error {
+            margin-top: 20px;
+            color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 0px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -201,16 +211,66 @@ header nav a:hover {
     <div class="login-container">
         <h1>Steak</h1>
         <div class="box">Box</div>
-        <form class="login-form">
+        <form class="login-form" action="src/php/server.php" method="POST" onsubmit="return validateForm()">
             <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username">
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email">
+            <input type="text" id="username" placeholder="Enter your username" name="username">
             <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password">
+            <input type="password" id="password" placeholder="Enter your password" name="password">
             <button type="submit">Login</button>
+            <div id="error"></div>
             <p>Don’t have an account? <a href="sign_up.html">Sign up</a></p>
         </form>
     </div>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var errMsg = "";
+            var missingFields = [];
+            if (username.trim() === "") missingFields.push("username");
+            if (password.trim() === "") missingFields.push("password");
+            if (missingFields.length > 0) {
+                errMsg = `Enter your ${missingFields.join(" and ")}`;
+                document.getElementById("error").innerText = errMsg;
+            } else {
+                return true;
+            }
+            document.getElementById("error").innerText = errMsg; // if in one of the if/else-if
+            return changeErrH();
+        }
+        function changeErrH() {
+            document.getElementById("error").style.height = "50px";
+            return false;
+        }
+        function userRefreshed() {
+            return (window.performance.navigation && window.performance.navigation.type === 1) ||
+                    window.performance
+                    .getEntriesByType('navigation')
+                    .map((nav) => nav.type)
+                    .includes('reload');
+        }
+        function removeUrlParams() {
+            let currentUrl = window.location.href;
+            // Check if the URL has parameters
+            if (currentUrl.indexOf('?') > -1) {
+                let baseUrl = currentUrl.split('?')[0];
+                window.history.replaceState(null, null, baseUrl);
+            }
+        }
+        function searchErrUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const err = urlParams.get("e");
+            if (err == "u") {
+                document.getElementById("error").innerText = "Invalid username";
+            } else if (err == "p") {
+                document.getElementById("error").innerText = "Invalid password";
+            } else return;
+            changeErrH();
+        }
+        if (userRefreshed()) {
+            removeUrlParams();
+        }
+        searchErrUrlParams();
+    </script>
 </body>
 </html>
