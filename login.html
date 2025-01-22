@@ -257,20 +257,10 @@ header nav a:hover {
                 window.history.replaceState(null, null, baseUrl);
             }
         }
-        function searchErrUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const err = urlParams.get("e");
-            if (err == "u") {
-                document.getElementById("error").innerText = "Invalid username";
-            } else if (err == "p") {
-                document.getElementById("error").innerText = "Invalid password";
-            } else return;
-            changeErrH();
-        }
         if (userRefreshed()) {
             removeUrlParams();
         }
-        searchErrUrlParams();
     </script>
+    <script src="urlParams.js"></script>
 </body>
 </html>

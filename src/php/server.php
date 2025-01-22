@@ -42,6 +42,6 @@ if (isset($_POST["username"])&& isset($_POST["password"]) && isset($_POST["email
     } else {
         $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES(?, ?, ?)");
         $stmt->execute([$username, $email, $password_hashed]);
-        header('location: ../../login.html');
+        header('location: ../../login.html?alert=login');
     }
 }
