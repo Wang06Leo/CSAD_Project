@@ -22,7 +22,7 @@ if (isset($_POST["username"])&& isset($_POST["password"]) && !isset($_POST["emai
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user) {
         if (password_verify($password, $user['password'])) {
-            header("Location: menu.html");
+            header("Location: ../../menu.html");
         } else {
             header("Location: ../../login.html?e=p");
         }
