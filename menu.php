@@ -202,16 +202,20 @@ header nav a:hover {
         .food-item {
         background-color: #fff;
         border-radius: 8px;
-        padding: 20px; /* Increased padding for larger size */
+        padding: 0px; /* Increased padding for larger size */
+        padding-bottom: 20px;
         text-align: center;
         border: 1px solid #ccc;
         flex: 0 0 150px;
         }
 
-        .food-item img {
-        max-width: 100%;
-        border-radius: 8px;
-        margin-bottom: 15px; /* Slightly larger spacing between image and text */
+        .promotion .food-item img {
+            width: 100%; /* Ensures the image spans the full width of the container */
+            height: 100px; /* Set a fixed height for all images */
+            object-fit: cover; /* Ensures the image retains its aspect ratio while filling the set height and width */
+            border-radius: 8px 8px 0 0; /* Keeps the rounded corners for the top of the image */
+            margin: 0; /* Removes any extra margin */
+            padding: 0; /* Ensures no padding is applied */
         }
 
         .food-item p {
@@ -227,6 +231,15 @@ header nav a:hover {
         border-radius: 5px;
         font-size: 16px; /* Larger font size for buttons */
         cursor: pointer;
+        }
+
+        .food-grid .food-item img {
+            width: 100%; /* Ensures the image spans the full width of its container */
+            height: 300px; /* Set a fixed height for consistency */
+            object-fit: cover; /* Ensures the image retains its aspect ratio while filling the set dimensions */
+            border-radius: 8px 8px 0 0; /* Keeps the top corners rounded */
+            margin: 0; /* Removes any default margin */
+            padding: 0; /* Ensures no padding is applied */
         }
 
         .food-section {
@@ -285,13 +298,13 @@ header nav a:hover {
             <p>Up to 60% off for this Month!</p>
             <div class="promotion-items">
                 <div class="food-item">
-                    <img src="wagyu-beef.jpg" alt="Wagyu Beef">
+                    <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85 (60% off)</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="beef-carpaccio.jpg" alt="Beef Carpaccio">
+                    <img src="image/beef_carpaccio.jpg" alt="Beef Carpaccio">
                     <p>Beef Carpaccio</p>
                     <p>$21.20 (40% off)</p>
                     <button>Add</button>
@@ -308,25 +321,25 @@ header nav a:hover {
             </div>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="wagyu.jpg" alt="Wagyu Beef">
+                    <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="dong-po-rou.jpg" alt="Dong Po Rou">
+                    <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="short-rib-ragu.jpg" alt="Short Rib Ragu">
+                    <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="steak-pear.jpg" alt="Steak and Charred Pear Salad">
+                    <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
                     <button>Add</button>
@@ -338,19 +351,19 @@ header nav a:hover {
             <h3>Beef</h3>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="wagyu.jpg" alt="Wagyu Beef">
+                    <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="steak-pear.jpg" alt="Steak and Charred Pear Salad">
+                    <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="short-rib-ragu.jpg" alt="Short Rib Ragu">
+                    <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
                     <button>Add</button>
@@ -362,13 +375,13 @@ header nav a:hover {
             <h3>Pork</h3>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="dong-po-rou.jpg" alt="Dong Po Rou">
+                    <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="braised-pork.jpg" alt="Braised Pork">
+                    <img src="image/braised_pork.jpg" alt="Braised Pork">
                     <p>Braised Pork</p>
                     <p>$29.99</p>
                     <button>Add</button>
@@ -380,19 +393,19 @@ header nav a:hover {
             <h3>Lamb</h3>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="lamb-curry.jpg" alt="Lamb Curry">
+                    <img src="image/lamb_curry.jpg" alt="Lamb Curry">
                     <p>Lamb Curry</p>
                     <p>$19.10</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="smoky-slather.jpg" alt="Seared Lamb with Smoky Slather">
+                    <img src="image/seared_lamb.jpg" alt="Seared Lamb with Smoky Slather">
                     <p>Seared Lamb with Smoky Slather</p>
                     <p>$29.99</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="roasted-lamb.jpg" alt="Roasted Lamb Leg">
+                    <img src="image/roasted_lamb_leg.webp" alt="Roasted Lamb Leg">
                     <p>Roasted Lamb Leg</p>
                     <p>$29.99</p>
                     <button>Add</button>
@@ -404,25 +417,25 @@ header nav a:hover {
             <h3>Dessert</h3>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="tiramisu.jpg" alt="Italian Tiramisu">
+                    <img src="image/italian_tiramisu.avif" alt="Italian Tiramisu">
                     <p>Italian Tiramisu</p>
                     <p>$7.10</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="creme-brulee.jpg" alt="Crème Brûlée">
+                    <img src="image/creme_brulee.jpg" alt="Crème Brûlée">
                     <p>Crème Brûlée</p>
                     <p>$8.15</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="oreo-pudding.jpg" alt="Oreo Dirt Pudding">
+                    <img src="image/oreo_dirt_pudding.jpg" alt="Oreo Dirt Pudding">
                     <p>Oreo Dirt Pudding</p>
                     <p>$5.80</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="strawberry.jpg" alt="Paganini Strawberry">
+                    <img src="image/paganini_strawberry.jpg" alt="Paganini Strawberry">
                     <p>Paganini Strawberry</p>
                     <p>$8.50</p>
                     <button>Add</button>
@@ -434,25 +447,25 @@ header nav a:hover {
             <h3>Drinks</h3>
             <div class="food-grid">
                 <div class="food-item">
-                    <img src="coke.jpg" alt="Coke">
+                    <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
                     <p>$3.20</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="sprite.jpg" alt="Sprite">
+                    <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
                     <p>$3.20</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="beer.jpg" alt="Beer">
+                    <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
                     <p>$15.80</p>
                     <button>Add</button>
                 </div>
                 <div class="food-item">
-                    <img src="wine.jpg" alt="Wine">
+                    <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
                     <p>$50.80</p>
                     <button>Add</button>
