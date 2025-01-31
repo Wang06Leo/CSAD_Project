@@ -3,181 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Login Page</title>
     <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7e3c2;
-            color: #333;
-        }
-
-        /* header.css */
-header {
-    background-color: #a58e71;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header .logo {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-header .logo .box {
-    display: inline-block;
-    background-color: #333;
-    color: white;
-    padding: 5px 10px;
-    font-weight: bold;
-    border: 2px solid white;
-}
-
-header nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-header nav a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-header nav a.head-order-button {
-    background-color: #00cc00;
-    color: white;
-    padding: 10px 20px;
-}
-
-header nav a:hover {
-    text-decoration: underline;
-}
-
-.icon-container {
-            position: relative; /* Set the container as the positioning reference */
-            width: 50px; /* Adjust size of the icon */
-            height: 50px; /* Match the width for a perfect circle */
-            display: inline-block;
-        }
-        .background-circle {
-            position: absolute; /* Allows positioning within the container */
-            top: 0;
-            left: 0;
-            width: 100%; /* Fill the container */
-            height: 100%; /* Maintain circular shape */
-            z-index: 1; /* Place behind the cart icon */
-        }
-
-        .cart-icon {
-            position: absolute; /* Position within the container */
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Offset to align center */
-            width: 60%; /* Adjust size relative to the container */
-            height: 60%; /* Keep aspect ratio */
-            z-index: 2; /* Place above the circle */
-        }
-
-        .icon-link {
-            display: inline-block;    
-            text-decoration: none; 
-        }
-
-
-
-
-        /* Login Form Styling */
-        .login-container {
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .login-container h1 {
-            font-size: 64px;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .login-container .box {
-            display: inline-block;
-            background-color: #333;
-            border: 4px solid white;
-            color: white;
-            font-size: 48px;
-            font-weight: bold;
-            padding: 10px 20px;
-            margin-bottom: 40px;
-        }
-
-        .login-form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-form label {
-            font-size: 20px;
-            color: #333;
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .login-form button {
-            width: 100%;
-            padding: 15px;
-            font-size: 20px;
-            color: white;
-            background-color: #00cc00;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .login-form button:hover {
-            background-color: #009900;
-        }
-
-        .login-form p {
-            font-size: 20px;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .login-form a {
-            color: blue;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-form a:hover {
-            text-decoration: underline;
-        }
         .container {
             padding: 20px;
         }
@@ -274,7 +102,84 @@ header nav a:hover {
         .category-buttons button.active {
             background-color: #333;
         }
+
+
+
+        /* Cart Popup Styling */
+        .cart-container {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 105px;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background-color: #F1EFEF;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);   
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Cart content */
+        .cart-content {
+            position: relative;
+        }
+
+        .cart-total {
+            margin-top: 300px;
+
+        }
+        /* Checkout button */
+        .checkout-btn {
+            background-color: #00cc00;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 40px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #009900;
+        }
+        
+        .close-cart{
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            top:0px;
+            cursor: pointer;
+        }
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cartIcon = document.querySelector(".icon-link"); // Cart button
+            const cartPopup = document.getElementById("cart-popup"); // Cart popup
+            const closeCart = document.querySelector(".close-cart"); // Close button
+
+            // Show cart when clicking the cart icon
+            cartIcon.addEventListener("click", function(event) {
+                event.preventDefault();
+                cartPopup.style.display = "block";
+            });
+
+            // Close cart when clicking the close button
+            closeCart.addEventListener("click", function() {
+                cartPopup.style.display = "none";
+            });
+
+            // Close cart when clicking outside the cart
+            window.addEventListener("click", function(event) {
+                if (event.target === cartPopup) {
+                    cartPopup.style.display = "none";
+                }
+            });
+        });
+    </script>
+    
 </head>
 <body>
     <!-- Header -->
@@ -473,4 +378,22 @@ header nav a:hover {
             </div>
         </div>
     </div>
-</body>
+
+    <div id="cart-popup" class="cart-container">
+        <div class="cart-content">
+            <h1 style="text-align: center;">Your Cart</h1>
+            <img src="image/back.png" class="close-cart"></img>    
+            <hr style="height:2px; border:none;background-color: #333;">
+            <div id="cart-items">
+                <p>No items added</p>
+            </div>
+            <div class="cart-total">
+            <hr style="height:1px; border:none;background-color: #333;">
+                <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
+                <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
+                <p><strong>Total:</strong> $<span id="total">0.00</span></p>
+            </div>
+            <button class="checkout-btn">Payment</button>
+        </div>
+    </div>
+</body> 
