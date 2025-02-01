@@ -22,12 +22,12 @@ if (isset($_POST["username"])&& isset($_POST["password"]) && !isset($_POST["emai
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user) {
         if (password_verify($password, $user['password'])) {
-            header("Location: ../../menu.html");
+            header("Location: ../../menu.php");
         } else {
-            header("Location: ../../login.html?e=p");
+            header("Location: ../../login.php?e=p");
         }
     } else {
-        header("Location: ../../login.html?e=u");
+        header("Location: ../../login.php?e=u");
     }
 }
 if (isset($_POST["username"])&& isset($_POST["password"]) && isset($_POST["email"])) { // is signing in
@@ -38,10 +38,10 @@ if (isset($_POST["username"])&& isset($_POST["password"]) && isset($_POST["email
     $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmt->execute([ 'username' => $username ]);
     if ($stmt->fetch(PDO::FETCH_ASSOC)) {
-        header("location: ../../sign_up.html?e=t");
+        header("location: ../../sign_up.php?e=t");
     } else {
         $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES(?, ?, ?)");
         $stmt->execute([$username, $email, $password_hashed]);
-        header('location: ../../login.html?alert=login');
+        header('location: ../../login.php?alert=login');
     }
 }

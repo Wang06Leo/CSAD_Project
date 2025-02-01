@@ -99,6 +99,27 @@
             margin-top: 20px;
         }
     </style>
+
+    <?php
+    // LOGIN USER
+    session_start();
+    $errors = array();
+    if (isset($_POST['submitbtn'])) {
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+        if (empty($username)) {
+                array_push($errors, " username");
+        }
+        if (empty($password)) {
+                array_push($errors, " password");
+        }
+
+        if (empty($errors)){
+            header('HTTp/1.1 307 Temporary Redirect');
+            header('Location: src/php/server.php');
+        }
+    }
+    ?>
 </head>
 <body>
     <!-- Header -->
@@ -112,7 +133,7 @@
             <a href="#" class="head-order-button" style="text-decoration: underline;" >Login</a>
             <a href="#" class="icon-link">
             <div class="icon-container">
-                <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
+                <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">  
                 <img src="image/Vector.png" alt="Cart Icon" class="cart-icon">
             </div>
         </a>
@@ -122,14 +143,24 @@
     <div class="login-container">
         <h1>Steak</h1>
         <div class="box">Box</div>
-        <form class="login-form" action="src/php/server.php" method="POST" onsubmit="return validateLoginForm()">
+        <form class="login-form" action="login.php" method="POST" onsubmit="return validateLoginForm()">
             <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username" name="username">
+            <input type="text" id="username" placeholder="Enter your username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
             <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password" name="password">
-            <button type="submit">Login</button>
+            <input type="password" id="password" placeholder="Enter your password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>">
+            <button type="submit" name="submitbtn">Login</button>
+
+            <!-- Display error messages -->
+            <?php if (count($errors) > 0) : ?>
+            <div class="error">
+                <p style="color:red;">Enter your 
+                    <?php echo implode(" and ", $errors); ?>
+                </p>
+            </div>
+            <?php endif; ?>
+
             <div id="error"></div>
-            <p>Don’t have an account? <a href="sign_up.html">Sign up</a></p>
+            <p>Don’t have an account? <a href="sign_up.php">Sign up</a></p>
         </form>
     </div>
     <script src="js/form_validate.js"></script>

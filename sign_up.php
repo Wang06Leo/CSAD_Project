@@ -82,6 +82,32 @@
             margin-bottom: 20px;
         }
     </style>
+
+<?php
+    // LOGIN USER
+    session_start();
+    $errors = array();
+    if (isset($_POST['register_user'])) {
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
+
+        if (empty($username)) {
+            array_push($errors, " username");
+        }
+        if (empty($email)){
+            array_push($errors, " email");
+        }
+        if (empty($password)) {
+            array_push($errors, " password");
+        }
+
+        if (empty($errors)){
+            header('HTTp/1.1 307 Temporary Redirect');
+            header('Location: src/php/server.php');
+        }
+    }
+    ?>
 </head>
 <body>
     <!-- Header -->
@@ -91,8 +117,8 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="#" class="head-order-button">Order Here</a>
-            <a href="login.html" class="head-order-button">Login</a>
+            <a href="menu.php" class="head-order-button">Order Here</a>
+            <a href="login.php" class="head-order-button">Login</a>
             <a href="#">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -106,17 +132,27 @@
     <div class="register-container">
         <h1>Steak</h1>
         <div class="box">Box</div>
-        <form class="register-form" action="src/php/server.php" method="POST" onsubmit="return validateSignUpForm()">
+        <form class="register-form" action="sign_up.php" method="POST" onsubmit="return validateSignUpForm()">
             <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username" name="username">
+            <input type="text" id="username" placeholder="Enter your username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
             <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email" name="email">
+            <input type="email" id="email" placeholder="Enter your email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
             <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password" name="password">
+            <input type="password" id="password" placeholder="Enter your password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>">
             <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" placeholder="Confirm your password">
+            <input type="password" id="confirm-password" placeholder="Confirm your password" value="<?php echo isset($_POST['confirm-password']) ? htmlspecialchars($_POST['confirm-password']) : ''; ?>">
+
+            <!-- Display error messages -->
+            <?php if (count($errors) > 0) : ?>
+            <div class="error">
+                <p style="color:red;">Enter your 
+                    <?php echo implode(" and ", $errors); ?>
+                </p>
+            </div>
+            <?php endif; ?>
+
             <div id="error"></div>
-            <button type="submit">Register</button>
+            <button type="submit" name="register_user">Register</button>
         </form>
     </div>
     <script src="js/form_validate.js"></script>
