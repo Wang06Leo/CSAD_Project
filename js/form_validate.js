@@ -10,7 +10,7 @@ function validateSignUpForm() {
     if (password.trim() == "") missingFields.push("password");
     if (cfmPassword.trim() == "" && password !== "") missingFields.push("confirm password");
     if (cfmPassword && password && cfmPassword !== password) missingFields.push("passwords don't match");
-    if (missingFields != 0 && missingFields[0] == "passwords don't match") { // so that "Enter your passwords don't match" changes to below
+    if (missingFields.length != 0 && missingFields[0] == "passwords don't match") { // so that "Enter your passwords don't match" changes to below
         errMsg = "Passwords don't match";
         document.getElementById("error").innerText = errMsg;
     } else if (missingFields.length > 0) {
