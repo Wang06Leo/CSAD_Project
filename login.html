@@ -122,7 +122,7 @@
     <div class="login-container">
         <h1>Steak</h1>
         <div class="box">Box</div>
-        <form class="login-form" action="src/php/server.php" method="POST" onsubmit="return validateForm()">
+        <form class="login-form" action="src/php/server.php" method="POST" onsubmit="return validateLoginForm()">
             <label for="username">Username:</label>
             <input type="text" id="username" placeholder="Enter your username" name="username">
             <label for="password">Password:</label>
@@ -132,46 +132,7 @@
             <p>Don’t have an account? <a href="sign_up.html">Sign up</a></p>
         </form>
     </div>
-    <script>
-        function validateForm() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var errMsg = "";
-            var missingFields = [];
-            if (username.trim() === "") missingFields.push("username");
-            if (password.trim() === "") missingFields.push("password");
-            if (missingFields.length > 0) {
-                errMsg = `Enter your ${missingFields.join(" and ")}`;
-                document.getElementById("error").innerText = errMsg;
-            } else {
-                return true;
-            }
-            document.getElementById("error").innerText = errMsg; // if in one of the if/else-if
-            return changeErrH();
-        }
-        function changeErrH() {
-            document.getElementById("error").style.height = "50px";
-            return false;
-        }
-        function userRefreshed() {
-            return (window.performance.navigation && window.performance.navigation.type === 1) ||
-                    window.performance
-                    .getEntriesByType('navigation')
-                    .map((nav) => nav.type)
-                    .includes('reload');
-        }
-        function removeUrlParams() {
-            let currentUrl = window.location.href;
-            // Check if the URL has parameters
-            if (currentUrl.indexOf('?') > -1) {
-                let baseUrl = currentUrl.split('?')[0];
-                window.history.replaceState(null, null, baseUrl);
-            }
-        }
-        if (userRefreshed()) {
-            removeUrlParams();
-        }
-    </script>
-    <script src="urlParams.js"></script>
+    <script src="js/form_validate.js"></script>
+    <script src="js/urlParams.js"></script>
 </body>
 </html>
