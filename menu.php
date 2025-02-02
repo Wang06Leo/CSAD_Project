@@ -75,6 +75,10 @@
         }
 
         .food-section h3 {
+            margin-bottom: 0px;
+        }
+
+        .food-section h1 {
             margin-bottom: 10px;
         }
 
@@ -84,25 +88,34 @@
         gap: 20px; /* Adjust the spacing between items */
         }
 
-
-        .category-buttons {
+        .most-ordered-container {
+            display: flex;
+            align-items: center; /* Aligns items vertically */
+            gap: 895px; /* Adjust spacing between heading and buttons */
             margin-bottom: 15px;
         }
 
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
         .category-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            background-color: transparent;
+            color: black;
+            border: 3px solid black;
+            font-weight: bold;
+            border-width: 3px;
+            padding: 10px 15px;
             cursor: pointer;
-            margin-right: 10px;
+            font-size: 20px;
         }
 
-        .category-buttons button.active {
-            background-color: #333;
+        .category-buttons button:hover {
+            background-color: #333; 
+            color: #fff;
+            border-color: #333; 
         }
-
 
 
         /* Cart Popup Styling */
@@ -152,6 +165,43 @@
             top:0px;
             cursor: pointer;
         }
+
+
+        /* Menu Dropdown Styling */
+        #menu-icon {
+            height: 47px;
+            margin-left: 15px;
+            cursor: pointer;
+         }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            z-index: 0;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
+            min-width: 150px;
+            right: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 
     <script>
@@ -171,11 +221,46 @@
             closeCart.addEventListener("click", function() {
                 cartPopup.style.display = "none";
             });
+        });
 
-            // Close cart when clicking outside the cart
-            window.addEventListener("click", function(event) {
-                if (event.target === cartPopup) {
-                    cartPopup.style.display = "none";
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".category-buttons a").forEach(anchor => {
+                anchor.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default anchor behavior
+                    const targetId = this.getAttribute("href").substring(1); // Remove #
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navbarHeight = document.querySelector("header").offsetHeight; // Get navbar height
+                        window.scrollTo({
+                            top: targetElement.offsetTop - navbarHeight - 20, // Adjust with extra space
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuIcon = document.getElementById("menu-icon");
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+
+            menuIcon.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents click from bubbling to the document
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
+            // Close dropdown when clicking on any dropdown option
+            const dropdownLinks = document.querySelectorAll(".dropdown-menu a");
+            dropdownLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    dropdownMenu.style.display = "none"; // Close the dropdown when an option is clicked
+                });
+            });
+
+            // Hide dropdown when clicking outside of it
+            document.addEventListener("click", function (event) {
+                if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
                 }
             });
         });
@@ -186,11 +271,13 @@
     <!-- Header -->
     <header>
         <div class="logo">
+            <img id="cube" src="image/cube.png">
             Steak <span class="box">Box</span>
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="login.php" class="head-order-button" style="text-decoration: underline;" >Login</a>
+            <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
+            <a href="login.php" class="head-order-button">Login</a>
             <a href="#" class="icon-link">
             <div class="icon-container">
                 <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -220,10 +307,29 @@
 
         <div class="food-section">
             <h3>Food Menu</h3>
-            <div class="category-buttons">
-                <button class="active">Beef</button>
-                <button>Pork</button>
-                <button>Lamb</button>
+            <div class="most-ordered-container">
+            <h1>Most Ordered</h1>
+                <div class="category-buttons">
+                    <a href="#beef">
+                    <button>Beef</button>
+                    </a>
+                    <a href="#pork">
+                    <button>Pork</button>
+                    </a>
+                    <a href="#lamb">
+                    <button>Lamb</button>
+                    </a>
+                    <div class="dropdown">
+                        <img id="menu-icon" src="image/menu.png">
+                        <div class="dropdown-menu">
+                            <a href="#beef">Beef</a>
+                            <a href="#pork">Pork</a>
+                            <a href="#lamb">Lamb</a>
+                            <a href="#dessert">Dessert</a>
+                            <a href="#drinks">Drinks</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="food-grid">
                 <div class="food-item">
@@ -253,8 +359,8 @@
             </div>
         </div>
 
-        <div class="food-section">
-            <h3>Beef</h3>
+        <div class="food-section" id="beef">
+            <h1>Beef</h1>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
@@ -277,8 +383,8 @@
             </div>
         </div>
 
-        <div class="food-section">
-            <h3>Pork</h3>
+        <div class="food-section" id="pork">
+            <h1>Pork</h1>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
@@ -295,8 +401,8 @@
             </div>
         </div>
 
-        <div class="food-section">
-            <h3>Lamb</h3>
+        <div class="food-section" id="lamb">
+            <h1>Lamb</h1>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
@@ -319,8 +425,8 @@
             </div>
         </div>
 
-        <div class="food-section">
-            <h3>Dessert</h3>
+        <div class="food-section" id="dessert">
+            <h1>Dessert</h1>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/italian_tiramisu.avif" alt="Italian Tiramisu">
@@ -349,8 +455,8 @@
             </div>
         </div>
 
-        <div class="food-section">
-            <h3>Drinks</h3>
+        <div class="food-section" id="drinks">
+            <h1>Drinks</h1>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/coke.webp" alt="Coke">
@@ -384,12 +490,12 @@
         <div class="cart-content">
             <h1 style="text-align: center;">Your Cart</h1>
             <img src="image/back.png" class="close-cart"></img>    
-            <hr style="height:2px; border:none;background-color: #333;">
+            <hr style="height:2px; border:none; background-color: #333;">
             <div id="cart-items">
                 <p>No items added</p>
             </div>
             <div class="cart-total">
-            <hr style="height:1px; border:none;background-color: #333;">
+            <hr style="height:1px; border:none; background-color: #333;">
                 <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
                 <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
                 <p><strong>Total:</strong> $<span id="total">0.00</span></p>
@@ -398,3 +504,4 @@
         </div>
     </div>
 </body> 
+</html>

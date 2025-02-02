@@ -16,11 +16,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
 header .logo {
     font-size: 30px;
     font-weight: bold;
+}
+
+header .logo #cube {
+    height:40px;
+    width:auto;
+    transform: translateY(8px); 
 }
 
 header .logo .box {
@@ -69,7 +76,7 @@ header nav a:hover {
             left: 0;
             width: 100%; /* Fill the container */
             height: 100%; /* Maintain circular shape */
-            z-index: 1; /* Place behind the cart icon */
+            z-index: 11; /* Place behind the cart icon */
         }
 
         .cart-icon {
@@ -79,7 +86,7 @@ header nav a:hover {
             transform: translate(-50%, -50%); /* Offset to align center */
             width: 60%; /* Adjust size relative to the container */
             height: 60%; /* Keep aspect ratio */
-            z-index: 2; /* Place above the circle */
+            z-index: 12; /* Place above the circle */
         }
 
         .icon-link {

@@ -126,6 +126,7 @@
     <!-- Header -->
     <header>
         <div class="logo">
+            <img id="cube" src="image/cube.png">
             Steak <span class="box">Box</span>
         </div>
         <nav>

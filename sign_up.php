@@ -71,6 +71,23 @@
         .register-form button:hover {
             background-color: #009900;
         }
+
+        .register-form p {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .register-form a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-form a:hover {
+            text-decoration: underline;
+        }
+
         #error {
             margin-top: 20px;
             color: red;
@@ -79,10 +96,11 @@
             align-items: center;
             margin: 0;
             height: 0px;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
     </style>
-<?php
+
+    <?php
     // LOGIN USER
     session_start();
     $errors = array();
@@ -112,6 +130,7 @@
     <!-- Header -->
     <header>
         <div class="logo">
+            <img id="cube" src="image/cube.png">
             Steak <span class="box">Box</span>
         </div>
         <nav>
@@ -156,8 +175,9 @@
                 </p>
             </div>
             <?php endif; ?>
-            <div id="error"></div>
             <button type="submit" name="register_user">Register</button>
+            <div id="error"></div>
+            <p>Already have an account? <a href="login.php">Sign in</a></p>
         </form>
     </div>
     <script src="js/form_validate.js"></script>
