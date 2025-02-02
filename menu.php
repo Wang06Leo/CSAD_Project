@@ -163,7 +163,8 @@
             // Show cart when clicking the cart icon
             cartIcon.addEventListener("click", function(event) {
                 event.preventDefault();
-                cartPopup.style.display = "block";
+                if (cartPopup.style.display === "block") cartPopup.style.display = "none";
+                else cartPopup.style.display = "block"; // toggle showing the cart popup
             });
 
             // Close cart when clicking the close button
