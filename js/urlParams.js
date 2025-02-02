@@ -33,6 +33,6 @@ function removeUrlParam() {
 }
 
 document.addEventListener("DOMContentLoaded", searchErrUrlParams);
-if (userRefreshed()) {
-    removeUrlParam();
-}
+// if (userRefreshed()) {
+//     removeUrlParam();
+// }

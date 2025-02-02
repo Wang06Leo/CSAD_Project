@@ -19,6 +19,7 @@ function validateSignUpForm() {
     } else {
         return true;
     }
+    clearPhpErr();
     document.getElementById("error").innerText = errMsg; // if in one of the if/else-if
     return changeErrH();
 }
@@ -35,10 +36,14 @@ function validateLoginForm() {
     } else {
         return true;
     }
+    clearPhpErr();
     document.getElementById("error").innerText = errMsg; // if in one of the if/else-if
     return changeErrH();
 }
 function changeErrH() {
     document.getElementById("error").style.height = "50px";
     return false;
+}
+function clearPhpErr() {
+    if (document.getElementsByClassName('error').length > 0) document.getElementsByClassName('error')[0].outerHTML = '';
 }

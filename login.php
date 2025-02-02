@@ -117,6 +117,7 @@
         if (empty($errors)){
             header('HTTp/1.1 307 Temporary Redirect');
             header('Location: src/php/server.php');
+            exit();
         }
     }
     ?>
@@ -157,8 +158,15 @@
                     <?php echo implode(" and ", $errors); ?>
                 </p>
             </div>
+            <!-- Error from server.php -->
             <?php endif; ?>
-
+            <?php if (isset($_SESSION['error']) && $_SESSION['error'] != '') : ?>
+                <div class="error">
+                <p style="color:red;">
+                    <?php echo $_SESSION['error'] ?>
+                </p>
+            </div>
+            <?php endif; ?>
             <div id="error"></div>
             <p>Don’t have an account? <a href="sign_up.php">Sign up</a></p>
         </form>
@@ -167,3 +175,6 @@
     <script src="js/urlParams.js"></script>
 </body>
 </html>
+<?php
+    $_SESSION['error'] = ''; // if user refreshes, clears php error message
+?>

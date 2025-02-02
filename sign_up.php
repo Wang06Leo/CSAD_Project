@@ -82,7 +82,6 @@
             margin-bottom: 20px;
         }
     </style>
-
 <?php
     // LOGIN USER
     session_start();
@@ -91,7 +90,6 @@
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
-
         if (empty($username)) {
             array_push($errors, " username");
         }
@@ -105,6 +103,7 @@
         if (empty($errors)){
             header('HTTp/1.1 307 Temporary Redirect');
             header('Location: src/php/server.php');
+            exit();
         }
     }
     ?>
@@ -141,7 +140,6 @@
             <input type="password" id="password" placeholder="Enter your password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>">
             <label for="confirm-password">Confirm Password:</label>
             <input type="password" id="confirm-password" placeholder="Confirm your password" value="<?php echo isset($_POST['confirm-password']) ? htmlspecialchars($_POST['confirm-password']) : ''; ?>">
-
             <!-- Display error messages -->
             <?php if (count($errors) > 0) : ?>
             <div class="error">
@@ -150,7 +148,14 @@
                 </p>
             </div>
             <?php endif; ?>
-
+            <!-- Error from server.php -->
+            <?php if (isset($_SESSION['error']) && $_SESSION['error'] != '') : ?>
+                <div class="error">
+                <p style="color:red;">
+                    <?php echo $_SESSION['error'] ?>
+                </p>
+            </div>
+            <?php endif; ?>
             <div id="error"></div>
             <button type="submit" name="register_user">Register</button>
         </form>
@@ -159,3 +164,6 @@
     <script src="js/urlParams.js"></script>
 </body>
 </html>
+<?php
+    $_SESSION['error'] = ''; // if user refreshes, clears php error message
+?>
