@@ -239,6 +239,89 @@
         .category-buttons button.active {
             background-color: #333;
         }
+        /* Points Menu Styling */
+        .points-menu {
+            background-color: #f5e7d3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #bda98f;
+            text-align: center;
+        }
+
+        .points-menu h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+        }
+
+        .points-items {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            overflow-y: visible; /* Allows items to expand properly */
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-top: 10px; /* Adds extra space on top */
+        }
+
+        .points-items::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .points-items::-webkit-scrollbar-thumb {
+            background-color: #bda98f;
+            border-radius: 10px;
+        }
+
+        .points-items::-webkit-scrollbar-track {
+            background-color: #f5e7d3;
+        }
+
+        .points-item {
+            flex: 0 0 auto;
+            width: 180px; /* Adjust size */
+            background-color: #fdfdfd;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ddd;
+            padding: 15px 0;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .points-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .points-item p {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        /* Points Badge */
+        .points-badge {
+            display: inline-block;
+            background-color: #00cc00;
+            color: beige;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        /* Highlight Selected Item */
+        .points-item:hover {
+            border: 2px solid #0066ff; /* Blue border on hover */
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);
+            transform: scale(1.08); /* Slightly larger scaling to match effect */
+            z-index: 10; /* Ensures it appears above other elements */
+            position: relative; /* Makes sure it doesn't get cut off */
+        }
     </style>
 </head>
 <body>
@@ -249,7 +332,7 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="login.html" class="head-order-button">Login</a>
+            <a href="login.html" class="head-order-button">Logout</a>
             <a href="#" class="icon-link">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -321,7 +404,33 @@
                 </div>
             </div>
         </div>
-
+        <!-- Points Menu Section -->
+        <div class="points-menu">
+            <h2>Redeem with Points</h2>
+            <p>Use your points to get free items!</p>
+            <div class="points-items">
+                <div class="points-item selected">
+                    <img src="image/coke.webp" alt="Coke">
+                    <p>Coke</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/sprite.webp" alt="Sprite">
+                    <p>Sprite</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/beer.webp" alt="Beer">
+                    <p>Beer</p>
+                    <span class="points-badge">500 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/wine.webp" alt="Wine">
+                    <p>Wine</p>
+                    <span class="points-badge">1000 pt</span>
+                </div>
+            </div>
+        </div>
         <!-- Food Menu Section -->
         <div class="food-section">
             <h3>Food Menu</h3>
