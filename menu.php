@@ -164,24 +164,59 @@
             color: white;
         }
 
-        /* Food Menu Styling */
-        .food-section {
+                /* Food Menu Styling */
+                .food-section {
             margin-bottom: 30px;
             padding: 0 20px; /* Adds padding to the sides */
         }
 
         .food-section h3 {
-            margin-bottom: 0px;
-        }
-
-        .food-section h1 {
             margin-bottom: 10px;
         }
 
         .food-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Maximum of 3 items per row */
-        gap: 20px; /* Adjust the spacing between items */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .food-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 0;
+            padding-bottom: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        .food-grid .food-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .food-item p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .food-item button {
+            background-color: #4CAF50;
+            color: darkgreen;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition for hover */
+        }
+
+        .food-item button:hover {
+            background-color: #3e8e41; /* Darker green on hover */
+            color: white;
         }
 
         .most-ordered-container {
@@ -372,7 +407,6 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
             <a href="login.php" class="head-order-button">Login</a>
             <a href="#" class="icon-link">
                 <div class="icon-container">
