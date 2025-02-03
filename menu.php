@@ -6,99 +6,91 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Login Page</title>
     <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7e3c2;
+        /* Login Form Styling */
+        .login-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .login-container h1 {
+            font-size: 64px;
             color: #333;
-        }
-
-        /* Header Styling */
-        header {
-            background-color: #a58e71;
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        header .logo {
-            font-size: 30px;
             font-weight: bold;
-            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
         }
 
-        header .logo .box {
+        .login-container .box {
             display: inline-block;
             background-color: #333;
+            border: 4px solid white;
             color: white;
-            padding: 5px 10px;
+            font-size: 48px;
             font-weight: bold;
-            border: 2px solid white;
-        }
-
-        header nav {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        header nav a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-
-        header nav a.head-order-button {
-            background-color: #00cc00;
-            color: white;
             padding: 10px 20px;
+            margin-bottom: 40px;
         }
 
-        header nav a:hover {
+        .login-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-form label {
+            font-size: 20px;
+            color: #333;
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            color: white;
+            background-color: #00cc00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-form button:hover {
+            background-color: #009900;
+        }
+
+        .login-form p {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .login-form a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-form a:hover {
             text-decoration: underline;
         }
-        header .logo #cube {
-            height:40px;
-            width:auto;
-            transform: translateY(8px); 
+        .container {
+            padding: 20px;
         }
-
-        /* Cart Icon Styling */
-        .icon-container {
-            position: relative;
-            width: 50px;
-            height: 50px;
-            display: inline-block;
-        }
-
-        .background-circle {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .cart-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            height: 60%;
-            z-index: 2;
-        }
-
-        /* Promotion Section Styling */
         .promotion {
             background-color: #f7e3c2;
             padding: 15px;
@@ -179,52 +171,17 @@
         }
 
         .food-section h3 {
+            margin-bottom: 0px;
+        }
+
+        .food-section h1 {
             margin-bottom: 10px;
         }
 
         .food-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .food-item {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 0;
-            padding-bottom: 20px;
-            text-align: center;
-            border: 1px solid #ccc;
-        }
-
-        .food-grid .food-item img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .food-item p {
-            font-size: 18px;
-            margin: 5px 0;
-        }
-
-        .food-item button {
-            background-color: #4CAF50;
-            color: darkgreen;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s; /* Smooth transition for hover */
-        }
-
-        .food-item button:hover {
-            background-color: #3e8e41; /* Darker green on hover */
-            color: white;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Maximum of 3 items per row */
+        gap: 20px; /* Adjust the spacing between items */
         }
 
         .most-ordered-container {
@@ -234,23 +191,112 @@
             margin-bottom: 15px;
         }
 
-        /* Category Buttons */
         .category-buttons {
-            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
         }
 
         .category-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            background-color: transparent;
+            color: black;
+            border: 3px solid black;
+            font-weight: bold;
+            border-width: 3px;
+            padding: 10px 15px;
             cursor: pointer;
-            margin-right: 10px;
+            font-size: 20px;
         }
 
-        .category-buttons button.active {
-            background-color: #333;
+        .category-buttons button:hover {
+            background-color: #333; 
+            color: #fff;
+            border-color: #333; 
+        }
+
+
+        /* Cart Popup Styling */
+        .cart-container {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 105px;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background-color: #F1EFEF;
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);   
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Cart content */
+        .cart-content {
+            position: relative;
+        }
+
+        .cart-total {
+            margin-top: 300px;
+
+        }
+        /* Checkout button */
+        .checkout-btn {
+            background-color: #00cc00;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 40px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #009900;
+        }
+        
+        .close-cart{
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            top:0px;
+            cursor: pointer;
+        }
+
+
+        /* Menu Dropdown Styling */
+        #menu-icon {
+            height: 47px;
+            margin-left: 15px;
+            cursor: pointer;
+         }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            z-index: 0;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
+            min-width: 150px;
+            right: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
         }
     </style>
 
