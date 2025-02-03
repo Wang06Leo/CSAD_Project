@@ -64,6 +64,11 @@
         header nav a:hover {
             text-decoration: underline;
         }
+        header .logo #cube {
+            height:40px;
+            width:auto;
+            transform: translateY(8px); 
+        }
 
         /* Cart Icon Styling */
         .icon-container {
@@ -245,6 +250,7 @@
     <!-- Header -->
     <header>
         <div class="logo">
+            <img src="image/cube.png" alt="cube logo" id="cube">
             Steak <span class="box">Box</span>
         </div>
         <nav>
