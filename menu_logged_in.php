@@ -3,94 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Login Page</title>
     <style>
-        /* Login Form Styling */
-        .login-container {
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .login-container h1 {
-            font-size: 64px;
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7e3c2;
             color: #333;
-            font-weight: bold;
-            margin-bottom: 10px;
         }
 
-        .login-container .box {
+        /* Header Styling */
+        header {
+            background-color: #a58e71;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        header .logo {
+            font-size: 30px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        header .logo .box {
             display: inline-block;
             background-color: #333;
-            border: 4px solid white;
             color: white;
-            font-size: 48px;
+            padding: 5px 10px;
             font-weight: bold;
-            padding: 10px 20px;
-            margin-bottom: 40px;
+            border: 2px solid white;
         }
 
-        .login-form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .login-form label {
-            font-size: 20px;
-            color: #333;
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .login-form button {
-            width: 100%;
-            padding: 15px;
-            font-size: 20px;
+        header nav a {
             color: white;
-            background-color: #00cc00;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .login-form button:hover {
-            background-color: #009900;
-        }
-
-        .login-form p {
-            font-size: 20px;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .login-form a {
-            color: blue;
             text-decoration: none;
+            padding: 10px 15px;
+            font-size: 20px;
             font-weight: bold;
+            border-radius: 5px;
         }
 
-        .login-form a:hover {
+        header nav a.head-order-button {
+            background-color: #00cc00;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        header nav a:hover {
             text-decoration: underline;
         }
-        .container {
-            padding: 20px;
+
+        /* Cart Icon Styling */
+        .icon-container {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
         }
+
+        .background-circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .cart-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            z-index: 2;
+        }
+
+        /* Promotion Section Styling */
         .promotion {
             background-color: #f7e3c2;
             padding: 15px;
@@ -171,209 +173,166 @@
         }
 
         .food-section h3 {
-            margin-bottom: 0px;
-        }
-
-        .food-section h1 {
             margin-bottom: 10px;
         }
 
         .food-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Maximum of 3 items per row */
-        gap: 20px; /* Adjust the spacing between items */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
-        .most-ordered-container {
-            display: flex;
-            align-items: center; /* Aligns items vertically */
-            gap: 895px; /* Adjust spacing between heading and buttons */
+        .food-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 0;
+            padding-bottom: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        .food-grid .food-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .food-item p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .food-item button {
+            background-color: #4CAF50;
+            color: darkgreen;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition for hover */
+        }
+
+        .food-item button:hover {
+            background-color: #3e8e41; /* Darker green on hover */
+            color: white;
+        }
+
+        /* Category Buttons */
+        .category-buttons {
             margin-bottom: 15px;
         }
 
-        .category-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
         .category-buttons button {
-            background-color: transparent;
-            color: black;
-            border: 3px solid black;
-            font-weight: bold;
-            border-width: 3px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        .category-buttons button:hover {
-            background-color: #333; 
-            color: #fff;
-            border-color: #333; 
-        }
-
-
-        /* Cart Popup Styling */
-        .cart-container {
-            display: none; /* Initially hidden */
-            position: fixed;
-            top: 105px;
-            right: 0;
-            width: 400px;
-            height: 100%;
-            background-color: #F1EFEF;
-            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);   
-            padding: 20px;
-            overflow-y: auto;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Cart content */
-        .cart-content {
-            position: relative;
-        }
-
-        .cart-total {
-            margin-top: 300px;
-
-        }
-        /* Checkout button */
-        .checkout-btn {
-            background-color: #00cc00;
+            background-color: #4CAF50;
             color: white;
-            padding: 10px;
-            width: 100%;
             border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 18px;
-            border-radius: 40px;
+            margin-right: 10px;
         }
 
-        .checkout-btn:hover {
-            background-color: #009900;
+        .category-buttons button.active {
+            background-color: #333;
         }
-        
-        .close-cart{
-            width: 35px;
-            height: 35px;
-            position: absolute;
-            top:0px;
-            cursor: pointer;
-        }
-
-
-        /* Menu Dropdown Styling */
-        #menu-icon {
-            height: 47px;
-            margin-left: 15px;
-            cursor: pointer;
-         }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            z-index: 0;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: white;
-            border: 1px solid #ccc;
+        /* Points Menu Styling */
+        .points-menu {
+            background-color: #f5e7d3;
+            padding: 15px;
             border-radius: 8px;
-            /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
-            min-width: 150px;
-            right: 0;
+            margin-bottom: 20px;
+            border: 1px solid #bda98f;
+            text-align: center;
         }
 
-        .dropdown-menu a {
-            display: block;
-            padding: 10px;
-            text-decoration: none;
-            color: black;
+        .points-menu h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+        }
+
+        .points-items {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            overflow-y: visible; /* Allows items to expand properly */
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-top: 10px; /* Adds extra space on top */
+        }
+
+        .points-items::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .points-items::-webkit-scrollbar-thumb {
+            background-color: #bda98f;
+            border-radius: 10px;
+        }
+
+        .points-items::-webkit-scrollbar-track {
+            background-color: #f5e7d3;
+        }
+
+        .points-item {
+            flex: 0 0 auto;
+            width: 180px; /* Adjust size */
+            background-color: #fdfdfd;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ddd;
+            padding: 15px 0;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .points-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .points-item p {
             font-size: 16px;
+            font-weight: bold;
+            margin: 5px 0;
         }
 
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
+        /* Points Badge */
+        .points-badge {
+            display: inline-block;
+            background-color: #00cc00;
+            color: beige;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        /* Highlight Selected Item */
+        .points-item:hover {
+            border: 2px solid #0066ff; /* Blue border on hover */
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);
+            transform: scale(1.08); /* Slightly larger scaling to match effect */
+            z-index: 10; /* Ensures it appears above other elements */
+            position: relative; /* Makes sure it doesn't get cut off */
         }
     </style>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const cartIcon = document.querySelector(".icon-link"); // Cart button
-            const cartPopup = document.getElementById("cart-popup"); // Cart popup
-            const closeCart = document.querySelector(".close-cart"); // Close button
-
-            // Show cart when clicking the cart icon
-            cartIcon.addEventListener("click", function(event) {
-                event.preventDefault();
-                if (cartPopup.style.display === "block") cartPopup.style.display = "none";
-                else cartPopup.style.display = "block"; // toggle showing the cart popup
-            });
-
-            // Close cart when clicking the close button
-            closeCart.addEventListener("click", function() {
-                cartPopup.style.display = "none";
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".category-buttons a").forEach(anchor => {
-                anchor.addEventListener("click", function (event) {
-                    event.preventDefault(); // Prevent default anchor behavior
-                    const targetId = this.getAttribute("href").substring(1); // Remove #
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        const navbarHeight = document.querySelector("header").offsetHeight; // Get navbar height
-                        window.scrollTo({
-                            top: targetElement.offsetTop - navbarHeight - 20, // Adjust with extra space
-                            behavior: "smooth"
-                        });
-                    }
-                });
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuIcon = document.getElementById("menu-icon");
-            const dropdownMenu = document.querySelector(".dropdown-menu");
-
-            menuIcon.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevents click from bubbling to the document
-                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-            });
-
-            // Close dropdown when clicking on any dropdown option
-            const dropdownLinks = document.querySelectorAll(".dropdown-menu a");
-            dropdownLinks.forEach(link => {
-                link.addEventListener("click", function () {
-                    dropdownMenu.style.display = "none"; // Close the dropdown when an option is clicked
-                });
-            });
-
-            // Hide dropdown when clicking outside of it
-            document.addEventListener("click", function (event) {
-                if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    dropdownMenu.style.display = "none";
-                }
-            });
-        });
-    </script>
-    
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="logo">
-            <img id="cube" src="image/cube.png">
             Steak <span class="box">Box</span>
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
+            <a href="login.html" class="head-order-button">Logout</a>
             <a href="#" class="icon-link">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -445,33 +404,40 @@
                 </div>
             </div>
         </div>
-
+        <!-- Points Menu Section -->
+        <div class="points-menu">
+            <h2>Redeem with Points</h2>
+            <p>Use your points to get free items!</p>
+            <div class="points-items">
+                <div class="points-item selected">
+                    <img src="image/coke.webp" alt="Coke">
+                    <p>Coke</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/sprite.webp" alt="Sprite">
+                    <p>Sprite</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/beer.webp" alt="Beer">
+                    <p>Beer</p>
+                    <span class="points-badge">500 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/wine.webp" alt="Wine">
+                    <p>Wine</p>
+                    <span class="points-badge">1000 pt</span>
+                </div>
+            </div>
+        </div>
         <!-- Food Menu Section -->
         <div class="food-section">
             <h3>Food Menu</h3>
-            <div class="most-ordered-container">
-            <h1>Most Ordered</h1>
-                <div class="category-buttons">
-                    <a href="#beef">
-                    <button>Beef</button>
-                    </a>
-                    <a href="#pork">
-                    <button>Pork</button>
-                    </a>
-                    <a href="#lamb">
-                    <button>Lamb</button>
-                    </a>
-                    <div class="dropdown">
-                        <img id="menu-icon" src="image/menu.png">
-                        <div class="dropdown-menu">
-                            <a href="#beef">Beef</a>
-                            <a href="#pork">Pork</a>
-                            <a href="#lamb">Lamb</a>
-                            <a href="#dessert">Dessert</a>
-                            <a href="#drinks">Drinks</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="category-buttons">
+                <button class="active">Beef</button>
+                <button>Pork</button>
+                <button>Lamb</button>
             </div>
             <div class="food-grid">
                 <div class="food-item">
@@ -501,32 +467,9 @@
             </div>
         </div>
 
-        <div class="food-section" id="beef">
-            <h1>Beef</h1>
-            <div class="food-grid">
-                <div class="food-item">
-                    <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
-                    <p>Wagyu Beef</p>
-                    <p>$50.85</p>
-                    <button>Add</button>
-                </div>
-                <div class="food-item">
-                    <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
-                    <p>Steak and Charred Pear Salad</p>
-                    <p>$18.19</p>
-                    <button>Add</button>
-                </div>
-                <div class="food-item">
-                    <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
-                    <p>Short Rib Ragu</p>
-                    <p>$29.99</p>
-                    <button>Add</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="food-section" id="pork">
-            <h1>Pork</h1>
+        <!-- Additional Food Sections (Pork, Lamb, Dessert, Drinks) -->
+        <div class="food-section">
+            <h3>Pork</h3>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
@@ -543,8 +486,8 @@
             </div>
         </div>
 
-        <div class="food-section" id="lamb">
-            <h1>Lamb</h1>
+        <div class="food-section">
+            <h3>Lamb</h3>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
@@ -567,8 +510,8 @@
             </div>
         </div>
 
-        <div class="food-section" id="dessert">
-            <h1>Dessert</h1>
+        <div class="food-section">
+            <h3>Dessert</h3>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/italian_tiramisu.avif" alt="Italian Tiramisu">
@@ -597,8 +540,8 @@
             </div>
         </div>
 
-        <div class="food-section" id="drinks">
-            <h1>Drinks</h1>
+        <div class="food-section">
+            <h3>Drinks</h3>
             <div class="food-grid">
                 <div class="food-item">
                     <img src="image/coke.webp" alt="Coke">
@@ -627,25 +570,5 @@
             </div>
         </div>
     </div>
-
-    <div id="cart-popup" class="cart-container">
-        <div class="cart-content">
-            <h1 style="text-align: center;">Your Cart</h1>
-            <img src="image/back.png" class="close-cart"></img>    
-            <hr style="height:2px; border:none; background-color: #333;">
-            <div id="cart-items">
-                <p>No items added</p>
-            </div>
-            <div class="cart-total">
-            <hr style="height:1px; border:none; background-color: #333;">
-                <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
-                <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
-                <p><strong>Total:</strong> $<span id="total">0.00</span></p>
-            </div>
-            <button class="checkout-btn">Payment</button>
-        </div>
-    </div>
-</body> 
-</html>
 </body>
 </html>
