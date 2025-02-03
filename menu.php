@@ -227,6 +227,13 @@
             color: white;
         }
 
+        .most-ordered-container {
+            display: flex;
+            align-items: center; /* Aligns items vertically */
+            gap: 895px; /* Adjust spacing between heading and buttons */
+            margin-bottom: 15px;
+        }
+
         /* Category Buttons */
         .category-buttons {
             margin-bottom: 15px;
