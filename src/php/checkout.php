@@ -9,6 +9,9 @@ $items = [];
 if ($json_data === null) {
     header("Location: ../../menu.php");
 }
+if (count($json_data) === 0) {
+    header("Location: ../../menu.php");
+}
 foreach ($json_data as $item) {
     $items[] = [
         "quantity" => $item["quantity"],
@@ -21,10 +24,15 @@ foreach ($json_data as $item) {
         ]
     ];
 }
+function getBaseUrl() {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+
+    return "$protocol://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+}
 $checkout_session = \Stripe\Checkout\Session::create([
     "mode" => "payment",
-    "success_url" => "http://localhost/CSAD_Project/success.php",
-    "cancel_url" => "http://localhost/CSAD_Project/menu.php",
+    "success_url" => dirname(dirname(dirname(getBaseUrl()))) . "/success.php",
+    "cancel_url" => dirname(dirname(dirname(getBaseUrl()))). "/menu.php",
     //'payment_method_types' => $paymentTypes,
     "line_items" => [
         $items
