@@ -282,7 +282,6 @@ if (!isset($_SESSION['username'])) {
             flex-direction: column;
         }
 
-
         /* Cart items */
         #cart-items {
             flex-grow: 1; /* Expands to fit items */    
@@ -293,7 +292,6 @@ if (!isset($_SESSION['username'])) {
         }
 
         .cart-total {
-            border-top: 1px solid #ccc;
             padding-top: 15px;
             background-color: #F1EFEF;
             position: relative; /* Default position */
@@ -380,89 +378,175 @@ if (!isset($_SESSION['username'])) {
         .dropdown-menu a:hover {
             background-color: #f0f0f0;
         }
-        /* Points Menu Styling */
-        .points-menu {
-                background-color: #f5e7d3;
-                padding: 15px;
-                border-radius: 8px;
-                margin-bottom: 20px;
-                border: 1px solid #bda98f;
-                text-align: center;
+
+
+        /* Overlay Background */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+            z-index: 20; /* Ensure it's above other elements */
+        }
+
+
+        /* Order Popup Styling */
+        .order-container{   
+            display: none; /* Ensure it remains visible */
+            position: fixed;
+            top: 57%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 28%;
+            height: 80%;
+            background-color: #F1EFEF;
+            padding: 8px 12px;
+            /* margin-top: 55px; */
+            overflow-y:auto;
+            z-index:21; /* Above the overlay */
+        }
+
+        #x-img {
+            position: absolute;
+            height: 30px;
+            top:2%;
+            left:89%;
+        }
+
+        #popup-image {
+            width: 100%; /* Ensures the image spans the full width of its container */
+            height: 250px; /* Set a fixed height for consistency */
+            object-fit: cover; /* Ensures the image retains its aspect ratio while filling the set dimensions */
+        }
+
+        .order-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Edge */
+        }
+        
+        .order-container h3 {
+            display: inline-block;
+            margin-bottom:0px;
+        }
+
+        .order-container label {
+            font-weight: bold;
+        }
+
+        #popup-price {
+            float:right;
+            margin-top: 20px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        #minus-img {
+            height: 40px; 
+            transform: translateY(0); 
+            margin-right: 16px; 
+            margin-left: 5px;
+        }
+        
+        #add-img {
+            height: 51px; 
+            transform: translateY(5px);
+        }
+
+        .order-container textarea {
+            display: none;
+            height: 20%; 
+            width:98%;
+        }
+
+        #input-num {
+            width: 30px; 
+            height:30px; 
+            border-radius: 5px; 
+            margin-right: 16px;
+            text-align: center; 
+            font-weight:bold; 
+            font-size: 22px;
+        }
+         
+        
+
+        .order-container select {
+            display: none;
+            height: 6%; 
+            width:99%;
+        }
+
+        .order-container button {
+            background-color: #00cc00;
+            border-radius: 40px;
+            margin-left: 98px;
+            height: 40px;
+            width: 150px;
+            margin-bottom: 16px;
+            color: white;
+            font-weight: bold;
+            border: none;
+            transform: translateY(-10%);
+        } 
+
+        .order-container [type='number']::-webkit-inner-spin-button, 
+        .order-container [type='number']::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        #paymentLoadingAlertContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 170px;
+            background-color: yellow;
+            z-index: 30;
+            border-radius: 10px;
+        }
+        #paymentLoadingAlert {
+            width: 300px;
+            height: 170px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
             }
-    
-            .points-menu h2 {
-                margin: 0 0 10px;
-                font-size: 22px;
+            100% {
+                transform: rotate(360deg);
             }
-    
-            .points-items {
-                display: flex;
-                gap: 15px;
-                overflow-x: auto; /* Enables horizontal scrolling */
-                overflow-y: visible; /* Allows items to expand properly */
-                scroll-behavior: smooth;
-                padding-bottom: 10px;
-                padding-left: 10px;
-                padding-top: 10px; /* Adds extra space on top */
-            }
-    
-            .points-items::-webkit-scrollbar {
-                height: 8px;
-            }
-    
-            .points-items::-webkit-scrollbar-thumb {
-                background-color: #bda98f;
-                border-radius: 10px;
-            }
-    
-            .points-items::-webkit-scrollbar-track {
-                background-color: #f5e7d3;
-            }
-    
-            .points-item {
-                flex: 0 0 auto;
-                width: 180px; /* Adjust size */
-                background-color: #fdfdfd;
-                border-radius: 8px;
-                text-align: center;
-                border: 2px solid #ddd;
-                padding: 15px 0;
-                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            }
-    
-            .points-item img {
-                width: 90px;
-                height: 90px;
-                object-fit: contain;
-                margin-bottom: 10px;
-            }
-    
-            .points-item p {
-                font-size: 16px;
-                font-weight: bold;
-                margin: 5px 0;
-            }
-    
-            /* Points Badge */
-            .points-badge {
-                display: inline-block;
-                background-color: #00cc00;
-                color: beige;
-                font-size: 14px;
-                font-weight: bold;
-                padding: 6px 12px;
-                border-radius: 20px;
-                margin-top: 8px;
-            }
-    
-            /* Highlight Selected Item */
-            .points-item:hover {
-                border: 2px solid #0066ff; /* Blue border on hover */
-                box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);
-                transform: scale(1.08); /* Slightly larger scaling to match effect */
-                z-index: 10; /* Ensures it appears above other elements */
-                position: relative; /* Makes sure it doesn't get cut off */
-            }
+        } 
+        .center-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Adjust based on your needs */
+        }
+        #preference-btn {
+            height: 10px;
+        }
+
+        
     </style>
 
     <script>
@@ -827,13 +911,14 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 
-    <div id="cart-popup" class="cart-container" style="display: none">
+    <div id="cart-popup" class="cart-container" style="display: flex">
         <div class="cart-content">
             <div style="position: relative; display: flex; justify-content: space-between;">
-                <h1 style="text-align: center;  flex-grow: 1;">Your Cart</h1>
-                <img src="image/back.png" class="close-cart"></img>    
+                <h1 style="text-align: center;  flex-grow: 1 ; border-bottom: 2px solid black; padding-bottom: 10px;">Your Cart</h1>
+                <img src="image/back.png" class="close-cart"></img>  
+                  
             </div>
-            <hr style="height:2px; border:none; background-color: #333">
+        
             <div id="cart-items">
                 <p>No items added</p>
             </div>
@@ -848,5 +933,79 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <div id="food-popup" class="order-container">
+        <img id="x-img" src="image/x-img.png" onclick="closePopup()">
+        <img id="popup-image" src="" alt="Food Image">
+        <h3 id="popup-title"></h3>
+        <span id="popup-price"></span>
+        <p id="popup-description"></p>
+        <label>Size:</label><br>
+        <input type="radio" name="size" value="large">Large<br>
+        <input type="radio" name="size" value="medium">Medium<br>    
+        <input type="radio" name="size" value="small" checked>Small<br><br>
+        <label>How would you like your steak?</label><br>
+        <input type="radio" name="meat-type" value="well" checked>Well<br>
+        <input type="radio" name="meat-type" value="medium well">Medium Well<br>      
+        <input type="radio" name="meat-type" value="medium">Medium<br>
+        <input type="radio" name="meat-type" value="medium rare">Medium Rare<br>      
+        <input type="radio" name="meat-type" value="rare">Rare<br><br>
+        <div style="display:flex;">
+        <label>Preference</label>
+        <span style="color: grey; margin-left: 60%; margin-right:auto">(Optional)</span>
+        <img id="preference-btn" style=" transform: translateY(5px);margin-right:auto;" src="image/down_arrow.png">
+        </div>
+        <textarea id="preference-text"></textarea><br><br>
+        <label id="items-unavailable"></label><br>
+        <select>
+            <option>Refund items</option>   
+            <option>Contact Stuff</option>
+        </select><br>
+        <div style="display: flex; align-items: center;  transform: translateY(110px);">
+            <img id="minus-img" src="image/minus.png" onclick="minusValue()">
+            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center;">
+            <img id="add-img" src="image/add.png" onclick="addValue()">
+            <button onclick="addToCart()" style=" transform: translateY(5px); margin-left: 40%;">Add to Cart</button>
+        </div>
+
+    </div>
+    <div id="paymentLoadingAlertContainer" style="display: none">
+        <div id="paymentLoadingAlert">
+        <div>Loading Payment...</div>
+        <span class="loader"></span>
+        </div>
+    </div>
+    <script>
+        document.getElementById('goToPayment').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'checkout_data';
+            input.value = JSON.stringify(cart);
+            
+            this.appendChild(input);
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
+            setTimeout(() => {
+                this.submit();
+                setTimeout(() => {
+                    input.remove();
+                }, 1);
+            }, 1);
+        });
+        function getJsonFromLocalStrorage() {
+            if (localStorage.getItem("cart") !== null) {
+                cart = JSON.parse(localStorage.getItem("cart"));
+                updateCartDisplay();
+            }
+        }
+        getJsonFromLocalStrorage();
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('paymentLoadingAlertContainer').style.display = 'none'; 
+        // hide overlay and loading payment alert if user presses back on back button
+    </script>
 </body> 
 </html>
