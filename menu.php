@@ -175,21 +175,40 @@
             top: 105px;
             right: 0;
             width: 400px;
-            height: 100%;
+            height: calc(100% - 140px); /* Adjust to avoid overlap with header */
             background-color: #F1EFEF;
-            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);   
+            box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
             overflow-y: auto;
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column; /* Enable column layout */
         }
 
         /* Cart content */
         .cart-content {
-            position: relative;
+            flex-grow: 1; /* Take available space */
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* Cart items */
+        #cart-items {
+            flex-grow: 1; /* Expands to fit items */    
+            overflow: hidden; /* Prevents scrolling */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .cart-total {
-            margin-top: 300px;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            background-color: #F1EFEF;
+            position: relative; /* Default position */
+            bottom: 0; /* Keep it at the bottom */
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
         .cart-item input {
@@ -204,6 +223,10 @@
 
         .money-bin {
             float: right;
+        }
+
+        .cart-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Edge */
         }
 
 
@@ -227,7 +250,7 @@
             width: 35px;
             height: 35px;
             position: absolute;
-            top:0px;
+            top:20px;
             cursor: pointer;
         }
 
@@ -383,6 +406,7 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        
         #paymentLoadingAlertContainer {
             position: fixed;
             top: 50%;
@@ -899,23 +923,25 @@
         </div>
     </div>
 
-    <div id="cart-popup" class="cart-container">
+    <div id="cart-popup" class="cart-container" style="display: none">
         <div class="cart-content">
-            <h1 style="text-align: center;">Your Cart</h1>
-            <img src="image/back.png" class="close-cart"></img>    
-            <hr style="height:2px; border:none; background-color: #333;">
+            <div style="position: relative; display: flex; justify-content: space-between;">
+                <h1 style="text-align: center;  flex-grow: 1;">Your Cart</h1>
+                <img src="image/back.png" class="close-cart"></img>    
+            </div>
+            <hr style="height:2px; border:none; background-color: #333">
             <div id="cart-items">
                 <p>No item(s) added</p>
             </div>
             <div class="cart-total">
-            <hr style="height:1px; border:none; background-color: #333;">
+            <hr style="height:2px; border:none; background-color: #333;">
                 <p><strong>Subtotal:</strong> $<span id="subtotal">0.00</span></p>
                 <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
                 <p><strong>Total:</strong> $<span id="total">0.00</span></p>
-            </div>
             <form method="POST" action="src/php/checkout.php" id="goToPayment">
                 <button class="checkout-btn" type="submit">Payment</button>
             </form>
+            </div>
         </div>
     </div>
 
