@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Redirect to login page if not logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -490,7 +499,14 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="login.php" class="head-order-button">Logout</a>
+
+            <?php if (isset($_SESSION['username'])): ?>
+                <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <a href="logout.php" class="head-order-button">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="head-order-button">Login</a>
+            <?php endif; ?>
+
             <a href="#" class="icon-link">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -498,6 +514,7 @@
                 </div>
             </a>
         </nav>
+
     </header>
 
     <!-- Promotion Section -->
@@ -790,6 +807,4 @@
         </div>
     </div>
 </body> 
-</html>
-</body>
 </html>

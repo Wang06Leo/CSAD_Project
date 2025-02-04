@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Redirect to login page if not logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +15,88 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Login Page</title>
     <style>
+        /* Login Form Styling */
+        .login-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .login-container h1 {
+            font-size: 64px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .login-container .box {
+            display: inline-block;
+            background-color: #333;
+            border: 4px solid white;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            padding: 10px 20px;
+            margin-bottom: 40px;
+        }
+
+        .login-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-form label {
+            font-size: 20px;
+            color: #333;
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            color: white;
+            background-color: #00cc00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-form button:hover {
+            background-color: #009900;
+        }
+
+        .login-form p {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .login-form a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-form a:hover {
+            text-decoration: underline;
+        }
         .container {
             padding: 20px;
         }
@@ -82,9 +173,8 @@
             color: white;
         }
 
-
-        /* Food Menu Styling */
-        .food-section {
+                /* Food Menu Styling */
+                .food-section {
             margin-bottom: 30px;
             padding: 0 20px; /* Adds padding to the sides */
         }
@@ -141,7 +231,7 @@
         .most-ordered-container {
             display: flex;
             align-items: center; /* Aligns items vertically */
-            gap: 877px; /* Adjust spacing between heading and buttons */
+            gap: 895px; /* Adjust spacing between heading and buttons */
             margin-bottom: 15px;
         }
 
@@ -190,23 +280,8 @@
 
         .cart-total {
             margin-top: 300px;
+
         }
-
-        .cart-item input {
-            width:40px;
-            margin-top: 15px;
-        }
-
-        .delete-icon {
-            height:30px;
-            transform: translateY(30%);
-        }
-
-        .money-bin {
-            float: right;
-        }
-
-
         /* Checkout button */
         .checkout-btn {
             background-color: #00cc00;
@@ -267,161 +342,89 @@
         .dropdown-menu a:hover {
             background-color: #f0f0f0;
         }
-
-
-        /* Overlay Background */
-        .overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
-            z-index: 20; /* Ensure it's above other elements */
-        }
-
-
-        /* Order Popup Styling */
-        .order-container{   
-            display: none; /* Ensure it remains visible */
-            position: fixed;
-            top: 57%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 28%;
-            height: 80%;
-            background-color: #F1EFEF;
-            padding: 8px 12px;
-            /* margin-top: 55px; */
-            overflow-y:auto;
-            z-index:21; /* Above the overlay */
-        }
-
-        #x-img {
-            position: absolute;
-            height: 30px;
-            top:2%;
-            left:89%;
-        }
-
-        #popup-image {
-            width: 100%; /* Ensures the image spans the full width of its container */
-            height: 250px; /* Set a fixed height for consistency */
-            object-fit: cover; /* Ensures the image retains its aspect ratio while filling the set dimensions */
-        }
-
-        .order-container::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari, Edge */
-        }
-        
-        .order-container h3 {
-            display: inline-block;
-            margin-bottom:0px;
-        }
-
-        .order-container label {
-            font-weight: bold;
-        }
-
-        #popup-price {
-            float:right;
-            margin-top: 20px;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        
-        #minus-img {
-            height: 40px; 
-            transform: translateY(10px); 
-            margin-right: 16px; 
-            margin-left: 5px;
-        }
-
-        .order-container textarea {
-            display: none;
-            height: 20%; 
-            width:98%;
-        }
-
-        #input-num {
-            width: 30px; 
-            height:30px; 
-            border-radius: 5px; 
-            margin-right: 16px;
-            text-align: center; 
-            font-weight:bold; 
-            font-size: 22px;
-        }
-         
-        #add-img {
-            height: 51px; 
-            transform: translateY(20px);
-        }
-
-        .order-container select {
-            display: none;
-            height: 6%; 
-            width:99%;
-        }
-
-        .order-container button {
-            background-color: #00cc00;
-            border-radius: 40px;
-            margin-left: 98px;
-            height: 40px;
-            width: 150px;
-            margin-bottom: 16px;
-            color: white;
-            font-weight: bold;
-            border: none;
-            transform: translateY(-10%);
-        } 
-
-        .order-container [type='number']::-webkit-inner-spin-button, 
-        .order-container [type='number']::-webkit-outer-spin-button { 
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        #paymentLoadingAlertContainer {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 170px;
-            background-color: yellow;
-            z-index: 30;
-            border-radius: 10px;
-        }
-        #paymentLoadingAlert {
-            width: 300px;
-            height: 170px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #FFF;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-            margin-top: 20px;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
+        /* Points Menu Styling */
+        .points-menu {
+                background-color: #f5e7d3;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                border: 1px solid #bda98f;
+                text-align: center;
             }
-            100% {
-                transform: rotate(360deg);
+    
+            .points-menu h2 {
+                margin: 0 0 10px;
+                font-size: 22px;
             }
-        } 
+    
+            .points-items {
+                display: flex;
+                gap: 15px;
+                overflow-x: auto; /* Enables horizontal scrolling */
+                overflow-y: visible; /* Allows items to expand properly */
+                scroll-behavior: smooth;
+                padding-bottom: 10px;
+                padding-left: 10px;
+                padding-top: 10px; /* Adds extra space on top */
+            }
+    
+            .points-items::-webkit-scrollbar {
+                height: 8px;
+            }
+    
+            .points-items::-webkit-scrollbar-thumb {
+                background-color: #bda98f;
+                border-radius: 10px;
+            }
+    
+            .points-items::-webkit-scrollbar-track {
+                background-color: #f5e7d3;
+            }
+    
+            .points-item {
+                flex: 0 0 auto;
+                width: 180px; /* Adjust size */
+                background-color: #fdfdfd;
+                border-radius: 8px;
+                text-align: center;
+                border: 2px solid #ddd;
+                padding: 15px 0;
+                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+    
+            .points-item img {
+                width: 90px;
+                height: 90px;
+                object-fit: contain;
+                margin-bottom: 10px;
+            }
+    
+            .points-item p {
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px 0;
+            }
+    
+            /* Points Badge */
+            .points-badge {
+                display: inline-block;
+                background-color: #00cc00;
+                color: beige;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px 12px;
+                border-radius: 20px;
+                margin-top: 8px;
+            }
+    
+            /* Highlight Selected Item */
+            .points-item:hover {
+                border: 2px solid #0066ff; /* Blue border on hover */
+                box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);
+                transform: scale(1.08); /* Slightly larger scaling to match effect */
+                z-index: 10; /* Ensures it appears above other elements */
+                position: relative; /* Makes sure it doesn't get cut off */
+            }
     </style>
 
     <script>
@@ -441,16 +444,9 @@
             closeCart.addEventListener("click", function() {
                 cartPopup.style.display = "none";
             });
+        });
 
-
-            const menuIcon = document.getElementById("menu-icon");
-            const dropdownMenu = document.querySelector(".dropdown-menu");
-
-            menuIcon.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevents click from bubbling to the document
-                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-            });
-
+        document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".category-buttons a").forEach(anchor => {
                 anchor.addEventListener("click", function (event) {
                     event.preventDefault(); // Prevent default anchor behavior
@@ -465,7 +461,16 @@
                     }
                 });
             });
+        });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuIcon = document.getElementById("menu-icon");
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+
+            menuIcon.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents click from bubbling to the document
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
 
             // Close dropdown when clicking on any dropdown option
             const dropdownLinks = document.querySelectorAll(".dropdown-menu a");
@@ -481,156 +486,7 @@
                     dropdownMenu.style.display = "none";
                 }
             });
-
-            //Hide textbox and select until user press the down arrow
-            const textarea= document.querySelector('textarea');
-            const select = document.querySelector('select');
-            const button = document.querySelector('#preference-btn');
-            const label = document.getElementById('items-unavailable');
-
-            button.addEventListener("click", function(){
-                if (textarea.style.display === "none" || select.style.display === "none"){
-                    textarea.style.display = "block";
-                    select.style.display = "block";
-                    label.innerText = "If items unavailable";
-                }
-                else {
-                    textarea.style.display = "none";
-                    select.style.display = "none";
-                    label.innerText = "";
-                }
-            });
         });
-
-        const foodItems = [
-            { title: "Wagyu Beef", description:"sautéed spinach, chimichurri sauce", price: "$50.85", img: "image/wagyu_beef.jpg" },
-            { title: "Dong Po Rou", description:"ginger, light soy sauce, dark soy sauce, shaoxing wine, spring onion", price: "$29.99", img: "image/Dong_Po_Rou.jpg" },
-            { title: "Short Rib Ragu", description:"ragu sauce, garlic, celery, tomatoes, red wine, olive oil", price: "$29.99", img: "image/short_rib_ragu.jpg" },
-            { title: "Steak and Charred Pear Salad", description:"pears, blue cheese, walnuts, vineger, olive oil", price: "$18.19", img: "image/steak_pear.jpg" },
-            { title: "Braised Pork", description:"onion, garlic, soy sauce, vineger,bay leaves", price: "$29.99", img: "image/braised_pork.jpg" },
-            { title: "Lamb Curry", description:"onion, garlic, ginger, tomatoes, cocout milk, coriander, curry powder, bay leaves", price: "$19.10", img: "image/lamb_curry.jpg" },
-            { title: "Seared Lamb with Smoky Slather", description:"smoked paprika, garlic, olive oil, lemon juice, cumin, fresh herbs", price: "$29.99", img: "image/seared_lamb.jpg" },
-            { title: "Roasted Lamb Leg", description:"garlic, olive oil, fresh rosemary, fresh thyme, lemon juice", price: "$29.99", img: "image/roasted_lamb_leg.webp" }
-        ];
-
-        function openPopup(index) {
-            const item = foodItems[index]; // Get item by index
-            document.getElementById('popup-title').textContent = item.title;
-            document.getElementById('popup-description').textContent = item.description;
-            document.getElementById('popup-price').textContent = item.price;
-            document.getElementById('popup-image').src = item.img;
-            document.getElementById('food-popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block'; // Show overlay
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePopup() {
-            document.getElementById('food-popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none'; // Show overlay
-            document.body.style.overflow = 'auto';
-
-            document.getElementById("input-num").value = 1;
-        }
-
-        function addValue() {
-            var count = document.getElementById("input-num");
-            count.value = Number(count.value) + 1;
-        }
-
-        function minusValue() {
-        let count = document.getElementById("input-num");
-            if (Number(count.value) > 1) { // Prevents negative values
-                count.value = Number(count.value) - 1;  
-            }
-        }
-
-        //Update cart after "add to cart"
-        let cart = []; // Array to store cart items
-
-        function addToCart() {
-            let title = document.getElementById("popup-title").textContent;
-            let price = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
-            let quantity = Number(document.getElementById("input-num").value);
-
-            // Get selected size
-            let size = document.querySelector('input[name="size"]:checked');
-            size = size ? size.value : "Default";
-
-            // Get selected meat type (if available)
-            let meatType = document.querySelector('input[name="meat-type"]:checked');
-            meatType = meatType ? meatType.value : "N/A";
-
-            // Get preference from textarea
-            let preference = document.getElementById("preference-text").value.trim();
-            preference = preference ? preference : "None"; // If empty, set to "None"
-
-            // Check if item already exists with same options
-            let existingItem = cart.find(item => 
-                item.title === title && 
-                item.size === size && 
-                item.meatType === meatType &&
-                item.preference === preference  
-            );
-            
-            if (existingItem) {
-                existingItem.quantity += quantity; // Increase quantity if item already exists
-            } else {
-                cart.push({ title, price, quantity, size, meatType, preference }); // Add new item
-            }
-
-            updateCartDisplay();
-            closePopup(); // Close food selection popup
-            localStorage.setItem("cart", JSON.stringify(cart));
-        }
-
-        function updateCartDisplay() {
-            let cartItemsContainer = document.getElementById("cart-items");
-            let subtotalElement = document.getElementById("subtotal");
-            let gstElement = document.getElementById("gst");
-            let totalElement = document.getElementById("total");
-
-            cartItemsContainer.innerHTML = ""; // Clear previous items
-
-            let subtotal = 0;
-
-            cart.forEach((item, index) => {
-                let itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-
-                cartItemsContainer.innerHTML += `
-                    <div class="cart-item">
-                        <span style="font-weight:bold">${item.title}</span><br>
-                        <span style="font-size:14px">Size: ${item.size}</span><br>
-                        <span style="font-size:14px;">Meat Type: ${item.meatType}</span><br>
-                        <span style="font-size:14px;">Preference: ${item.preference}</span><br>
-                        <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
-                        <div class="money-bin">
-                        <span>$${(itemTotal).toFixed(2)}</span>
-                        <img src="image/rubbish.png" class="delete-icon" onclick="removeFromCart(${index})">
-                        </div>
-                    </div>
-                `;
-            });
-
-            let gst = subtotal * 0.09; // 9% GST
-            let total = subtotal + gst;
-
-            subtotalElement.textContent = subtotal.toFixed(2);
-            gstElement.textContent = gst.toFixed(2);
-            totalElement.textContent = total.toFixed(2);
-        }
-
-        function updateQuantity(index, newQuantity) {
-            cart[index].quantity = Number(newQuantity);
-            updateCartDisplay();
-            localStorage.setItem("cart", JSON.stringify(cart));
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartDisplay();
-            localStorage.setItem("cart", JSON.stringify(cart));
-        }
     </script>
     
 </head>
@@ -643,8 +499,14 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
+
+            <?php if (isset($_SESSION['username'])): ?>
+                <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <a href="logout.php" class="head-order-button">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="head-order-button">Login</a>
+            <?php endif; ?>
+
             <a href="#" class="icon-link">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -652,6 +514,7 @@
                 </div>
             </a>
         </nav>
+
     </header>
 
     <!-- Promotion Section -->
@@ -716,6 +579,33 @@
                 </div>
             </div>
         </div>
+        <!-- Points Menu Section -->
+        <div class="points-menu">
+            <h2>Redeem with Points</h2>
+            <p>Use your points to get free items!</p>
+            <div class="points-items">
+                <div class="points-item selected">
+                    <img src="image/coke.webp" alt="Coke">
+                    <p>Coke</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/sprite.webp" alt="Sprite">
+                    <p>Sprite</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/beer.webp" alt="Beer">
+                    <p>Beer</p>
+                    <span class="points-badge">500 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/wine.webp" alt="Wine">
+                    <p>Wine</p>
+                    <span class="points-badge">1000 pt</span>
+                </div>
+            </div>
+        </div>
 
         <!-- Food Menu Section -->
         <div class="food-section">
@@ -749,25 +639,25 @@
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
-                    <button onclick="openPopup(0)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(1)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(2)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
-                    <button onclick="openPopup(3)">Add</button>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -779,19 +669,19 @@
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
-                    <button onclick="openPopup(0)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
-                    <button onclick="openPopup(3)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(2)">Add</button>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -803,13 +693,13 @@
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(1)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/braised_pork.jpg" alt="Braised Pork">
                     <p>Braised Pork</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(4)">Add</button>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -821,19 +711,19 @@
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
                     <p>Lamb Curry</p>
                     <p>$19.10</p>
-                    <button onclick="openPopup(5)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/seared_lamb.jpg" alt="Seared Lamb with Smoky Slather">
                     <p>Seared Lamb with Smoky Slather</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(6)">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/roasted_lamb_leg.webp" alt="Roasted Lamb Leg">
                     <p>Roasted Lamb Leg</p>
                     <p>$29.99</p>
-                    <button onclick="openPopup(7)">Add</button>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -875,25 +765,25 @@
                     <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
                     <p>$3.20</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
                     <p>$3.20</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
                     <p>$15.80</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button>Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
                     <p>$50.80</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -905,7 +795,7 @@
             <img src="image/back.png" class="close-cart"></img>    
             <hr style="height:2px; border:none; background-color: #333;">
             <div id="cart-items">
-                <p>No item(s) added</p>
+                <p>No items added</p>
             </div>
             <div class="cart-total">
             <hr style="height:1px; border:none; background-color: #333;">
@@ -913,79 +803,8 @@
                 <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
                 <p><strong>Total:</strong> $<span id="total">0.00</span></p>
             </div>
-            <form method="POST" action="src/php/checkout.php" id="goToPayment">
-                <button class="checkout-btn" type="submit">Payment</button>
-            </form>
+            <button class="checkout-btn">Payment</button>
         </div>
     </div>
-
-    <div id="overlay" class="overlay"></div>
-
-    <div id="food-popup" class="order-container">
-        <img id="x-img" src="image/x-img.png" onclick="closePopup()">
-        <img id="popup-image" src="" alt="Food Image">
-        <h3 id="popup-title"></h3>
-        <span id="popup-price"></span>
-        <p id="popup-description"></p>
-        <label>Size:</label><br>
-        <input type="radio" name="size" value="large">Large<br>
-        <input type="radio" name="size" value="medium">Medium<br>    
-        <input type="radio" name="size" value="small" checked>Small<br><br>
-        <label>How would you like your steak?</label><br>
-        <input type="radio" name="meat-type" value="well" checked>Well<br>
-        <input type="radio" name="meat-type" value="medium well">Medium Well<br>      
-        <input type="radio" name="meat-type" value="medium">Medium<br>
-        <input type="radio" name="meat-type" value="medium rare">Medium Rare<br>      
-        <input type="radio" name="meat-type" value="rare">Rare<br><br>
-        <label>Preference</label>
-        <span style="color: grey; margin-left: 230px;">(Optional)</span>
-        <img id="preference-btn" style="height:10px; margin-left:5px;" src="image/down_arrow.png"><br>
-        <textarea id="preference-text"></textarea><br><br>
-        <label id="items-unavailable"></label><br>
-        <select>
-            <option>Refund items</option>   
-            <option>Contact Stuff</option>
-        </select><br>
-        <img id="minus-img" src="image/minus.png" onclick="minusValue()">
-        <input id="input-num" type="number" value="1">
-        <img id="add-img" src="image/add.png" onclick="addValue()">
-        <button onclick="addToCart()">Add to Cart</button>
-    </div>
-    <div id="paymentLoadingAlertContainer" style="display: none">
-        <div id="paymentLoadingAlert">
-        <div>Loading Payment...</div>
-        <span class="loader"></span>
-        </div>
-    </div>
-    <script>
-        document.getElementById('goToPayment').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'checkout_data';
-            input.value = JSON.stringify(cart);
-            
-            this.appendChild(input);
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
-            setTimeout(() => {
-                this.submit();
-                setTimeout(() => {
-                    input.remove();
-                }, 1);
-            }, 1);
-        });
-        function getJsonFromLocalStrorage() {
-            if (localStorage.getItem("cart") !== null) {
-                cart = JSON.parse(localStorage.getItem("cart"));
-                updateCartDisplay();
-            }
-        }
-        getJsonFromLocalStrorage();
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('paymentLoadingAlertContainer').style.display = 'none'; 
-        // hide overlay and loading payment alert if user presses back on back button
-    </script>
 </body> 
 </html>
