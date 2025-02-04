@@ -383,6 +383,45 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        #paymentLoadingAlertContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 170px;
+            background-color: yellow;
+            z-index: 30;
+            border-radius: 10px;
+        }
+        #paymentLoadingAlert {
+            width: 300px;
+            height: 170px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } 
     </style>
 
     <script>
@@ -541,6 +580,7 @@
 
             updateCartDisplay();
             closePopup(); // Close food selection popup
+            localStorage.setItem("cart", JSON.stringify(cart));
         }
 
         function updateCartDisplay() {
@@ -583,11 +623,13 @@
         function updateQuantity(index, newQuantity) {
             cart[index].quantity = Number(newQuantity);
             updateCartDisplay();
+            localStorage.setItem("cart", JSON.stringify(cart));
         }
 
         function removeFromCart(index) {
             cart.splice(index, 1);
             updateCartDisplay();
+            localStorage.setItem("cart", JSON.stringify(cart));
         }
     </script>
     
@@ -871,7 +913,9 @@
                 <p><strong>GST (inclusive):</strong> $<span id="gst">0.00</span></p>
                 <p><strong>Total:</strong> $<span id="total">0.00</span></p>
             </div>
-            <button class="checkout-btn">Payment</button>
+            <form method="POST" action="src/php/checkout.php" id="goToPayment">
+                <button class="checkout-btn" type="submit">Payment</button>
+            </form>
         </div>
     </div>
 
@@ -907,5 +951,41 @@
         <img id="add-img" src="image/add.png" onclick="addValue()">
         <button onclick="addToCart()">Add to Cart</button>
     </div>
+    <div id="paymentLoadingAlertContainer" style="display: none">
+        <div id="paymentLoadingAlert">
+        <div>Loading Payment...</div>
+        <span class="loader"></span>
+        </div>
+    </div>
+    <script>
+        document.getElementById('goToPayment').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'checkout_data';
+            input.value = JSON.stringify(cart);
+            
+            this.appendChild(input);
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
+            setTimeout(() => {
+                this.submit();
+                setTimeout(() => {
+                    input.remove();
+                }, 1);
+            }, 1);
+        });
+        function getJsonFromLocalStrorage() {
+            if (localStorage.getItem("cart") !== null) {
+                cart = JSON.parse(localStorage.getItem("cart"));
+                updateCartDisplay();
+            }
+        }
+        getJsonFromLocalStrorage();
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('paymentLoadingAlertContainer').style.display = 'none'; 
+        // hide overlay and loading payment alert if user presses back on back button
+    </script>
 </body> 
 </html>
