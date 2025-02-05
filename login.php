@@ -110,7 +110,6 @@
 
     <?php
     // LOGIN USER
-    session_start();
     $errors = array();
     if (isset($_POST['submitbtn'])) {
         $username = trim($_POST['username']);
