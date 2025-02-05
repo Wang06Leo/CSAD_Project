@@ -1308,6 +1308,7 @@
             this.appendChild(input);
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
+            sessionStorage.clear();
             setTimeout(() => {
                 this.submit();
                 setTimeout(() => {
