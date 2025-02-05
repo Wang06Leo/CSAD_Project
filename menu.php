@@ -148,6 +148,8 @@
         .category-buttons {
             display: flex;
             gap: 10px;
+            flex-direction: row;
+            position:static;
         }
 
         .category-buttons button {
@@ -192,7 +194,6 @@
             flex-direction: column;
         }
 
-
         /* Cart items */
         #cart-items {
             flex-grow: 1; /* Expands to fit items */    
@@ -203,7 +204,6 @@
         }
 
         .cart-total {
-            border-top: 1px solid #ccc;
             padding-top: 15px;
             background-color: #F1EFEF;
             position: relative; /* Default position */
@@ -228,7 +228,6 @@
         .cart-container::-webkit-scrollbar {
             display: none; /* Hide scrollbar for Chrome, Safari, Edge */
         }
-
 
         /* Checkout button */
         .checkout-btn {
@@ -343,10 +342,6 @@
             margin-bottom:0px;
         }
 
-        .order-container label {
-            font-weight: bold;
-        }
-
         #popup-price {
             float:right;
             margin-top: 20px;
@@ -356,14 +351,19 @@
         
         #minus-img {
             height: 40px; 
-            transform: translateY(10px); 
+            transform: translateY(0); 
             margin-right: 16px; 
             margin-left: 5px;
+        }
+        
+        #add-img {
+            height: 51px; 
+            transform: translateY(5px);
         }
 
         .order-container textarea {
             display: none;
-            height: 20%; 
+            height:20%; 
             width:98%;
         }
 
@@ -375,11 +375,6 @@
             text-align: center; 
             font-weight:bold; 
             font-size: 22px;
-        }
-         
-        #add-img {
-            height: 51px; 
-            transform: translateY(20px);
         }
 
         .order-container select {
@@ -446,6 +441,104 @@
                 transform: rotate(360deg);
             }
         } 
+        .center-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Adjust based on your needs */
+        }
+        #preference-btn {
+            height: 10px;
+        }
+
+        .order-label {
+            font-weight: bold;
+        }
+        
+
+        /* Points Menu Styling */
+        .points-menu {
+            background-color: #f5e7d3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #bda98f;
+            text-align: center;
+        }
+
+        .points-menu h2 {
+            margin: 0 0 10px;
+            font-size: 22px;
+        }
+
+        .points-items {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            overflow-y: visible; /* Allows items to expand properly */
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-top: 10px; /* Adds extra space on top */
+        }
+
+        .points-items::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .points-items::-webkit-scrollbar-thumb {
+            background-color: #bda98f;
+            border-radius: 10px;
+        }
+
+        .points-items::-webkit-scrollbar-track {
+            background-color: #f5e7d3;
+        }
+
+        .points-item {
+            flex: 0 0 auto;
+            width: 180px; /* Adjust size */
+            background-color: #fdfdfd;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ddd;
+            padding: 15px 0;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .points-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .points-item p {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        /* Points Badge */
+        .points-badge {
+            display: inline-block;
+            background-color: #00cc00;
+            color: beige;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        /* Highlight Selected Item */
+        .points-item:hover {
+            border: 2px solid #0066ff; /* Blue border on hover */
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);
+            transform: scale(1.08); /* Slightly larger scaling to match effect */
+            z-index: 10; /* Ensures it appears above other elements */
+            position: relative; /* Makes sure it doesn't get cut off */
+        }
     </style>
 
     <script>
@@ -457,8 +550,8 @@
             // Show cart when clicking the cart icon
             cartIcon.addEventListener("click", function(event) {
                 event.preventDefault();
-                if (cartPopup.style.display === "block") cartPopup.style.display = "none";
-                else cartPopup.style.display = "block"; // toggle showing the cart popup
+                if (cartPopup.style.display === "flex") cartPopup.style.display = "none";
+                else cartPopup.style.display = "flex"; // toggle showing the cart popup
             });
 
             // Close cart when clicking the close button
@@ -527,14 +620,23 @@
         });
 
         const foodItems = [
-            { title: "Wagyu Beef", description:"sautéed spinach, chimichurri sauce", price: "$50.85", img: "image/wagyu_beef.jpg" },
-            { title: "Dong Po Rou", description:"ginger, light soy sauce, dark soy sauce, shaoxing wine, spring onion", price: "$29.99", img: "image/Dong_Po_Rou.jpg" },
-            { title: "Short Rib Ragu", description:"ragu sauce, garlic, celery, tomatoes, red wine, olive oil", price: "$29.99", img: "image/short_rib_ragu.jpg" },
-            { title: "Steak and Charred Pear Salad", description:"pears, blue cheese, walnuts, vineger, olive oil", price: "$18.19", img: "image/steak_pear.jpg" },
-            { title: "Braised Pork", description:"onion, garlic, soy sauce, vineger,bay leaves", price: "$29.99", img: "image/braised_pork.jpg" },
-            { title: "Lamb Curry", description:"onion, garlic, ginger, tomatoes, cocout milk, coriander, curry powder, bay leaves", price: "$19.10", img: "image/lamb_curry.jpg" },
-            { title: "Seared Lamb with Smoky Slather", description:"smoked paprika, garlic, olive oil, lemon juice, cumin, fresh herbs", price: "$29.99", img: "image/seared_lamb.jpg" },
-            { title: "Roasted Lamb Leg", description:"garlic, olive oil, fresh rosemary, fresh thyme, lemon juice", price: "$29.99", img: "image/roasted_lamb_leg.webp" }
+            { category: "steak", title: "Wagyu Beef", description:"sautéed spinach, chimichurri sauce", price: "$50.85", img: "image/wagyu_beef.jpg" },
+            { category: "salad", title: "Dong Po Rou", description:"ginger, light soy sauce, dark soy sauce, shaoxing wine, spring onion", price: "$29.99", img: "image/Dong_Po_Rou.jpg" },
+            { category: "salad", title: "Short Rib Ragu", description:"ragu sauce, garlic, celery, tomatoes, red wine, olive oil", price: "$29.99", img: "image/short_rib_ragu.jpg" },
+            { category: "salad", title: "Steak and Charred Pear Salad", description:"pears, blue cheese, walnuts, vineger, olive oil", price: "$18.19", img: "image/steak_pear.jpg" },
+            { category: "salad", title: "Braised Pork", description:"onion, garlic, soy sauce, vineger,bay leaves", price: "$29.99", img: "image/braised_pork.jpg" },
+            { category: "salad", title: "Lamb Curry", description:"onion, garlic, ginger, tomatoes, cocout milk, coriander, curry powder, bay leaves", price: "$19.10", img: "image/lamb_curry.jpg" },
+            { category: "steak", title: "Seared Lamb with Smoky Slather", description:"smoked paprika, garlic, olive oil, lemon juice, cumin, fresh herbs", price: "$29.99", img: "image/seared_lamb.jpg" },
+            { category: "steak", title: "Roasted Lamb Leg", description:"garlic, olive oil, fresh rosemary, fresh thyme, lemon juice", price: "$29.99", img: "image/roasted_lamb_leg.webp" },
+            { category: "dessert", title: "Italian Tiramisu", description:"cocoa powder, brewed espresso, whipping cream, mascarpone cheese", price: "$7.10", img: "image/italian_tiramisu.avif" },
+            { category: "dessert", title: "Crème Brûlée", description:"heavy cream, egg, vanilla extract", price: "$8.15", img: "image/creme_brulee.jpg" },
+            { category: "dessert", title: "Oreo Dirt Pudding", description:"crushed oreo cookies, cream cheese, butter, milk, vanilla pudding, cool whip", price: "$5.80", img: "image/oreo_dirt_pudding.jpg" },
+            { category: "dessert", title: "Paganini Strawberry", description:"fresh strawberries, whipping cream, vanilla extract, gelatin", price: "$8.50", img: "image/paganini_strawberry.jpg" },
+            { category: "drinks", title: "Coke", description:"", price: "$3.20", img: "image/coke.webp" },
+            { category: "drinks", title: "Sprite", description:"", price: "$3.20", img: "image/sprite.webp" },
+            { category: "drinks", title: "Beer", description:"", price: "$15.80", img: "image/beer.webp" },
+            { category: "drinks", title: "Wine", description:"", price: "$50.80", img: "image/wine.webp" },
+            { category: "steak", title: "Beef Carpaccio", description:"olive oil, lemon juice, shaved parmesan cheese", price: "$21.20", img: "image/beef_carpaccio.jpg" }
         ];
 
         function openPopup(index) {
@@ -546,6 +648,33 @@
             document.getElementById('food-popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block'; // Show overlay
             document.body.style.overflow = 'hidden';
+
+            // Get popup elements   
+            let category = item.category;
+            let popup = document.getElementById("food-popup");
+            let sizeLabel = document.getElementById("size");
+            let sizeOptions = document.querySelectorAll("input[name='size']");
+            let preferenceText = document.getElementById("preference");
+            let meattype = document.getElementById("meattype-div");
+            console.log(category);
+
+            // Reset all fields to default state
+            sizeLabel.style.display = "initial";
+            sizeLabel.style.display = "initial";
+            sizeOptions.forEach(option => option.closest('label').style.display = "initial");
+            document.getElementById("preference").style.display = "flex";
+            document.getElementById("add-to-cart").style.display = "flex";
+            
+            // Customize the popup based on category
+            if (category === "drinks" || category === "dessert") {
+                // Hide size and meat options, only show preference
+                meattype.style.display = "none";
+                sizeLabel.style.display = "none";
+                sizeOptions.forEach(option => option.closest('label').style.display = "none");
+            } else if (category === "salad") {
+                // Hide meat type, but show size
+                meattype.style.display = "none";
+            }
         }
 
         function closePopup() {
@@ -573,20 +702,43 @@
 
         function addToCart() {
             let title = document.getElementById("popup-title").textContent;
-            let price = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
+            let basePrice = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
             let quantity = Number(document.getElementById("input-num").value);
 
-            // Get selected size
-            let size = document.querySelector('input[name="size"]:checked');
-            size = size ? size.value : "Default";
+            let sizeDiv = document.getElementById("size");
+            let meatDiv = document.getElementById("meattype-div");
 
-            // Get selected meat type (if available)
-            let meatType = document.querySelector('input[name="meat-type"]:checked');
-            meatType = meatType ? meatType.value : "N/A";
+            // Get selected size only if the sizeDiv is visible
+            var size = "N/A";
+            if (sizeDiv.style.display !== "none") {
+                let selectedSize = document.querySelector('input[name="size"]:checked');
+                size = selectedSize ? selectedSize.value : "N/A";
+            }
+
+            // Get selected meat type only if the meatDiv is visible
+            var meatType = "N/A";
+            if (meatDiv.style.display !== "none") {
+                let selectedMeat = document.querySelector('input[name="meat-type"]:checked');
+                meatType = selectedMeat ? selectedMeat.value : "N/A";
+            }
 
             // Get preference from textarea
-            let preference = document.getElementById("preference-text").value.trim();
-            preference = preference ? preference : "None"; // If empty, set to "None"
+            var preference = document.getElementById("preference-text").value.trim();
+            preference = preference ? preference : "None"; // Default to "None" if empty
+
+            // Define additional price for each size
+            let sizePriceMap = {
+                "large": 15.45,
+                "medium": 5.75,
+                "small": 0.00
+            };
+
+            // Get the additional price based on size
+            let additionalPrice = sizePriceMap[size] || 0; // Default to 0 if no match
+
+            // Calculate final price
+            let finalPrice = basePrice + additionalPrice;
+
 
             // Check if item already exists with same options
             let existingItem = cart.find(item => 
@@ -599,7 +751,7 @@
             if (existingItem) {
                 existingItem.quantity += quantity; // Increase quantity if item already exists
             } else {
-                cart.push({ title, price, quantity, size, meatType, preference }); // Add new item
+                cart.push({ title, price: finalPrice, quantity, size, meatType, preference }); // Add new item
             }
 
             updateCartDisplay();
@@ -614,35 +766,48 @@
             let totalElement = document.getElementById("total");
 
             cartItemsContainer.innerHTML = ""; // Clear previous items
-
             let subtotal = 0;
 
             cart.forEach((item, index) => {
                 let itemTotal = item.price * item.quantity;
                 subtotal += itemTotal;
 
-                cartItemsContainer.innerHTML += `
-                    <div class="cart-item">
-                        <span style="font-weight:bold">${item.title}</span><br>
-                        <span style="font-size:14px">Size: ${item.size}</span><br>
-                        <span style="font-size:14px;">Meat Type: ${item.meatType}</span><br>
-                        <span style="font-size:14px;">Preference: ${item.preference}</span><br>
-                        <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
-                        <div class="money-bin">
+                // Start constructing the cart item display dynamically
+                let cartItemHTML = `<div class="cart-item">
+                    <span style="font-weight:bold">${item.title}</span><br>`;
+
+                // Display size only if it's not empty or "Default"
+                if (item.size && item.size !== "N/A") {
+                    cartItemHTML += `<span style="font-size:14px">Size: ${item.size}</span><br>`;
+                }
+
+                // Display meat type only if it's not "N/A"
+                if (item.meatType && item.meatType !== "N/A") {
+                    cartItemHTML += `<span style="font-size:14px;">Meat Type: ${item.meatType}</span><br>`;
+                }
+
+                // Display preference only if it's not "None"
+                if (item.preference && item.preference !== "None") {
+                    cartItemHTML += `<span style="font-size:14px;">Preference: ${item.preference}</span><br>`;
+                }
+
+                cartItemHTML += `
+                    <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                    <div class="money-bin">
                         <span>$${(itemTotal).toFixed(2)}</span>
                         <img src="image/rubbish.png" class="delete-icon" onclick="removeFromCart(${index})">
-                        </div>
                     </div>
-                `;
-            });
+                </div>`;
 
-            let gst = subtotal * 0.09; // 9% GST
-            let total = subtotal + gst;
+                cartItemsContainer.innerHTML += cartItemHTML;
+    });
 
-            subtotalElement.textContent = subtotal.toFixed(2);
-            gstElement.textContent = gst.toFixed(2);
-            totalElement.textContent = total.toFixed(2);
-        }
+    // Update subtotal, GST, and total
+    subtotalElement.textContent = `${subtotal.toFixed(2)}`;
+    let gst = subtotal * 0.09; // Assuming 10% GST
+    gstElement.textContent = `${gst.toFixed(2)}`;
+    totalElement.textContent = `${(subtotal + gst).toFixed(2)}`;
+}
 
         function updateQuantity(index, newQuantity) {
             cart[index].quantity = Number(newQuantity);
@@ -668,7 +833,15 @@
         <nav>
             <a href="main.html">Home</a>
             <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
+            <!--<a href="login.php" class="head-order-button">Login</a>-->
+
+            <?php if (isset($_SESSION['username'])): ?>
+                <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <a href="logout.php" class="head-order-button">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="head-order-button">Login</a>
+            <?php endif; ?>
+
             <a href="#" class="icon-link">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -688,55 +861,83 @@
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85 (60% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(0)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/beef_carpaccio.jpg" alt="Beef Carpaccio">
                     <p>Beef Carpaccio</p>
                     <p>$21.20 (40% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(16)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
                     <p>Lamb Curry</p>
                     <p>$19.10 (50% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(5)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85 (60% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(16)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/beef_carpaccio.jpg" alt="Beef Carpaccio">
                     <p>Beef Carpaccio</p>
                     <p>$21.20 (40% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(16)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
                     <p>Lamb Curry</p>
                     <p>$19.10 (50% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(6)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85 (60% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(0)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/beef_carpaccio.jpg" alt="Beef Carpaccio">
                     <p>Beef Carpaccio</p>
                     <p>$21.20 (40% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(16)">Add</button>
                 </div>
                 <div class="promotion-item">
                     <img src="image/beef_carpaccio.jpg" alt="Beef Carpaccio">
                     <p>Beef Carpaccio</p>
                     <p>$21.20 (40% off)</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(16)">Add</button>
+                </div>
+            </div>
+        </div>
+
+                <!-- Points Menu Section -->
+                <div class="points-menu">
+            <h2>Redeem with Points</h2>
+            <p>Use your points to get free items!</p>
+            <div class="points-items">
+                <div class="points-item selected">
+                    <img src="image/coke.webp" alt="Coke">
+                    <p>Coke</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/sprite.webp" alt="Sprite">
+                    <p>Sprite</p>
+                    <span class="points-badge">175 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/beer.webp" alt="Beer">
+                    <p>Beer</p>
+                    <span class="points-badge">500 pt</span>
+                </div>
+                <div class="points-item">
+                    <img src="image/wine.webp" alt="Wine">
+                    <p>Wine</p>
+                    <span class="points-badge">1000 pt</span>
                 </div>
             </div>
         </div>
@@ -845,7 +1046,7 @@
                     <img src="image/lamb_curry.jpg" alt="Lamb Curry">
                     <p>Lamb Curry</p>
                     <p>$19.10</p>
-                    <button onclick="openPopup(5)">Add</button>
+                    <button onclick="openPopup(5)">Add</button> 
                 </div>
                 <div class="food-item">
                     <img src="image/seared_lamb.jpg" alt="Seared Lamb with Smoky Slather">
@@ -869,25 +1070,25 @@
                     <img src="image/italian_tiramisu.avif" alt="Italian Tiramisu">
                     <p>Italian Tiramisu</p>
                     <p>$7.10</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(8)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/creme_brulee.jpg" alt="Crème Brûlée">
                     <p>Crème Brûlée</p>
                     <p>$8.15</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(9)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/oreo_dirt_pudding.jpg" alt="Oreo Dirt Pudding">
                     <p>Oreo Dirt Pudding</p>
                     <p>$5.80</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(10)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/paganini_strawberry.jpg" alt="Paganini Strawberry">
                     <p>Paganini Strawberry</p>
                     <p>$8.50</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(11)">Add</button>
                 </div>
             </div>
         </div>
@@ -899,25 +1100,25 @@
                     <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
                     <p>$3.20</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button onclick="openPopup(12)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
                     <p>$3.20</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button onclick="openPopup(13)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
                     <p>$15.80</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button onclick="openPopup(14)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
                     <p>$50.80</p>
-                    <button onclick="addToCart()">Add</button>
+                    <button onclick="openPopup(15)">Add</button>
                 </div>
             </div>
         </div>
@@ -926,12 +1127,12 @@
     <div id="cart-popup" class="cart-container" style="display: none">
         <div class="cart-content">
             <div style="position: relative; display: flex; justify-content: space-between;">
-                <h1 style="text-align: center;  flex-grow: 1;">Your Cart</h1>
-                <img src="image/back.png" class="close-cart"></img>    
+                <h1 style="text-align: center;  flex-grow: 1 ; border-bottom: 2px solid black; padding-bottom: 10px;">Your Cart</h1>
+                <img src="image/back.png" class="close-cart"></img>  
             </div>
-            <hr style="height:2px; border:none; background-color: #333">
+        
             <div id="cart-items">
-                <p>No item(s) added</p>
+                <p>No items added</p>
             </div>
             <div class="cart-total">
             <hr style="height:2px; border:none; background-color: #333;">
@@ -953,36 +1154,48 @@
         <h3 id="popup-title"></h3>
         <span id="popup-price"></span>
         <p id="popup-description"></p>
-        <label>Size:</label><br>
-        <input type="radio" name="size" value="large">Large<br>
-        <input type="radio" name="size" value="medium">Medium<br>    
-        <input type="radio" name="size" value="small" checked>Small<br><br>
-        <label>How would you like your steak?</label><br>
-        <input type="radio" name="meat-type" value="well" checked>Well<br>
-        <input type="radio" name="meat-type" value="medium well">Medium Well<br>      
-        <input type="radio" name="meat-type" value="medium">Medium<br>
-        <input type="radio" name="meat-type" value="medium rare">Medium Rare<br>      
-        <input type="radio" name="meat-type" value="rare">Rare<br><br>
-        <label>Preference</label>
-        <span style="color: grey; margin-left: 230px;">(Optional)</span>
-        <img id="preference-btn" style="height:10px; margin-left:5px;" src="image/down_arrow.png"><br>
-        <textarea id="preference-text"></textarea><br><br>
+        
+        <label id="size"  class="order-label">Size:</label><br>
+        <label><input type="radio" name="size" value="large"> Large <span style="margin-left:22px; font-size:14px;">+$15.45</span><br></label>
+        <label><input type="radio" name="size" value="medium"> Medium <span style="margin-left:6px; font-size:14px;">+$5.75</span><br></label>  
+        <label><input type="radio" name="size" value="small" checked> Small <span style="margin-left:22px; font-size:14px;">+$0.00</span><br><br></label>
+        
+        <div id="meattype-div">
+        <label id="meat-type"  class="order-label">How would you like your steak?</label><br>
+        <label><input type="radio" name="meat-type" value="well" checked> Well</label><br>
+        <label><input type="radio" name="meat-type" value="medium well"> Medium Well</label><br>      
+        <label><input type="radio" name="meat-type" value="medium"> Medium</label><br>
+        <label><input type="radio" name="meat-type" value="medium rare">Medium Rare<label><br>      
+        <label><input type="radio" name="meat-type" value="rare">Rare<label><br><br>
+        </div>
+
+        <div id="preference" style="display:flex;">
+        <label  class="order-label">Preference</label>
+        <span style="color: grey; margin-left: 55%; margin-right:2%;">(Optional)</span>
+        <img id="preference-btn" style=" transform: translateY(5px);margin-right:auto;" src="image/down_arrow.png">
+        </div>
+
+        <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea>
         <label id="items-unavailable"></label><br>
         <select>
             <option>Refund items</option>   
             <option>Contact Stuff</option>
         </select><br>
-        <img id="minus-img" src="image/minus.png" onclick="minusValue()">
-        <input id="input-num" type="number" value="1">
-        <img id="add-img" src="image/add.png" onclick="addValue()">
-        <button onclick="addToCart()">Add to Cart</button>
+        <div id="add-to-cart" style="display: flex; align-items: center;">
+            <img id="minus-img" src="image/minus.png" onclick="minusValue()">
+            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center;">
+            <img id="add-img" src="image/add.png" onclick="addValue()">
+            <button onclick="addToCart()" style=" transform: translateY(5px); margin-left: 20%;">Add to Cart</button>
+        </div>
     </div>
+
     <div id="paymentLoadingAlertContainer" style="display: none">
         <div id="paymentLoadingAlert">
-        <div>Loading Payment...</div>
+            <div>Loading Payment...</div>
         <span class="loader"></span>
         </div>
     </div>
+
     <script>
         document.getElementById('goToPayment').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1002,6 +1215,7 @@
                 }, 1);
             }, 1);
         });
+
         function getJsonFromLocalStrorage() {
             if (localStorage.getItem("cart") !== null) {
                 cart = JSON.parse(localStorage.getItem("cart"));
