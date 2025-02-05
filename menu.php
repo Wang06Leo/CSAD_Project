@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -832,7 +836,7 @@
         </div>
         <nav>
             <a href="main.html">Home</a>
-            <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
+            <!--<a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>-->
             <!--<a href="login.php" class="head-order-button">Login</a>-->
 
             <?php if (isset($_SESSION['username'])): ?>
@@ -1124,6 +1128,7 @@
         </div>
     </div>
 
+    <!-- Cart Popup HTML -->
     <div id="cart-popup" class="cart-container" style="display: none">
         <div class="cart-content">
             <div style="position: relative; display: flex; justify-content: space-between;">
@@ -1148,6 +1153,7 @@
 
     <div id="overlay" class="overlay"></div>
 
+    <!-- Order Popup HTML -->
     <div id="food-popup" class="order-container">
         <img id="x-img" src="image/x-img.png" onclick="closePopup()">
         <img id="popup-image" src="" alt="Food Image">

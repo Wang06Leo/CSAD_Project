@@ -15,6 +15,7 @@ if ($isLoggingIn) { // is logging in, no email
             $_SESSION['error'] = '';
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['points'] = $user['points'];
             header("Location: ../../menu.php");
         } else {
             $_SESSION['error'] = "Invalid password";
@@ -43,7 +44,7 @@ if ($isSigningIn) { // is signing in
         else {
             $_SESSION['error'] = '';
             $stmt = $pdo->prepare("INSERT INTO users (username, email, password, points) VALUES(?, ?, ?, ?)");
-            $stmt->execute([$username, $email, $password_hashed, 0]);
+            $stmt->execute([$username, $email, $password_hashed, 100]);
             header('location: ../../login.php?alert=login');
         }
     }
