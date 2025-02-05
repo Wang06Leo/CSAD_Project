@@ -1,11 +1,11 @@
 <?php
 session_start();
-
+$_SESSION['paying'] = false;
 // Redirect to login page if not logged in
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location: login.php");
+//     exit();
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -620,11 +620,11 @@ if (!isset($_SESSION['username'])) {
             Steak <span class="box">Box</span>
         </div>
         <nav>
-            <a href="main.html">Home</a>
+            <a href="main.php">Home</a>
 
             <?php if (isset($_SESSION['username'])): ?>
                 <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
-                <a href="logout.php" class="head-order-button">Logout</a>
+                <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
                 <a href="login.php" class="head-order-button">Login</a>
             <?php endif; ?>

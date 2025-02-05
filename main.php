@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,9 +262,13 @@
         <h1>Steak</h1><span class="box">Box</span>
         
         <nav>
-            <a href="main.html" style="text-decoration: underline;">Home</a>
+            <a href="main.php" style="text-decoration: underline;">Home</a>
             <a href="menu.php" class="head-order-button">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
+            <?php if (isset($_SESSION['username'])): ?>
+                <a href="src/php/logout.php" class="head-order-button">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="head-order-button">Login</a>
+            <?php endif; ?>
             <a href="#" class="icon-link">
             <div class="icon-container">
                 <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">

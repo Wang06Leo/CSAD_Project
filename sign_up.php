@@ -103,6 +103,10 @@
     <?php
     // LOGIN USER
     session_start();
+    if (isset($_SESSION['username'])) {
+        header('Location: main.php');
+        exit();
+    }
     $errors = array();
     if (isset($_POST['register_user'])) {
         $username = trim($_POST['username']);
@@ -134,7 +138,7 @@
             Steak <span class="box">Box</span>
         </div>
         <nav>
-            <a href="main.html">Home</a>
+            <a href="main.php">Home</a>
             <a href="menu.php" class="head-order-button">Order Here</a>
             <a href="login.php" class="head-order-button">Login</a>
             <a href="#">

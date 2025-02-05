@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if(isset($_SESSION['username'])) {
+        header('Location: main.php'); // dont allow user to go login page if logged in
+        exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +138,7 @@
             Steak <span class="box">Box</span>
         </div>
         <nav>
-            <a href="main.html">Home</a>
+            <a href="main.php">Home</a>
             <a href="menu.php" class="head-order-button">Order Here</a>
             <a href="#" class="head-order-button" style="text-decoration: underline;" >Login</a>
             <a href="#" class="icon-link">
