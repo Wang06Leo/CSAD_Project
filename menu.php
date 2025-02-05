@@ -616,6 +616,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             margin-top: 8px;
+            border: none;
         }
 
         /* Highlight Selected Item */
@@ -645,9 +646,16 @@
             closeCart.addEventListener("click", function() {
                 cartPopup.style.display = "none";
             });
-        });
 
-        document.addEventListener("DOMContentLoaded", function () {
+
+            const menuIcon = document.getElementById("menu-icon");
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+
+            menuIcon.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents click from bubbling to the document
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
             document.querySelectorAll(".category-buttons a").forEach(anchor => {
                 anchor.addEventListener("click", function (event) {
                     event.preventDefault(); // Prevent default anchor behavior
@@ -662,16 +670,7 @@
                     }
                 });
             });
-        });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuIcon = document.getElementById("menu-icon");
-            const dropdownMenu = document.querySelector(".dropdown-menu");
-
-            menuIcon.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevents click from bubbling to the document
-                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-            });
 
             // Close dropdown when clicking on any dropdown option
             const dropdownLinks = document.querySelectorAll(".dropdown-menu a");
@@ -685,6 +684,25 @@
             document.addEventListener("click", function (event) {
                 if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
                     dropdownMenu.style.display = "none";
+                }
+            });
+
+            //Hide textbox and select until user press the down arrow
+            const textarea= document.querySelector('textarea');
+            const select = document.querySelector('select');
+            const button = document.querySelector('#preference-btn');
+            const label = document.getElementById('items-unavailable');
+
+            button.addEventListener("click", function(){
+                if (textarea.style.display === "none" || select.style.display === "none"){
+                    textarea.style.display = "block";
+                    select.style.display = "block";
+                    label.innerText = "If items unavailable";
+                }
+                else {
+                    textarea.style.display = "none";
+                    select.style.display = "none";
+                    label.innerText = "";
                 }
             });
         });
@@ -914,7 +932,7 @@
             <a href="main.php">Home</a>
 
             <?php if (isset($_SESSION['username'])): ?>
-                <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <span class="points-display">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
                 <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
@@ -1002,22 +1020,22 @@
                 <div class="points-item selected">
                     <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
-                    <span class="points-badge">175 pt</span>
+                    <button class="points-badge">175 pt</button>
                 </div>
                 <div class="points-item">
                     <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
-                    <span class="points-badge">175 pt</span>
+                    <button class="points-badge">175 pt</button>
                 </div>
                 <div class="points-item">
                     <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
-                    <span class="points-badge">500 pt</span>
+                    <button class="points-badge">500 pt</button>
                 </div>
                 <div class="points-item">
                     <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
-                    <span class="points-badge">1000 pt</span>
+                    <button class="points-badge">1000 pt</button>
                 </div>
             </div>
         </div>
