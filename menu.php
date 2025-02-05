@@ -982,32 +982,6 @@
         </div>
 
                 <!-- Points Menu Section -->
-                <div class="points-menu">
-            <h2>Redeem with Points</h2>
-            <p>Use your points to get free items!</p>
-            <div class="points-items">
-                <div class="points-item selected">
-                    <img src="image/coke.webp" alt="Coke">
-                    <p>Coke</p>
-                    <span class="points-badge">175 pt</span>
-                </div>
-                <div class="points-item">
-                    <img src="image/sprite.webp" alt="Sprite">
-                    <p>Sprite</p>
-                    <span class="points-badge">175 pt</span>
-                </div>
-                <div class="points-item">
-                    <img src="image/beer.webp" alt="Beer">
-                    <p>Beer</p>
-                    <span class="points-badge">500 pt</span>
-                </div>
-                <div class="points-item">
-                    <img src="image/wine.webp" alt="Wine">
-                    <p>Wine</p>
-                    <span class="points-badge">1000 pt</span>
-                </div>
-            </div>
-        </div>
         <!-- Points Menu Section -->
         <div class="points-menu">
             <h2>Redeem with Points</h2>
@@ -1304,6 +1278,7 @@
             this.appendChild(input);
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
+            sessionStorage.clear();
             setTimeout(() => {
                 this.submit();
                 setTimeout(() => {

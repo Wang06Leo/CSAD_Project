@@ -21,7 +21,7 @@ foreach ($json_data as $item) {
         "quantity" => $item["quantity"],
         "price_data" => [
             "currency" => "sgd",
-            "unit_amount" => $item["price"] * 100,
+            "unit_amount" => round($item["price"] * 100 * 1.09, 0),
             "product_data" => [
                 "name" => $item["title"],
                 "tax_code" => "txcd_20030000",
@@ -29,6 +29,9 @@ foreach ($json_data as $item) {
             ]
         ]
     ];
+    if ($item['size'] === "N/A") {
+        unset($items[count($items) - 1]["price_data"]["product_data"]["description"]); // remove description added in the same iteration if size if N/A
+    }
 }
 function getBaseUrl() {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
@@ -45,7 +48,7 @@ try {
         'automatic_tax' => ['enabled' => true],
     ]);
     
-    //$_SESSION['session_id']  = $checkout_session->id;
+    $_SESSION['session_id']  = $checkout_session->id;
     http_response_code(303);
     header("Location: " . $checkout_session->url);
     exit();

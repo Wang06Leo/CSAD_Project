@@ -14,3 +14,20 @@ CREATE TABLE IF NOT EXISTS admin (
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    title VARCHAR(100),
+    price DECIMAL(10,2),
+    quantity INT,
+    size VARCHAR(50),
+    meat_type VARCHAR(50),
+    preference VARCHAR(255),
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
