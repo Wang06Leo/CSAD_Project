@@ -1,5 +1,7 @@
 <?php
     session_start();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Login Page</title>
+    <title>Menu Page</title>
     <style>
         /* Login Form Styling */
         .login-container {
@@ -168,8 +170,8 @@
             color: white;
         }
 
-                /* Food Menu Styling */
-                .food-section {
+        /* Food Menu Styling */
+        .food-section {
             margin-bottom: 30px;
             padding: 0 20px; /* Adds padding to the sides */
         }
@@ -226,15 +228,16 @@
         .most-ordered-container {
             display: flex;
             align-items: center; /* Aligns items vertically */
-            gap: 895px; /* Adjust spacing between heading and buttons */
+            justify-content: space-between; /* Makes the heading and buttons adjust dynamically */
             margin-bottom: 15px;
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
         }
 
         .category-buttons {
             display: flex;
             gap: 10px;
             flex-direction: row;
-            position:static;
+            flex-wrap: wrap; /* Wraps buttons to new lines if screen is too small */
         }
 
         .category-buttons button {
@@ -242,16 +245,15 @@
             color: black;
             border: 3px solid black;
             font-weight: bold;
-            border-width: 3px;
             padding: 10px 15px;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px; /* Slightly reduce font size for better scaling */
         }
 
         .category-buttons button:hover {
-            background-color: #333; 
+            background-color: #333;
             color: #fff;
-            border-color: #333; 
+            border-color: #333;
         }
 
 
@@ -717,6 +719,15 @@
             document.getElementById('overlay').style.display = 'block'; // Show overlay
             document.body.style.overflow = 'hidden';
 
+            //Reset size selection to default ("small")
+            document.querySelector("input[name='size'][value='small']").checked = true;
+
+            //Reset meat type selection to default ("well")
+            let defaultMeatOption = document.querySelector("input[name='meat-type'][value='well']");
+            if (defaultMeatOption) {
+                defaultMeatOption.checked = true;
+            }
+
             // Get popup elements   
             let category = item.category;
             let popup = document.getElementById("food-popup");
@@ -730,6 +741,7 @@
             sizeLabel.style.display = "initial";
             sizeLabel.style.display = "initial";
             sizeOptions.forEach(option => option.closest('label').style.display = "initial");
+            meattype.style.display = "initial";
             document.getElementById("preference").style.display = "flex";
             document.getElementById("add-to-cart").style.display = "flex";
             
@@ -868,14 +880,14 @@
                 </div>`;
 
                 cartItemsContainer.innerHTML += cartItemHTML;
-    });
+            });
 
-    // Update subtotal, GST, and total
-    subtotalElement.textContent = `${subtotal.toFixed(2)}`;
-    let gst = subtotal * 0.09; // Assuming 10% GST
-    gstElement.textContent = `${gst.toFixed(2)}`;
-    totalElement.textContent = `${(subtotal + gst).toFixed(2)}`;
-}
+            // Update subtotal, GST, and total
+            subtotalElement.textContent = `${subtotal.toFixed(2)}`;
+            let gst = subtotal * 0.09; // Assuming 10% GST
+            gstElement.textContent = `${gst.toFixed(2)}`;
+            totalElement.textContent = `${(subtotal + gst).toFixed(2)}`;
+        }
 
         function updateQuantity(index, newQuantity) {
             cart[index].quantity = Number(newQuantity);
@@ -905,6 +917,7 @@
                 <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
+                <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
                 <a href="login.php" class="head-order-button">Login</a>
             <?php endif; ?>
 
@@ -981,7 +994,6 @@
             </div>
         </div>
 
-                <!-- Points Menu Section -->
         <!-- Points Menu Section -->
         <div class="points-menu">
             <h2>Redeem with Points</h2>
@@ -1042,25 +1054,25 @@
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(0)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(1)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(2)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(3)">Add</button>
                 </div>
             </div>
         </div>
@@ -1072,19 +1084,19 @@
                     <img src="image/wagyu_beef.jpg" alt="Wagyu Beef">
                     <p>Wagyu Beef</p>
                     <p>$50.85</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(0)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/steak_pear.jpg" alt="Steak and Charred Pear Salad">
                     <p>Steak and Charred Pear Salad</p>
                     <p>$18.19</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(3)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/short_rib_ragu.jpg" alt="Short Rib Ragu">
                     <p>Short Rib Ragu</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(2)">Add</button>
                 </div>
             </div>
         </div>
@@ -1096,13 +1108,13 @@
                     <img src="image/Dong_Po_Rou.jpg" alt="Dong Po Rou">
                     <p>Dong Po Rou</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(1)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/braised_pork.jpg" alt="Braised Pork">
                     <p>Braised Pork</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(4)">Add</button>
                 </div>
             </div>
         </div>
@@ -1120,13 +1132,13 @@
                     <img src="image/seared_lamb.jpg" alt="Seared Lamb with Smoky Slather">
                     <p>Seared Lamb with Smoky Slather</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(6)">Add</button>
                 </div>
                 <div class="food-item">
                     <img src="image/roasted_lamb_leg.webp" alt="Roasted Lamb Leg">
                     <p>Roasted Lamb Leg</p>
                     <p>$29.99</p>
-                    <button>Add</button>
+                    <button onclick="openPopup(7)">Add</button>
                 </div>
             </div>
         </div>
