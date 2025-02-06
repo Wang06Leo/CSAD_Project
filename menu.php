@@ -637,22 +637,24 @@
         let username = null;
     </script>
     <?php 
-        if (isset($_SESSION['points'])) {
-            echo "<script>currPoints = " . $_SESSION['points'] . "</script>";
-        }
-        if (isset($_SESSION['username'])) {
-            echo "<script>username = " . "'". $_SESSION['username'] . "'". "</script>";
+        if (isset($_SESSION['points']) && isset($_SESSION['username'])) {
+            echo "<script>currPoints = " . $_SESSION['points']  . ";";
+            echo "username = " . "'". $_SESSION['username'] . "';". "</script>"; // "'" to put quote marks around username
+        } else {
+            echo "<script>localStorage.getItem('pts') = null;</script>";
         }
     ?>
     <script>
         if (localStorage.getItem("pts")) currPoints = localStorage.getItem("pts");
         const btnPayWithPoints = document.getElementsByClassName("points-item");
         let pointsArr = [175, 175, 500, 1000];
-        //let isPayingWithPoints = false;
+        let isPayingWithPoints = false;
+        let currPointsPrice = 0;
         function openPopupWithPoints(i) {
             if (!currPoints || currPoints < pointsArr[i]) return;
-            //isPayingWithPoints = true;
             openPopup(i + 17); // offset to just drinks
+            currPointsPrice = pointsArr[i];
+            isPayingWithPoints = true;
             document.getElementById('popup-price').textContent = pointsArr[i] + "pt";
             document.getElementById('popup-price').style.color = "#00DD00";
         }
@@ -832,6 +834,9 @@
 
         function addValue() {
             var count = document.getElementById("input-num");
+            if (isPayingWithPoints) {
+                if (currPointsPrice * count.value < currPoints) return;
+            }
             count.value = Number(count.value) + 1;
         }
 
@@ -891,7 +896,7 @@
                     pointsPrice = pointsArr[itemIndex - 17]; // Ensure valid pointsPrice
                 }
                 finalPrice = 0; // Ensure free item price remains 0
-                currPoints -= pointsPrice;
+                currPoints -= pointsPrice * quantity;
             }
 
             // Check if item already exists with same options
