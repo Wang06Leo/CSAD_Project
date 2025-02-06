@@ -60,7 +60,7 @@ require "src/php/db.php";
     .receipt-summary {
         display: flex;
         flex-direction: column;
-        margin-left: 56%;
+        margin-left: 51%;
         font-size: 16px;
         margin-top: 20px;
     }
@@ -92,8 +92,19 @@ require "src/php/db.php";
     
     .back-img {
         height:47px;
-        transform: translate(20px, 20px);
+        transform: translate(14px, 14px);
     }
+
+    .login-container .box {
+            display: inline-block;
+            background-color: #333;
+            border: 4px solid white;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            padding: 10px 20px;
+            margin-bottom: 40px;
+        }
     </style>
 <body>
     <!-- Header -->
@@ -104,8 +115,13 @@ require "src/php/db.php";
         </div>
         <nav>
             <a href="main.php">Home</a>
-            <a href="menu.php" class="head-order-button">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
+            <?php if (isset($_SESSION['username'])): ?>
+                <span id="user-and-pts">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <a href="src/php/logout.php" class="head-order-button">Logout</a>
+            <?php else: ?>
+                <a href="menu.php" class="head-order-button">Order Here</a>
+                <a href="login.php" class="head-order-button">Login</a>
+            <?php endif; ?>
             <a href="#">
                 <div class="icon-container">
                     <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
@@ -115,9 +131,11 @@ require "src/php/db.php";
         </nav>
     </header>
 
+    <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">
     <?php
         $items = getItem($pdo); // Capture the returned items array
     ?>
+
         <!-- Receipt Section -->
         <section class="receipt-container">
         <h2 class="receipt-title">🧾 Receipt</h2>
@@ -149,17 +167,19 @@ require "src/php/db.php";
                 $subtotal = 0;
                 foreach ($items as $item) {
                     $subtotal += $item['price'] * $item['quantity']; // Calculate the subtotal
-                }
+                }            
+                echo "$";
                 echo htmlspecialchars(number_format(($subtotal), 2));
             ?>
             </span></p>
             <p>GST (Inclusive):<span>
             <?php
             $gst = $subtotal * 0.10; // Example 10% GST
+            echo "$";
             echo htmlspecialchars(number_format(($gst), 2));
             ?>
             </span> </p>
-            <p class="total">Total: <span><?php echo htmlspecialchars(number_format(($subtotal + $gst), 2)); ?></span></p>
+            <p class="total">Total: <span>$<?php echo htmlspecialchars(number_format(($subtotal + $gst), 2)); ?></span></p>
         </div>
     </section>
 </body>

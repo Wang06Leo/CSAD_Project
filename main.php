@@ -57,7 +57,7 @@
             right: 20px; /* Align closer to the right */
             display: flex; /* Arrange links horizontally */
             align-items: center;
-            gap: 15px;;
+            gap: 15px;
         }
 
         .icon-container {

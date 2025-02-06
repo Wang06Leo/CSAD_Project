@@ -11,88 +11,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Menu Page</title>
     <style>
-        /* Login Form Styling */
-        .login-container {
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .login-container h1 {
-            font-size: 64px;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .login-container .box {
-            display: inline-block;
-            background-color: #333;
-            border: 4px solid white;
-            color: white;
-            font-size: 48px;
-            font-weight: bold;
-            padding: 10px 20px;
-            margin-bottom: 40px;
-        }
-
-        .login-form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-form label {
-            font-size: 20px;
-            color: #333;
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .login-form button {
-            width: 100%;
-            padding: 15px;
-            font-size: 20px;
-            color: white;
-            background-color: #00cc00;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .login-form button:hover {
-            background-color: #009900;
-        }
-
-        .login-form p {
-            font-size: 20px;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .login-form a {
-            color: blue;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-form a:hover {
-            text-decoration: underline;
-        }
         .container {
             padding: 20px;
         }
@@ -397,8 +315,8 @@
             top: 57%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 28%;
-            height: 80%;
+            width: 440px;
+            max-height: 80%;
             background-color: #F1EFEF;
             padding: 8px 12px;
             /* margin-top: 55px; */
@@ -437,14 +355,14 @@
         
         #minus-img {
             height: 40px; 
-            transform: translateY(0); 
+            transform: translateY(-7px); 
             margin-right: 16px; 
             margin-left: 5px;
         }
         
         #add-img {
             height: 51px; 
-            transform: translateY(5px);
+            transform: translateY(3px);
         }
 
         .order-container textarea {
@@ -470,9 +388,12 @@
         }
 
         .order-container button {
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            float: right;
             background-color: #00cc00;
             border-radius: 40px;
-            margin-left: 98px;
             height: 40px;
             width: 150px;
             margin-bottom: 16px;
@@ -533,12 +454,21 @@
             align-items: center; /* Center vertically */
             height: 100vh; /* Adjust based on your needs */
         }
+
         #preference-btn {
             height: 10px;
         }
 
         .order-label {
             font-weight: bold;
+        }
+        
+        #preference {
+            display: flex;
+            justify-content: space-between;
+            align-items:center;
+            margin-top: auto;
+            flex-shrink: 0;
         }
         
 
@@ -1352,10 +1282,12 @@
         <label><input type="radio" name="meat-type" value="rare">Rare<label><br><br>
         </div>
 
-        <div id="preference" style="display:flex;">
+        <div id="preference">
         <label  class="order-label">Preference</label>
-        <span style="color: grey; margin-left: 55%; margin-right:2%;">(Optional)</span>
-        <img id="preference-btn" style=" transform: translateY(5px);margin-right:auto;" src="image/down_arrow.png">
+        <div style="margin-right: 20px;">
+        <span style="color: grey; margin-right:5px;">(Optional)</span>
+        <img id="preference-btn" style=" transform: translateY(5px);float:right" src="image/down_arrow.png">
+        </div>
         </div>
 
         <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea>
@@ -1364,11 +1296,13 @@
             <option>Refund items</option>   
             <option>Contact Stuff</option>
         </select><br>
-        <div id="add-to-cart" style="display: flex; align-items: center;">
+        <div id="add-to-cart" style="display: flex; justify-content:space-between; position:relative; bottom:0">
+            <div>
             <img id="minus-img" src="image/minus.png" onclick="minusValue()">
-            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center;">
+            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center; transform:translateY(-17px);">
             <img id="add-img" src="image/add.png" onclick="addValue()">
-            <button onclick="addToCart()" style=" transform: translateY(5px); margin-left: 20%;" id="add-to-cart">Add to Cart</button>
+            </div>
+            <button onclick="addToCart()" style=" transform: translateY(5px); margin-right: 15px;" id="add-to-cart">Add to Cart</button>
         </div>
     </div>
 
