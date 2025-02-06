@@ -14,34 +14,6 @@
     }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Receipt Page</title>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <img id="cube" src="image/cube.png">
-            Steak <span class="box">Box</span>
-        </div>
-        <nav>
-            <a href="main.php">Home</a>
-            <a href="menu.php" class="head-order-button">Order Here</a>
-            <a href="login.php" class="head-order-button">Login</a>
-            <a href="#">
-                <div class="icon-container">
-                    <img src="image/Ellipse 1.png" alt="Circle" class="background-circle">
-                    <img src="image/Vector.png" alt="Cart Icon" class="cart-icon">
-                </div>
-            </a>
-        </nav>
-    </header>
-    <h1>Success Page</h1>
     <form method="POST" action="src/php/addOrderToDb.php" id="submit-form"></form>
 
     <script>
@@ -77,7 +49,23 @@
         } else {
             echo "<h2>Weird</h2>";
         }
+
+
+        // Check if 'order_id' exists in the session
+        if (!isset($_SESSION['order_id'])) {
+            echo "<h2>No order ID found.</h2>";
+            exit();
+        }
+
+        $order_id = $_SESSION['order_id']; // Get the order ID from the session
+        $stmt = $pdo->prepare("SELECT title, price, quantity FROM order_items WHERE order_id = ?");
+        $stmt->execute([$order_id]); // Bind the order_id to the query
+        // Fetch the result
+        $items  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Check if any items were found
+        if (empty($items)) {
+            echo "<h2>No items found for this order.</h2>";
+        }
     ?>
-    <button onclick="window.location.href='main.php'">go to main.php</button>
-</body>
-</html>
+    <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">

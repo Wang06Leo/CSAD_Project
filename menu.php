@@ -1,7 +1,6 @@
 <?php
     session_start();
-
-
+    require "src/php/db.php"; 
 ?>
 
 <!DOCTYPE html>
@@ -616,6 +615,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             margin-top: 8px;
+            border: none;
         }
 
         /* Highlight Selected Item */
@@ -690,9 +690,16 @@
             closeCart.addEventListener("click", function() {
                 cartPopup.style.display = "none";
             });
-        });
 
-        document.addEventListener("DOMContentLoaded", function () {
+
+            const menuIcon = document.getElementById("menu-icon");
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+
+            menuIcon.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents click from bubbling to the document
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
             document.querySelectorAll(".category-buttons a").forEach(anchor => {
                 anchor.addEventListener("click", function (event) {
                     event.preventDefault(); // Prevent default anchor behavior
@@ -707,16 +714,7 @@
                     }
                 });
             });
-        });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuIcon = document.getElementById("menu-icon");
-            const dropdownMenu = document.querySelector(".dropdown-menu");
-
-            menuIcon.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevents click from bubbling to the document
-                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
-            });
 
             // Close dropdown when clicking on any dropdown option
             const dropdownLinks = document.querySelectorAll(".dropdown-menu a");
@@ -730,6 +728,25 @@
             document.addEventListener("click", function (event) {
                 if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
                     dropdownMenu.style.display = "none";
+                }
+            });
+
+            //Hide textbox and select until user press the down arrow
+            const textarea= document.querySelector('textarea');
+            const select = document.querySelector('select');
+            const button = document.querySelector('#preference-btn');
+            const label = document.getElementById('items-unavailable');
+
+            button.addEventListener("click", function(){
+                if (textarea.style.display === "none" || select.style.display === "none"){
+                    textarea.style.display = "block";
+                    select.style.display = "block";
+                    label.innerText = "If items unavailable";
+                }
+                else {
+                    textarea.style.display = "none";
+                    select.style.display = "none";
+                    label.innerText = "";
                 }
             });
         });
@@ -981,11 +998,27 @@
         </div>
         <nav>
             <a href="main.php">Home</a>
-
+            <?php
+            // Get items if an order exists
+            $items = [];
+            if (isset($_SESSION['order_id'])) {
+                $items = getItem($pdo);
+            }
+            ?>
             <?php if (isset($_SESSION['username'])): ?>
+<<<<<<< HEAD
                 <span id="user-and-pts">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+=======
+                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
+                <a href="receipt.php">View Receipt</a>
+                <?php endif ?>
+                <span class="points-display">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+>>>>>>> 1c40b6ba4269f26228cfe8f76288a330e11d7b53
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
+                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
+                <a href="receipt.php">View Receipt</a>
+                <?php endif ?>
                 <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
                 <a href="login.php" class="head-order-button">Login</a>
             <?php endif; ?>
