@@ -580,9 +580,10 @@
         let pointsArr = [175, 175, 500, 1000];
         let isPayingWithPoints = false;
         let currPointsPrice = 0;
+        let prevInputNum = 1; // default is 1
         function openPopupWithPoints(i) {
             if (!currPoints || currPoints < pointsArr[i]) return;
-            openPopup(i + 17); // offset to just drinks
+            openPopup(i + 17); // offset to just promo drinks
             currPointsPrice = pointsArr[i];
             isPayingWithPoints = true;
             document.getElementById('popup-price').textContent = pointsArr[i] + "pt";
@@ -600,7 +601,7 @@
         function getPts(userPoints) {
             let pts = "";
             let i = userPoints.textContent.indexOf(":");
-            while (++i < userPoints.length) {
+            while (++i < userPoints.textContent.length) {
                 pts += userPoints[i];
             }
             return Number(pts);
@@ -708,6 +709,7 @@
         ];
 
         function openPopup(index) {
+            prevInputNum = 1;
             const item = foodItems[index]; // Get item by index
             document.getElementById('popup-title').textContent = item.title;
             document.getElementById('popup-description').textContent = item.description;
@@ -765,7 +767,7 @@
         function addValue() {
             var count = document.getElementById("input-num");
             if (isPayingWithPoints) {
-                if (currPointsPrice * count.value < currPoints) return;
+                if (currPointsPrice * (Number(count.value) + 1) > currPoints) return;
             }
             count.value = Number(count.value) + 1;
         }
@@ -885,7 +887,7 @@
                 }
 
                 cartItemHTML += `
-                    <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                    <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)" onkeyup="handleEnter(event, ${index}, this.value, 0)">
                     <div class="money-bin">
                         <span>$${(itemTotal).toFixed(2)}</span>
                         <img src="image/rubbish.png" class="delete-icon" onclick="removeFromCart(${index})">
@@ -903,16 +905,37 @@
         }
 
         function updateQuantity(index, newQuantity) {
-            if (newQuantity <= 0) return;
-            if (currPoints - newQuantity*cart[index].price[1] < 0) return;
-            cart[index].quantity = Number(newQuantity);
+            newQuantity = Math.floor(Number(newQuantity)); // Ensure integer
+            let prevQuantity = cart[index].quantity;
+            if (currPoints - (newQuantity * cart[index].price[1]) < 0) newQuantity = prevQuantity;
+            if (newQuantity <= 0) newQuantity = prevQuantity;
+            cart[index].quantity = newQuantity;
+
+            if (cart[index].price[1] !== 0 && currPoints) {
+                currPoints += (prevQuantity - newQuantity) * cart[index].price[1];
+            }
+
             updateCartDisplay();
-            if (cart[index].price[1] !== 0 && currPoints) currPoints -= newQuantity*cart[index].price[1];
             localStorage.setItem("cart", JSON.stringify(cart));
             localStorage.setItem("pts", currPoints);
             onPointsChange();
         }
 
+        function handleEnter(event, index, value, n) {
+            if (event.key === "Enter") {
+                if (n === 0) updateQuantity(index, value);
+                else if (n === 1) updateInputNum(value);
+                event.target.blur();
+            }
+        }
+
+        function updateInputNum(val) { 
+            val = Math.floor(Number(val));
+            if (val <= 0) val = prevInputNum;
+            if (currPoints - (val * currPointsPrice) < 0) val = prevInputNum;
+            document.getElementById('input-num').value = val;
+            prevInputNum = val;
+        }
         function removeFromCart(index) {
             const pointsUsed = cart[index].price[1] ? cart[index].price[1]*cart[index].quantity : 0;
             currPoints += pointsUsed;
@@ -1299,7 +1322,7 @@
         <div id="add-to-cart" style="display: flex; justify-content:space-between; position:relative; bottom:0">
             <div>
             <img id="minus-img" src="image/minus.png" onclick="minusValue()">
-            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center; transform:translateY(-17px);">
+            <input id="input-num" type="number" value="1" style="width: 50px; text-align: center; transform:translateY(-17px);" onchange="updateInputNum(this.value)" onkeyup="handleEnter(event, 0, this.value, 1)">
             <img id="add-img" src="image/add.png" onclick="addValue()">
             </div>
             <button onclick="addToCart()" style=" transform: translateY(5px); margin-right: 15px;" id="add-to-cart">Add to Cart</button>
