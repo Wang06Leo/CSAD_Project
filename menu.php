@@ -1,7 +1,6 @@
 <?php
     session_start();
-
-
+    require "src/php/db.php"; 
 ?>
 
 <!DOCTYPE html>
@@ -930,11 +929,23 @@
         </div>
         <nav>
             <a href="main.php">Home</a>
-
+            <?php
+            // Get items if an order exists
+            $items = [];
+            if (isset($_SESSION['order_id'])) {
+                $items = getItem($pdo);
+            }
+            ?>
             <?php if (isset($_SESSION['username'])): ?>
+                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
+                <a href="receipt.php">View Receipt</a>
+                <?php endif ?>
                 <span class="points-display">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
+                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
+                <a href="receipt.php">View Receipt</a>
+                <?php endif ?>
                 <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
                 <a href="login.php" class="head-order-button">Login</a>
             <?php endif; ?>

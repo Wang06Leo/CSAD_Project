@@ -58,3 +58,24 @@ function addUserPoints($points, $pdo) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $_SESSION['points'] = $row ? $row['points'] : -1; // should not be -1, if points = -1 somewhere, error is here
 }
+
+function getItem ($pdo) {
+    // Check if 'order_id' exists in the session
+    // if (!isset($_SESSION['order_id'])) {
+    //     echo "<h2>No order ID found.</h2>";
+    //     exit();
+    // }
+
+    $order_id = $_SESSION['order_id']; // Get the order ID from the session
+    $stmt = $pdo->prepare("SELECT title, price, quantity FROM order_items WHERE order_id = ?");
+    $stmt->execute([$order_id]); // Bind the order_id to the query
+    // Fetch the result
+    $items  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if any items were found
+    // if (empty($items)) {
+    //     echo "<h2>No items found for this order.</h2>";
+    // }
+
+    return $items; // Return the items if found
+}
