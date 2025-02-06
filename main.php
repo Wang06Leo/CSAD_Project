@@ -144,6 +144,10 @@
             margin: 0 0 15px;
             font-size: 60px;
         }
+        .section p{
+            text-align: center; 
+            font-size: 30px;
+        }
         .section2 {
             display: flex;
             align-items: center;
@@ -172,6 +176,11 @@
         .section2 h2 {
             margin: 0 0 15px;
             font-size: 60px;
+        }
+
+        .section2 p {
+            text-align: center; 
+            font-size: 30px;
         }
         
         .readMore {
@@ -254,6 +263,42 @@
             margin: 0;
         }
 
+        @media (max-width:1024px)  { 
+            .section {
+                margin-bottom: 0px;
+            }
+            .section img {
+                max-width:375px;
+                transform: translateY(-30px);
+            }
+            .section h2{
+                font-size: 40px;
+            }
+            .section p {
+                font-size: 16px;
+            }
+
+
+            .section2 img {
+                max-width: 365px;
+                margin-left: 0px;
+                transform: translateX(20px);
+            }
+            .section2 div {
+                margin-top: 0px;
+                margin-right: 15px;
+                transform: translateX(-40px);
+            }
+            .section2 h2{
+                font-size: 40px;
+            }
+            .section2 p {
+                font-size: 16px;
+            }   
+            .readMore {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -282,7 +327,7 @@
         <img src="image/beef_wellington.avif" alt="Our Restaurant">
         <div>
             <h2 style="text-align: center;">Our Restaurant</h2>
-            <p style="text-align: center; font-size: 30px;">
+            <p>
                 Steak Box is a restaurant that serves stomach-filling dishes inspired by 4 chefs from Singapore Polytechnic. It is an all-in-one restaurant that serves food from a variety of cultures, ensuring it fits every customer’s food palate.
             </p>
         </div>
@@ -291,7 +336,7 @@
     <section class="section2">
         <div>
             <h2 style="text-align: center;">Our Menu</h2>
-            <p style="text-align: center; font-size: 30px;">
+            <p>
                 Our menu consists of a variety of fine meats ranging from A5 Wagyu beef to fresh chicken. With every meat carefully sourced and imported directly, ensuring the freshness of the meat.
             </p>
             <a href="menu.php">

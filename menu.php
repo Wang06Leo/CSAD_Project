@@ -457,6 +457,12 @@
 
         #preference-btn {
             height: 10px;
+            transform: translateY(5px);
+            float:right
+        }
+
+        #preference-btn:hover {
+            cursor:pointer;
         }
 
         .order-label {
@@ -1309,7 +1315,7 @@
         <label  class="order-label">Preference</label>
         <div style="margin-right: 20px;">
         <span style="color: grey; margin-right:5px;">(Optional)</span>
-        <img id="preference-btn" style=" transform: translateY(5px);float:right" src="image/down_arrow.png">
+        <img id="preference-btn" src="image/down_arrow.png">
         </div>
         </div>
 
