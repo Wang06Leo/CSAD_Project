@@ -851,6 +851,7 @@
         let cart = []; // Array to store cart items
 
         function addToCart() {
+            isPayingWithPoints = false;
             let title = document.getElementById("popup-title").textContent;
             let basePrice = 0;
             if (document.getElementById("popup-price").textContent.endsWith("pt") === false) basePrice = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
