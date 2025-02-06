@@ -36,7 +36,7 @@ function addOrderToDb($items, $pdo) {
             $stmt->execute([
                 ':order_id' => $orderId,
                 ':title' => $item['title'],
-                ':price' => $item['price'],
+                ':price' => $item['price'][0],
                 ':quantity' => $item['quantity'],
                 ':size' => $item['size'],
                 ':meatType' => $item['meatType'],
@@ -51,8 +51,9 @@ function addOrderToDb($items, $pdo) {
 }
 function addUserPoints($points, $pdo) {
     if (!isset($_SESSION['username'])) return; // no user logged in, dont need modify db
+    if (!isset($_SESSION['used_points'])) $_SESSION['used_points'] = 0;
     $stmt = $pdo->prepare("UPDATE users SET points = points + :points WHERE username = :username");
-    $stmt->execute([':points' => $points, ':username' => $_SESSION['username']]);
+    $stmt->execute([':points' => $points - $_SESSION['used_points'], ':username' => $_SESSION['username']]);
     $stmt = $pdo->prepare("SELECT points FROM users WHERE username = :username");
     $stmt->execute([':username' => $_SESSION['username']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);

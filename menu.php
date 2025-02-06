@@ -626,10 +626,55 @@
             z-index: 10; /* Ensures it appears above other elements */
             position: relative; /* Makes sure it doesn't get cut off */
         }
+        span.points-badge:hover {
+            cursor: pointer;
+            color: #000;
+            background-color: #00ee00;
+        }
     </style>
-
     <script>
+        let currPoints = null;
+        let username = null;
+    </script>
+    <?php 
+        if (isset($_SESSION['points'])) {
+            echo "<script>currPoints = " . $_SESSION['points'] . "</script>";
+        }
+        if (isset($_SESSION['username'])) {
+            echo "<script>username = " . "'". $_SESSION['username'] . "'". "</script>";
+        }
+    ?>
+    <script>
+        if (localStorage.getItem("pts")) currPoints = localStorage.getItem("pts");
+        const btnPayWithPoints = document.getElementsByClassName("points-item");
+        let pointsArr = [175, 175, 500, 1000];
+        //let isPayingWithPoints = false;
+        function openPopupWithPoints(i) {
+            if (!currPoints || currPoints < pointsArr[i]) return;
+            //isPayingWithPoints = true;
+            openPopup(i + 17); // offset to just drinks
+            document.getElementById('popup-price').textContent = pointsArr[i] + "pt";
+            document.getElementById('popup-price').style.color = "#00DD00";
+        }
+        function onPointsChange() {
+                const userPoints = document.getElementById('user-and-pts');
+                if (userPoints) {
+                    const justPoints = getPts(userPoints);
+                    if (justPoints !== currPoints) {
+                        userPoints.innerHTML = `👤 ${username} | ⭐ Points: ${currPoints}`;
+                    } 
+                }
+            }
+        function getPts(userPoints) {
+            let pts = "";
+            let i = userPoints.textContent.indexOf(":");
+            while (++i < userPoints.length) {
+                pts += userPoints[i];
+            }
+            return Number(pts);
+        }
         document.addEventListener("DOMContentLoaded", function() {
+            onPointsChange();
             const cartIcon = document.querySelector(".icon-link"); // Cart button
             const cartPopup = document.getElementById("cart-popup"); // Cart popup
             const closeCart = document.querySelector(".close-cart"); // Close button
@@ -706,7 +751,11 @@
             { category: "drinks", title: "Sprite", description:"", price: "$3.20", img: "image/sprite.webp" },
             { category: "drinks", title: "Beer", description:"", price: "$15.80", img: "image/beer.webp" },
             { category: "drinks", title: "Wine", description:"", price: "$50.80", img: "image/wine.webp" },
-            { category: "steak", title: "Beef Carpaccio", description:"olive oil, lemon juice, shaved parmesan cheese", price: "$21.20", img: "image/beef_carpaccio.jpg" }
+            { category: "steak", title: "Beef Carpaccio", description:"olive oil, lemon juice, shaved parmesan cheese", price: "$21.20", img: "image/beef_carpaccio.jpg" },
+            { category: "drinks", title: "Coke(points redeemed)", description:"", price: "$0", img: "image/coke.webp" },
+            { category: "drinks", title: "Sprite(points redeemed)", description:"", price: "$0", img: "image/sprite.webp" },
+            { category: "drinks", title: "Beer(points redeemed)", description:"", price: "$0", img: "image/beer.webp" },
+            { category: "drinks", title: "Wine(points redeemed)", description:"", price: "$0", img: "image/wine.webp" },
         ];
 
         function openPopup(index) {
@@ -735,7 +784,6 @@
             let sizeOptions = document.querySelectorAll("input[name='size']");
             let preferenceText = document.getElementById("preference");
             let meattype = document.getElementById("meattype-div");
-            console.log(category);
 
             // Reset all fields to default state
             sizeLabel.style.display = "initial";
@@ -782,11 +830,12 @@
 
         function addToCart() {
             let title = document.getElementById("popup-title").textContent;
-            let basePrice = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
+            let basePrice = 0;
+            if (document.getElementById("popup-price").textContent.endsWith("pt") === false) basePrice = parseFloat(document.getElementById("popup-price").textContent.replace('$', '')); // Convert price to number
             let quantity = Number(document.getElementById("input-num").value);
-
             let sizeDiv = document.getElementById("size");
             let meatDiv = document.getElementById("meattype-div");
+
 
             // Get selected size only if the sizeDiv is visible
             var size = "N/A";
@@ -817,26 +866,37 @@
             let additionalPrice = sizePriceMap[size] || 0; // Default to 0 if no match
 
             // Calculate final price
-            let finalPrice = basePrice + additionalPrice;
-
+            let pointsPrice = 0;
+            let finalPrice = additionalPrice + basePrice;
+            if (basePrice === 0) { // If it's a free item
+                let itemIndex = foodItems.findIndex(item => item.title === title);
+                if (itemIndex !== -1 && itemIndex >= 17) {
+                    pointsPrice = pointsArr[itemIndex - 17]; // Ensure valid pointsPrice
+                }
+                finalPrice = 0; // Ensure free item price remains 0
+                currPoints -= pointsPrice;
+            }
 
             // Check if item already exists with same options
             let existingItem = cart.find(item => 
                 item.title === title && 
                 item.size === size && 
                 item.meatType === meatType &&
-                item.preference === preference  
+                item.preference === preference &&
+                item.price[1] === pointsPrice
             );
             
             if (existingItem) {
                 existingItem.quantity += quantity; // Increase quantity if item already exists
             } else {
-                cart.push({ title, price: finalPrice, quantity, size, meatType, preference }); // Add new item
+                cart.push({ title, price: [finalPrice, pointsPrice], quantity, size, meatType, preference }); // Add new item
             }
 
             updateCartDisplay();
             closePopup(); // Close food selection popup
             localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("pts", currPoints);
+            onPointsChange();
         }
 
         function updateCartDisplay() {
@@ -849,7 +909,7 @@
             let subtotal = 0;
 
             cart.forEach((item, index) => {
-                let itemTotal = item.price * item.quantity;
+                let itemTotal = item.price[0] !== 0 ? item.price[0] * item.quantity : 0;
                 subtotal += itemTotal;
 
                 // Start constructing the cart item display dynamically
@@ -890,15 +950,24 @@
         }
 
         function updateQuantity(index, newQuantity) {
+            if (newQuantity <= 0) return;
+            if (currPoints - newQuantity*cart[index].price[1] < 0) return;
             cart[index].quantity = Number(newQuantity);
             updateCartDisplay();
+            if (cart[index].price[1] !== 0 && currPoints) currPoints -= newQuantity*cart[index].price[1];
             localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("pts", currPoints);
+            onPointsChange();
         }
 
         function removeFromCart(index) {
+            const pointsUsed = cart[index].price[1] ? cart[index].price[1]*cart[index].quantity : 0;
+            currPoints += pointsUsed;
             cart.splice(index, 1);
             updateCartDisplay();
             localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("pts", currPoints);
+            onPointsChange();
         }
     </script>
     
@@ -914,7 +983,7 @@
             <a href="main.php">Home</a>
 
             <?php if (isset($_SESSION['username'])): ?>
-                <span>👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
+                <span id="user-and-pts">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
                 <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
@@ -1002,22 +1071,22 @@
                 <div class="points-item selected">
                     <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
-                    <span class="points-badge">175 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(0)">175 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
-                    <span class="points-badge">175 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(1)">175 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
-                    <span class="points-badge">500 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(2)">500 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
-                    <span class="points-badge">1000 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(3)">1000 pt</span>
                 </div>
             </div>
         </div>
@@ -1267,7 +1336,7 @@
             <img id="minus-img" src="image/minus.png" onclick="minusValue()">
             <input id="input-num" type="number" value="1" style="width: 50px; text-align: center;">
             <img id="add-img" src="image/add.png" onclick="addValue()">
-            <button onclick="addToCart()" style=" transform: translateY(5px); margin-left: 20%;">Add to Cart</button>
+            <button onclick="addToCart()" style=" transform: translateY(5px); margin-left: 20%;" id="add-to-cart">Add to Cart</button>
         </div>
     </div>
 
@@ -1286,8 +1355,12 @@
             input.type = 'hidden';
             input.name = 'checkout_data';
             input.value = JSON.stringify(cart);
-            
+            let input2 = document.createElement('input');
+            input2.type = 'hidden';
+            input2.name = 'points_data';
+            input2.value = currPoints;
             this.appendChild(input);
+            this.appendChild(input2);
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('paymentLoadingAlertContainer').style.display = 'flex';
             sessionStorage.clear();

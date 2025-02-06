@@ -15,13 +15,14 @@ if ($json_data === null) {
 if (count($json_data) === 0) {
     header("Location: ../../menu.php");
 }
+$_SESSION['used_points'] = $_SESSION['points'] - $_POST['points_data'];
 foreach ($json_data as $item) {
     $item['size'][0] = strtoupper($item['size'][0]);
     $items[] = [
         "quantity" => $item["quantity"],
         "price_data" => [
             "currency" => "sgd",
-            "unit_amount" => round($item["price"] * 100 * 1.09, 0),
+            "unit_amount" => round($item["price"][0] * 100 * 1.09, 0),
             "product_data" => [
                 "name" => $item["title"],
                 "tax_code" => "txcd_20030000",
