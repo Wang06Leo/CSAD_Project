@@ -1,19 +1,8 @@
 function searchErrUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
-    const err = urlParams.get("e");
     const alert_param = urlParams.get("alert");
-    if (err == "u") {
-        document.getElementById("error").innerText = "Invalid username";
-        changeErrH();
-    } else if (err == "p") {
-        document.getElementById("error").innerText = "Invalid password";
-        changeErrH();
-    } else if (err == "t") {
-        document.getElementById("error").innerText = "Username is taken";
-        changeErrH();
-    }
-    else if (alert_param == "login") {
-        alert("Sign up successful! Log in here");
+    if (alert_param == "login") {
+        showAlert();
     }
 }
 function userRefreshed() {
@@ -32,6 +21,16 @@ function removeUrlParam() {
     }
 }
 
+function showAlert() {
+    document.getElementById("alert").style.display = "flex";
+    document.getElementsByClassName("overlay")[0].style.display = "block";
+    setTimeout(hideAlert, 3000);
+}
+function hideAlert() {
+    document.getElementById("alert").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+    window.location.href = "login.php";
+}
 document.addEventListener("DOMContentLoaded", searchErrUrlParams);
 // if (userRefreshed()) {
 //     removeUrlParam();

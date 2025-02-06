@@ -1006,14 +1006,7 @@
             }
             ?>
             <?php if (isset($_SESSION['username'])): ?>
-<<<<<<< HEAD
                 <span id="user-and-pts">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
-=======
-                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
-                <a href="receipt.php">View Receipt</a>
-                <?php endif ?>
-                <span class="points-display">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
->>>>>>> 1c40b6ba4269f26228cfe8f76288a330e11d7b53
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
                 <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>

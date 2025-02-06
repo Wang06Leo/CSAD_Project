@@ -106,6 +106,42 @@
             height: 0px;
             margin-top: 20px;
         }
+        #alert {
+            height: 150px;
+            width: 250px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: yellow;
+            border: 1px solid black;
+            border-radius: 10px;
+            z-index: 11;
+            position: absolute;
+        }
+        #alert > span {
+            text-align: center;
+        }
+        #alert > button {
+            border: 0;
+            background-color: #009900;
+            width: 70px;
+            height: 30px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+            z-index: 10; /* Ensure it's above other elements */
+        }
     </style>
 
     <?php
@@ -128,6 +164,7 @@
         }
     }
     ?>
+    <script src="js/urlParams.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -179,8 +216,12 @@
             <p>Don’t have an account? <a href="sign_up.php">Sign up</a></p>
         </form>
     </div>
+    <div id="alert" style="display: none;">
+        <span>Sign up successful! Login here</span>
+        <button onclick="hideAlert()">OK</button>
+    </div>
+    <div class="overlay"></div>
     <script src="js/form_validate.js"></script>
-    <script src="js/urlParams.js"></script>
 </body>
 </html>
 <?php
