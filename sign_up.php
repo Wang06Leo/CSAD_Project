@@ -110,7 +110,6 @@
 
     <?php
     // LOGIN USER
-    session_start();
     if (isset($_SESSION['username'])) {
         header('Location: main.php');
         exit();
