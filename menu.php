@@ -1005,13 +1005,13 @@
                 $items = getItem($pdo);
             }
             ?>
+            <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
+                <a href="receipt.php">View Receipt</a>
+            <?php endif ?>
             <?php if (isset($_SESSION['username'])): ?>
                 <span id="user-and-pts">👤 <?php echo $_SESSION['username']; ?> | ⭐ Points: <strong><?php echo $_SESSION['points']; ?></strong></span>
                 <a href="src/php/logout.php" class="head-order-button">Logout</a>
             <?php else: ?>
-                <?php if (isset($_SESSION['order_id']) && (!empty($items))):?>
-                <a href="receipt.php">View Receipt</a>
-                <?php endif ?>
                 <a href="menu.php" class="head-order-button" style="text-decoration: underline;">Order Here</a>
                 <a href="login.php" class="head-order-button">Login</a>
             <?php endif; ?>
