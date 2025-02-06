@@ -15,7 +15,7 @@ if ($json_data === null) {
 if (count($json_data) === 0) {
     header("Location: ../../menu.php");
 }
-$_SESSION['used_points'] = $_SESSION['points'] - $_POST['points_data'];
+if (isset($_SESSION['points'])) $_SESSION['used_points'] = $_SESSION['points'] - $_POST['points_data'];
 foreach ($json_data as $item) {
     $item['size'][0] = strtoupper($item['size'][0]);
     $items[] = [
