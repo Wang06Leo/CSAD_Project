@@ -31,3 +31,15 @@ CREATE TABLE IF NOT EXISTS order_items (
     preference VARCHAR(255),
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
+
+CREATE TABLE promotions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    discount DECIMAL(5,2) DEFAULT 0.00,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

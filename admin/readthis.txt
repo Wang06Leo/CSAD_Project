@@ -1,0 +1,1 @@
+run create_admin.php before doing any login in index.php, pls do not save admin password details in http://localhost/phpmyadmin/ since the passwords arent hashed 

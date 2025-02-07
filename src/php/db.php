@@ -18,8 +18,11 @@ try {
 isset($_POST['username']) ? $username = $_POST['username'] : $username = NULL;
 isset($_POST['email']) ? $email = $_POST['email'] : $email = NULL;
 isset($_POST['password']) ? $password = $_POST['password'] : $password = NULL;
+$adm_username = !empty($_POST['admin_user']) ? trim($_POST['admin_user']) : null;
+$adm_password = !empty($_POST['admin_password']) ? trim($_POST['admin_password']) : null;
 $isSigningIn = isset($username) && isset($password) && isset($email);
 $isLoggingIn = isset($username) && isset($password) && !isset($email);
+$isadmin = isset($adm_username) && isset($adm_password);
 
 function addOrderToDb($items, $pdo) {
     try {
@@ -79,4 +82,12 @@ function getItem ($pdo) {
     // }
 
     return $items; // Return the items if found
+}
+
+function getPromoItems($pdo) {
+    $stmt = $pdo->query("SELECT * FROM promotions ORDER BY start_date DESC");
+    $promotions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //header("Content-Type: application/json");
+    return $promotions;
 }

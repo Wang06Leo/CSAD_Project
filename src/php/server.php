@@ -4,11 +4,12 @@ require "db.php";
 
 /** @var bool $isLoggingIn
  *  @var bool $isSigningIn
+ * @var bool $isadmin
  *  @var object $pdo
  *  @var string $username
  *  @var string $password
  *  @var string $email */
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($isLoggingIn) { // User is logging in
     $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmt->execute([':username' => $username]);
@@ -73,4 +74,29 @@ if ($isSigningIn) { // User is signing up
         exit();
     }
 }
+if ($isadmin) {
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM admin WHERE username = :username');
+        $stmt->execute([':username' => $adm_username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($adm_password, $user['password'])) {
+            $_SESSION['admin_user'] = $user['username'];
+            header('Location: ../../admin/panel.php');
+            exit();
+        } else {
+            $_SESSION['err'] = 'Invalid credentials';
+            header('Location: index.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
+    }
+} else {
+    $_SESSION['err'] = 'Please fill in all fields';
+    header('Location: index.php');
+    exit();
+}
+}
+
 ?>
