@@ -65,31 +65,50 @@ header nav a:hover {
 }
 
 .icon-container {
-            position: relative; /* Set the container as the positioning reference */
-            width: 50px; /* Adjust size of the icon */
-            height: 50px; /* Match the width for a perfect circle */
-            display: inline-block;
-        }
-        .background-circle {
-            position: absolute; /* Allows positioning within the container */
-            top: 0;
-            left: 0;
-            width: 100%; /* Fill the container */
-            height: 100%; /* Maintain circular shape */
-            z-index: 11; /* Place behind the cart icon */
-        }
+    position: relative; /* Set the container as the positioning reference */
+    width: 50px; /* Adjust size of the icon */
+    height: 50px; /* Match the width for a perfect circle */
+    display: inline-block;
+}
+.background-circle {
+    position: absolute; /* Allows positioning within the container */
+    top: 0;
+    left: 0;
+    width: 100%; /* Fill the container */
+    height: 100%; /* Maintain circular shape */
+    z-index: 11; /* Place behind the cart icon */
+}
 
-        .cart-icon {
-            position: absolute; /* Position within the container */
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Offset to align center */
-            width: 60%; /* Adjust size relative to the container */
-            height: 60%; /* Keep aspect ratio */
-            z-index: 12; /* Place above the circle */
-        }
+.cart-icon {
+    position: absolute; /* Position within the container */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset to align center */
+    width: 60%; /* Adjust size relative to the container */
+    height: 60%; /* Keep aspect ratio */
+    z-index: 12; /* Place above the circle */
+}
 
-        .icon-link {
-            display: inline-block;    
-            text-decoration: none; 
-        }
+.icon-link {
+    display: inline-block;    
+    text-decoration: none; 
+}
+
+@media (max-width:1024px)  { 
+    header nav a {
+        font-size: 18px;
+    }
+    header .logo {
+        font-size: 28px;
+    }
+    .cart-icon {
+        height:50%;
+        width: 50%;
+        transform: translate(-50%, -40%);
+    }
+    .background-circle{
+        width: 90%;
+        height: 90%;
+        transform: translate(5%, 10%);
+    }
+}
