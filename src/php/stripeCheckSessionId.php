@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+    // session isn't started
+    session_start();
+}
 require dirname(__DIR__) . "/vendor/autoload.php";
 require "secrets.php";
 \Stripe\Stripe::setApiKey($stripeSecretKey);

@@ -45,7 +45,6 @@
             if (!isset($_SESSION['last_order_id']) || $_SESSION['order_id'] !== $_SESSION['last_order_id']) {
                 //echo "<h2>Your order id is " . $_SESSION['order_id'] . "</h2>";
                 $_SESSION['last_order_id'] = $_SESSION['order_id']; // Update last order ID after displaying
-                header("Location: receipt.php");
             }
         }
 
@@ -66,5 +65,6 @@
         if (empty($items)) {
             //echo "<h2>No items found for this order.</h2>";
         }
+        if (isset($_SESSION['order_id']) && !empty($items)) header("Location: receipt.php");
     ?>
     <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">
