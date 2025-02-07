@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout_data'])) {
     }
     $pointsIncVal = ceil($total_price * 3); // e.g. user order is $49.99, adds 150 points 
     addUserPoints($pointsIncVal, $pdo);
+    $_SESSION['order_done'] = TRUE;
     header("Location: ../../success.php");
     exit();
     

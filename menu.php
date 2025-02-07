@@ -567,6 +567,55 @@
             color: #000;
             background-color: #00ee00;
         }
+
+        @media (max-width:431px)  {
+            .food-section h1 {
+                font-size: 15px;
+            }
+            header .logo {
+                transform: translate(5px, -7px);
+            }
+            .food-section h3 {
+                font-size: 15px;
+            }
+            .category-buttons button {
+                padding: 5px 10px;  
+                font-size: 12px;
+            }
+            #menu-icon {
+                height: 30px;
+            }
+            .food-grid .food-item img {
+                height: 100px;
+            }
+            .food-grid {
+                gap:5px;
+            }
+            .food-item p {
+                font-size: 16px;
+                margin: 0px 0;
+            }
+
+            /* Cart style */
+            .cart-container {
+                width: 310px;
+            }
+            
+            /* Order popup style*/
+            .order-container {
+                width: 85%;
+            }
+            #minus-img {
+                margin-left: 0px;
+                margin-right: 3px;
+            }
+            #input-num {
+                margin-right: 0px;
+            }
+            .order-container button {
+                width: 100px;
+            }
+        }
     </style>
     <script>
         let currPoints = null;
@@ -575,7 +624,8 @@
     <?php 
         if (isset($_SESSION['points']) && isset($_SESSION['username'])) {
             echo "<script>currPoints = " . $_SESSION['points']  . ";";
-            echo "username = " . "'". $_SESSION['username'] . "';". "</script>"; // "'" to put quote marks around username
+            echo "username = " . "'". $_SESSION['username'] . "';"; // "'" to put quote marks around username
+            echo "localStorage.pts = " . $_SESSION['points'] . ";</script>";
         } else {
             echo "<script>localStorage.getItem('pts') = null;</script>";
         }
@@ -944,7 +994,7 @@
         }
         function removeFromCart(index) {
             const pointsUsed = cart[index].price[1] ? cart[index].price[1]*cart[index].quantity : 0;
-            currPoints += pointsUsed;
+            currPoints = Number(currPoints) + pointsUsed;
             cart.splice(index, 1);
             updateCartDisplay();
             localStorage.setItem("cart", JSON.stringify(cart));
