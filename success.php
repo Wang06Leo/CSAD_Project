@@ -4,12 +4,20 @@
     /**
      * @var int $orderId 
      * */
+    if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+        // session isn't started
+        session_start();
+    }
     if (!isset($_SESSION['payment_success'])) {
         header("Location: main.php");
         exit();
     }
     if ($_SESSION['payment_success'] === false) {
         header("Location: src/php/checkout.php");
+        exit();
+    }
+    if (!isset($_SESSION['order_done'])) {
+        header("Location: main.php");
         exit();
     }
 ?>
@@ -19,7 +27,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             if (sessionStorage.getItem("formSubmitted")) {
-                localStorage.clear(); // print receipt before here... or u can print a blank receipt
+                localStorage.clear();
                 return;
             }
             let items = JSON.parse(localStorage.getItem("cart"));
@@ -65,6 +73,15 @@
         if (empty($items)) {
             //echo "<h2>No items found for this order.</h2>";
         }
-        if (isset($_SESSION['order_id']) && !empty($items)) header("Location: receipt.php");
+        // if (isset($_SESSION['order_id']) && !empty($items) && ($_SESSION['order_id'] !== $_SESSION['last_order_id'] || !isset($_SESSION['last_order_id']))) {
+        //     header("Location: receipt.php");
+        //     exit();
+        // }
+        if (isset($_SESSION['order_done']) && $_SESSION['order_done'] === true) {
+            unset($_SESSION['order_done']);
+            header("Location: receipt.php");
+            exit();
+        }
+
     ?>
     <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">

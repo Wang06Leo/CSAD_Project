@@ -575,7 +575,8 @@
     <?php 
         if (isset($_SESSION['points']) && isset($_SESSION['username'])) {
             echo "<script>currPoints = " . $_SESSION['points']  . ";";
-            echo "username = " . "'". $_SESSION['username'] . "';". "</script>"; // "'" to put quote marks around username
+            echo "username = " . "'". $_SESSION['username'] . "';"; // "'" to put quote marks around username
+            echo "localStorage.pts = " . $_SESSION['points'] . ";</script>";
         } else {
             echo "<script>localStorage.getItem('pts') = null;</script>";
         }
@@ -944,7 +945,7 @@
         }
         function removeFromCart(index) {
             const pointsUsed = cart[index].price[1] ? cart[index].price[1]*cart[index].quantity : 0;
-            currPoints += pointsUsed;
+            currPoints = Number(currPoints) + pointsUsed;
             cart.splice(index, 1);
             updateCartDisplay();
             localStorage.setItem("cart", JSON.stringify(cart));
