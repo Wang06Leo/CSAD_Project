@@ -96,15 +96,21 @@ require "src/php/db.php";
     }
 
     .login-container .box {
-            display: inline-block;
-            background-color: #333;
-            border: 4px solid white;
-            color: white;
-            font-size: 48px;
-            font-weight: bold;
-            padding: 10px 20px;
-            margin-bottom: 40px;
+        display: inline-block;
+        background-color: #333;
+        border: 4px solid white;
+        color: white;
+        font-size: 48px;
+        font-weight: bold;
+        padding: 10px 20px;
+        margin-bottom: 40px;
+    }
+
+    @media (max-width:431px)  {
+        .receipt-container{
+            width: 80%;
         }
+    }
     </style>
 <body>
     <!-- Header -->
