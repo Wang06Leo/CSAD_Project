@@ -567,6 +567,55 @@
             color: #000;
             background-color: #00ee00;
         }
+
+        @media (max-width:431px)  {
+            .food-section h1 {
+                font-size: 15px;
+            }
+            header .logo {
+                transform: translate(5px, -7px);
+            }
+            .food-section h3 {
+                font-size: 15px;
+            }
+            .category-buttons button {
+                padding: 5px 10px;  
+                font-size: 12px;
+            }
+            #menu-icon {
+                height: 30px;
+            }
+            .food-grid .food-item img {
+                height: 100px;
+            }
+            .food-grid {
+                gap:5px;
+            }
+            .food-item p {
+                font-size: 16px;
+                margin: 0px 0;
+            }
+
+            /* Cart style */
+            .cart-container {
+                width: 310px;
+            }
+            
+            /* Order popup style*/
+            .order-container {
+                width: 85%;
+            }
+            #minus-img {
+                margin-left: 0px;
+                margin-right: 3px;
+            }
+            #input-num {
+                margin-right: 0px;
+            }
+            .order-container button {
+                width: 100px;
+            }
+        }
     </style>
     <script>
         let currPoints = null;

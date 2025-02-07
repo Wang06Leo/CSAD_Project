@@ -299,6 +299,98 @@
                 font-size: 16px;
             }
         }
+
+        @media (max-width:431px)  { 
+            header {
+                height: 285px;
+            }
+            header .box {
+                font-size: 40px;
+                margin-left: 100px;
+                border: 5px solid white;
+            }
+            header h1 {
+                font-size: 48px;
+                padding-top: 110px;
+                padding-right: 110px;
+            }
+            header nav {
+                gap: 5px;
+                right: 0px;
+            }
+            header nav a {
+                font-size: 13px;
+            }
+            header nav a.head-order-button {
+                padding: 6px 14px;
+            }
+            .cart-icon {
+                height:40%;
+                width: 40%;
+                transform: translate(-70%, -45%);
+            }
+            .background-circle{
+                width: 80%;
+                height: 80%;
+                transform: translate(3%, 15%);
+            }
+
+            .section {
+                margin-bottom: 0px;
+                margin-right: 0px;
+            }
+            .section img {
+                max-width:170px;
+                transform: translateY(-30px);
+            }
+            .section h2{
+                font-size: 23px;
+            }
+            .section p {
+                font-size: 8px;
+            }
+            .section div {
+                margin-top: 0px;
+                margin-right: 15px;
+                transform: translateX(-50px);
+            }
+
+
+            .section2 img {
+                max-width: 170px;
+                margin-left: 0px;
+                transform: translateX(0px);
+            }
+            .section2 div {
+                margin-top: 0px;
+                transform: translateX(-30px);
+            }
+            .section2 h2{
+                font-size: 23px;
+            }
+            .section2 p {
+                font-size: 8px;
+                width: 100px;
+            }   
+            .readMore {
+                font-size: 8px;
+                padding: 5px 15px;
+            }
+
+            .favorites h2 {
+                font-size: 40px;
+            }
+            .favorites img {
+                width: 150px;
+                height: 150px;
+            }
+            .favorites .items .item p {
+                font-size: 14px;
+            }
+            .order-button {
+                font-size: 25px;
+            }
+        }
     </style>
 </head>
 <body>
