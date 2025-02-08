@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $targetDir = "../../../uploads/"; // Correct directory
             $imagePath = "uploads/" . $imageName; // Store relative path
             move_uploaded_file($_FILES["image1"]["tmp_name"], $targetDir . $imageName);
-        } else if (!empty($_FILES["image2"]["name"])) {
-            $imageName = basename($_FILES["image2"]["name"]);
+        } else if (isset($_POST['image2'])) {
+            $imageName = basename($_POST['image2']);
             $targetDir = "../../../uploads/"; // Correct directory
             $imagePath = "uploads/" . $imageName; // Store relative path
-            move_uploaded_file($_FILES["image2"]["tmp_name"], $targetDir . $imageName);
+            move_uploaded_file($_POST['image2'], $targetDir . $imageName);
         }
         if (!isset($imagePath)) $imagePath = "";
 
