@@ -279,44 +279,6 @@
             <a href="../src/php/logout.php" class="head-order-button">Logout</a>
         </nav>
     </header>
-    <!-- <h2>Current Orders</h2>
-    <div class="both-container">
-        <div class="order-container">
-            <h1>Preparing Orders</h1>
-            <div class="order">
-                <h3>Order #201</h3>
-                <p style="overflow-wrap: break-word"><strong>Items:</strong> Pizza, Garlic Bread</p>
-                <p><strong>Table:</strong> 3</p>
-                <p class="status">Preparing</p>
-                <button class="button">Mark as Ready</button>
-            </div>
-            <div class="order">
-                <h3>Order #202</h3>
-                <p><strong>Items:</strong> Steak, Mashed Potatoes</p>
-                <p><strong>Table:</strong> 6</p>
-                <p class="status">Preparing</p>
-                <button class="button">Mark as Ready</button>
-            </div>
-  
-        </div>
-        <div class="finished-container">
-        <h1>Preparing Orders</h1>
-            <div class="order">
-                <h3>Order #201</h3>
-                <p><strong>Items:</strong> Pizza, Garlic Bread</p>
-                <p><strong>Table:</strong> 3</p>
-                <p class="status" style="color: green">Completed</p>
-                <button class="button">Undo Mark as Ready</button>
-            </div>
-            <div class="order">
-                <h3>Order #202</h3>
-                <p><strong>Items:</strong> Steak, Mashed Potatoes</p>
-                <p><strong>Table:</strong> 6</p>
-                <p class="status" style="color: green">Completed</p>
-                <button class="button">Undo Mark as Ready</button>
-            </div>
-        </div>
-    </div> -->
     <h2>Current Orders</h2>
     <div class="both-container">
         <div class="order-container">
