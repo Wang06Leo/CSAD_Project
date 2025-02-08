@@ -17,6 +17,26 @@
             }
         }
     }
+    $orders = getAllOrders($pdo);
+    //var_dump($orders);
+    function addZerosInFront($n) {
+        $s = '';
+        if ($n >= 100) return $n;
+        else if ($n < 10) $s = '00' . $n; 
+        else if ($n < 100) $s = '0' . $n;
+        return $s;
+    }
+    function printItems($cnt, $size, $title, $prefer, $type) {
+        $s = $cnt . ' ';
+        $size[0] = strtoupper($size[0]);
+        if ($size !== 'N/A') $s .= $size . ' ';
+        if ($cnt > 1) $s .= $title . 's';
+        else $s .= $title;
+        if ($type !== 'N/A') $s .= " ($type done";
+        if ($prefer === 'None' && $type !== 'N/A') return $s . ')' ;
+        else if ($prefer === 'None' && $type === 'N/A') return $s . '';
+        return $s . " ,$prefer)";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -175,6 +195,56 @@
             font-style: italic;
         }
 
+        .both-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            gap: 30px;
+        }
+
+        .order-container,
+        .finished-container {
+            max-width: 700px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .order {
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        .order:last-child {
+            border-bottom: none;
+        }
+        .order h3 {
+            margin: 0;
+            color: #333;
+        }
+        .order p {
+            margin: 5px 0;
+        }
+        .status {
+            font-weight: bold;
+            color: orange;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        span.orderItems:nth-child(n+3) {
+            margin-left: 51px;
+        }
     </style>
 </head>
 <body>
@@ -187,6 +257,83 @@
             <a href="../src/php/logout.php" class="head-order-button">Logout</a>
         </nav>
     </header>
+    <!-- <h2>Current Orders</h2>
+    <div class="both-container">
+        <div class="order-container">
+            <h1>Preparing Orders</h1>
+            <div class="order">
+                <h3>Order #201</h3>
+                <p style="overflow-wrap: break-word"><strong>Items:</strong> Pizza, Garlic Bread</p>
+                <p><strong>Table:</strong> 3</p>
+                <p class="status">Preparing</p>
+                <button class="button">Mark as Ready</button>
+            </div>
+            <div class="order">
+                <h3>Order #202</h3>
+                <p><strong>Items:</strong> Steak, Mashed Potatoes</p>
+                <p><strong>Table:</strong> 6</p>
+                <p class="status">Preparing</p>
+                <button class="button">Mark as Ready</button>
+            </div>
+  
+        </div>
+        <div class="finished-container">
+        <h1>Preparing Orders</h1>
+            <div class="order">
+                <h3>Order #201</h3>
+                <p><strong>Items:</strong> Pizza, Garlic Bread</p>
+                <p><strong>Table:</strong> 3</p>
+                <p class="status" style="color: green">Completed</p>
+                <button class="button">Undo Mark as Ready</button>
+            </div>
+            <div class="order">
+                <h3>Order #202</h3>
+                <p><strong>Items:</strong> Steak, Mashed Potatoes</p>
+                <p><strong>Table:</strong> 6</p>
+                <p class="status" style="color: green">Completed</p>
+                <button class="button">Undo Mark as Ready</button>
+            </div>
+        </div>
+    </div> -->
+    <h2>Current Orders</h2>
+    <div class="both-container">
+        <div class="order-container">
+            <h1>Preparing Orders</h1>
+            <?php if(isset($orders['uncompleted'])): ?>
+            <?php foreach($orders['uncompleted'] as $id => $items): ?>
+                <div class="order">
+                <h3>Order #<?= addZerosInFront($id) ?></h3>
+                <p style="overflow-wrap: break-word">
+                    <strong>Items:</strong> <?php foreach($items as $item): ?>
+                    <span class="orderItems"><?= printItems($item['quantity'], $item['size'], $item['title'], $item['preference'], $item['meat_type'])?></span>
+                    <br>
+                    <?php endforeach; ?>
+                </p>
+                <p class="status">Preparing</p>
+                <button class="button" onclick="createFormAndSendToDb(<?=$id?>, 'completed')">Mark as Ready</button>
+            </div>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="finished-container">
+        <h1>Finished Orders</h1>
+            <?php if(isset($orders['completed'])): ?>
+            <?php foreach($orders['completed'] as $id => $items): ?>
+                <div class="order">
+                <h3>Order #<?= addZerosInFront($id) ?></h3>
+                <p style="overflow-wrap: break-word">
+                    <strong>Items:</strong> <?php foreach($items as $item): ?>
+                    <span class="orderItems"><?= printItems($item['quantity'], $item['size'], $item['title'], $item['preference'], $item['meat_type'])?></span>
+                    <br>
+                    <?php endforeach; ?>
+                </p>
+                <p class="status" style="color: green">Completed</p>
+                <button class="button" onclick="createFormAndSendToDb(<?=$id?>, 'uncompleted')">Undo Mark as Ready</button>
+            </div>
+            <?php endforeach; ?>
+            <?php endif ?>
+        </div>
+    </div>
     <h2>Manage Seasonal Promotions</h2>
 
     <div class="container">
@@ -197,6 +344,16 @@
                 <textarea name="description" placeholder="Description"></textarea>
                 <br>
                 <br>
+                <p>Select food type:</p>
+                <input type="radio" id="steak" name="type" value="steak" required>
+                <label for="steak">Steak</label><br>
+                <input type="radio" id="salad" name="type" value="salad">
+                <label for="salad">Salad</label><br>
+                <input type="radio" id="dessert" name="type" value="dessert">
+                <label for="dessert">Dessert</label><br>
+                <input type="radio" id="drinks" name="type" value="drinks">
+                <label for="drinks">Drinks</label>
+                <input type="number" step="0.01"name="price" placeholder="Price $" required>
                 <input type="number" name="discount" placeholder="Discount %" required>
                 <br><br>
                 Start date: <input type="date" name="start_date" required>
@@ -234,6 +391,7 @@
                 <?php foreach ($promotions as $promo): ?>
                     <tr>
                         <td><?= htmlspecialchars($promo['name']) ?></td>
+                        <td><?= $promo['price'] ?></td>
                         <td><?= $promo['discount'] ?>%</td>
                         <td><?= $promo['start_date'] ?></td>
                         <td><?= $promo['end_date'] ?></td>
@@ -256,7 +414,6 @@
             <?php endif ?>
         </div>
     </div>
-
     <script>
         function allowOnlyOneImg(isExistingImg) {
             if (isExistingImg) {
@@ -264,6 +421,24 @@
             } else {
                 document.getElementById('imageSelect').selectedIndex = 0;
             }
+        }
+        function createFormAndSendToDb(orderId, status) {
+            if (!(status === 'completed' || status === 'uncompleted')) return;
+            let form = document.createElement('form');
+            let input = document.createElement('input');
+            let status_input = document.createElement('input');
+            form.method = 'POST';
+            form.action = '../src/php/updateOrderStatus.php';
+            input.value = orderId;
+            input.name = 'id';
+            input.type = 'hidden';
+            form.appendChild(input);
+            status_input.value = status;
+            status_input.name = 'orderStatus';
+            status_input.type = 'hidden';
+            form.appendChild(status_input);
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
 </body>

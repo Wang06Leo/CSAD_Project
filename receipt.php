@@ -146,7 +146,11 @@ require "src/php/db.php";
         <section class="receipt-container">
         <h2 class="receipt-title">🧾 Receipt</h2>
         <span class="order-id">Order ID: <?php echo htmlspecialchars($_SESSION['order_id']) ?></span>
-
+        <?php 
+            $orderStatus = getOrderStatus($pdo, $_SESSION['order_id']);
+            if ($orderStatus) echo "<h2>Order status: $orderStatus";
+            else echo "Order not found";
+        ?>
         <table class="receipt-table">
             <thead>
                 <tr>

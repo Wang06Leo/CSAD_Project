@@ -27,9 +27,10 @@ $isadmin = isset($adm_username) && isset($adm_password);
 function addOrderToDb($items, $pdo) {
     try {
         // Insert new order
-        $stmt = $pdo->prepare("INSERT INTO orders (created_at) VALUES (NOW())");
-        $stmt->execute();
+        $stmt = $pdo->prepare("INSERT INTO orders (created_at, order_status) VALUES (NOW(), :order_status)");
+        $stmt->execute([':order_status' => 'uncompleted']);
         $orderId = $pdo->lastInsertId();
+
     
         // Insert each item into order_items
         $stmt = $pdo->prepare("INSERT INTO order_items (order_id, title, price, quantity, size, meat_type, preference) 
@@ -90,4 +91,29 @@ function getPromoItems($pdo) {
 
     //header("Content-Type: application/json");
     return $promotions;
+}
+
+function getAllOrders($pdo) {
+    $stmt = $pdo->prepare("
+        SELECT oi.*, o.order_status 
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.id
+    ");
+    $stmt->execute();
+    
+    $orders = [];
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $orders[$row['order_status']][$row['order_id']][] = $row;
+    }
+
+    return $orders;
+}
+
+function getOrderStatus($pdo, $id) {
+    $stmt = $pdo->prepare("SELECT order_status FROM orders WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $success = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($success) return $success['order_status'];
+    else return NULL;
 }

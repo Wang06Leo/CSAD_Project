@@ -1,5 +1,6 @@
 <?php
 require "db.php";
+$_SESSION['order_done'] = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout_data'])) {
     header("Content-Type: application/json");
     //echo "<h1>Received Checkout Data:</h1>";
@@ -11,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout_data'])) {
         $total_price += $item['price'][0];
     }
     $pointsIncVal = ceil($total_price * 3); // e.g. user order is $49.99, adds 150 points 
-    addUserPoints($pointsIncVal, $pdo);
     $_SESSION['order_done'] = TRUE;
+    addUserPoints($pointsIncVal, $pdo);
     header("Location: ../../success.php");
     exit();
     

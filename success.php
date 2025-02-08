@@ -1,6 +1,6 @@
 <?php
     require "src/php/stripeCheckSessionId.php";
-    require "src/php/addOrderToDb.php";
+    require "src/php/db.php";
     /**
      * @var int $orderId 
      * */
@@ -16,20 +16,15 @@
         header("Location: src/php/checkout.php");
         exit();
     }
-    if (!isset($_SESSION['order_done'])) {
-        header("Location: main.php");
-        exit();
-    }
 ?>
 
     <form method="POST" action="src/php/addOrderToDb.php" id="submit-form"></form>
 
     <script>
+        if (sessionStorage.getItem("formSubmitted")) {
+            localStorage.clear();
+        }
         document.addEventListener("DOMContentLoaded", function () {
-            if (sessionStorage.getItem("formSubmitted")) {
-                localStorage.clear();
-                return;
-            }
             let items = JSON.parse(localStorage.getItem("cart"));
             console.log("Cart items:", items);
             let input = document.createElement('input');
@@ -77,11 +72,11 @@
         //     header("Location: receipt.php");
         //     exit();
         // }
-        if (isset($_SESSION['order_done']) && $_SESSION['order_done'] === true) {
+        if (isset($_SESSION['order_done']) && $_SESSION['order_done'] === TRUE && isset($order_id)) {
             unset($_SESSION['order_done']);
+            echo "<script>localStorage.clear();</script>";
             header("Location: receipt.php");
             exit();
         }
-
     ?>
     <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">

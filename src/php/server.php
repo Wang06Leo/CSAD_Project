@@ -86,7 +86,7 @@ if ($isadmin) {
             exit();
         } else {
             $_SESSION['err'] = 'Invalid credentials';
-            header('Location: index.php');
+            header('Location: ../../admin/index.php');
             exit();
         }
     } catch (PDOException $e) {
@@ -94,7 +94,7 @@ if ($isadmin) {
     }
 } else {
     $_SESSION['err'] = 'Please fill in all fields';
-    header('Location: index.php');
+    header('Location: ../../admin/index.php');
     exit();
 }
 }

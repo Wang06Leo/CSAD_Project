@@ -1,6 +1,18 @@
 <?php
     session_start();
-    require "src/php/db.php"; 
+    require "src/php/db.php";
+    $promotions = getPromoItems($pdo);
+    $uploadsDir = "../uploads/";
+    $images = [];
+
+    if (is_dir($uploadsDir)) {
+        $files = scandir($uploadsDir);
+        foreach ($files as $file) {
+            if ($file !== "." && $file !== ".." && getimagesize($uploadsDir . $file)) {
+                $images[] = $file; // Only store valid image files
+            }
+        }
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -627,7 +639,7 @@
             echo "username = " . "'". $_SESSION['username'] . "';"; // "'" to put quote marks around username
             echo "localStorage.pts = " . $_SESSION['points'] . ";</script>";
         } else {
-            echo "<script>localStorage.getItem('pts') = null;</script>";
+            echo "<script>localStorage.removeItem('pts');</script>";
         }
     ?>
     <script>
@@ -762,7 +774,13 @@
             { category: "drinks", title: "Sprite(points redeemed)", description:"", price: "$0", img: "image/sprite.webp" },
             { category: "drinks", title: "Beer(points redeemed)", description:"", price: "$0", img: "image/beer.webp" },
             { category: "drinks", title: "Wine(points redeemed)", description:"", price: "$0", img: "image/wine.webp" },
+            <?php if (count($promotions) > 0): ?>
+                <?php foreach($promotions as $promo): ?>
+                    {category: "<?= $promo['type']?>", title: "<?= $promo['name'] ?>", description: "<?= $promo['description']?>", price: "$<?= $promo['price']?>", img: "<?= $promo['image']?>"}
+                <?php endforeach; ?>
+            <?php endif; ?>
         ];
+        console.log(foodItems);
 
         function openPopup(index) {
             prevInputNum = 1;
@@ -1103,7 +1121,25 @@
                 </div>
             </div>
         </div>
-
+        <!-- Insert seasonal items from admin here-->
+        <?php if (count($promotions) > 0) :?>
+            <?php $i = 0;?>
+            <?php foreach($promotions as $promo): ?>
+            <div class="container">
+                <div class="promotion">
+                    <h2>Seasonal promotion</h2>
+                    <p>Up to 50% off for this Month!</p>
+                    <div class="promotion-items">
+                        <div class="promotion-item">
+                        <?php if ($promo['image']): ?>
+                            <img src="<?php echo htmlspecialchars($promo['image']) ?>" width="50">
+                        <?php endif; ?>
+                        <p><?=$promo['name']?></p>
+                        <p>$<?=$promo['price']?> (<?=$promo['discount']?>% off)</p>
+                        <button onclick="openPopup(21+<?=$i++;?>)">Add</button>
+                        </div></div></div>
+            <?php endforeach; ?>
+        <?php endif ?>
         <!-- Points Menu Section -->
         <div class="points-menu">
             <h2>Redeem with Points</h2>
