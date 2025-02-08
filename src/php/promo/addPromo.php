@@ -27,10 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             move_uploaded_file($_FILES["image2"]["tmp_name"], $targetDir . $imageName);
         }
 
-        $sql = "INSERT INTO promotions (name, description, image, discount, start_date, end_date, is_active, price, type)
+        $sql = "INSERT INTO promotions (name, description, image, discount, start_date, end_date, price, type)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$name, $description, $imagePath, $discount, $start_date, $end_date, $is_active, $price, $type]);
+        $stmt->execute([$name, $description, $imagePath, $discount, $start_date, $end_date, $price, $type]);
 
         //echo json_encode(["success" => true, "message" => "Promotion added successfully"]);
         header('Location: ../../../admin/panel.php');

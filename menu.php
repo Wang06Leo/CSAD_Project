@@ -699,8 +699,8 @@
         let prevInputNum = 1; // default is 1
         function openPopupWithPoints(i) {
             if (!currPoints || currPoints < pointsArr[i]) return;
-            openPopup(i + 17); // offset to just promo drinks
             currPointsPrice = pointsArr[i];
+            openPopup(i + 17); // offset to just promo drinks
             isPayingWithPoints = true;
             document.getElementById('popup-price').textContent = pointsArr[i] + "pt";
             document.getElementById('popup-price').style.color = "#00DD00";
@@ -710,6 +710,10 @@
                 const userPoints = document.getElementById('user-and-pts');
                 if (userPoints) {
                     const justPoints = getPts(userPoints);
+                    if (justPoints < 0) {
+                        localStorage.clear();
+                        alert("An error occured. Please try again");
+                    }
                     if (justPoints !== currPoints) {
                         userPoints.innerHTML = `👤 ${username} | ⭐ Points: ${currPoints}`;
                     } 
@@ -832,6 +836,8 @@
         //console.log(foodItems);
 
         function openPopup(index) {
+            if (!currPoints && (index >= 17 && index <= 20)) return;
+            if (currPoints < pointsArr[index-17] && (index >= 17 && index <= 20)) return;
             prevInputNum = 1;
             const item = foodItems[index]; // Get item by index
             document.getElementById('popup-title').textContent = item.title;

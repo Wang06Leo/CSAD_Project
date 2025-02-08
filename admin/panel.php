@@ -353,7 +353,7 @@
                 <button class="button" onclick="createFormAndSendToDb(<?=$id?>, 'uncompleted')">Undo Mark as Ready</button>
             </div>
             <?php endforeach; ?>
-            <?php endif ?>
+            <?php endif; ?>
         </div>
     </div>
     <h2>Manage Seasonal Promotions</h2>
