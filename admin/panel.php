@@ -35,6 +35,7 @@
         if ($type !== 'N/A') $s .= " ($type done";
         if ($prefer === 'None' && $type !== 'N/A') return $s . ')' ;
         else if ($prefer === 'None' && $type === 'N/A') return $s . '';
+        else if ($prefer !== 'None' && $type === 'N/A') return $s . " ($prefer)";
         return $s . " ,$prefer)";
     }
 ?>
@@ -326,7 +327,7 @@
                 <h3>Order #<?= addZerosInFront($id) ?></h3>
                 <p style="overflow-wrap: break-word">
                     <strong>Items:</strong> <?php foreach($items as $item): ?>
-                    <span class="orderItems"><?= printItems($item['quantity'], $item['size'], $item['title'], $item['preference'], $item['meat_type'])?></span>
+                    <span class="orderItems"><?= htmlspecialchars(printItems($item['quantity'], $item['size'], $item['title'], $item['preference'], $item['meat_type']))?></span>
                     <br>
                     <?php endforeach; ?>
                 </p>
@@ -359,7 +360,7 @@
 
     <div class="container">
         <div class="form-container">
-            <form class="form" action="../src/php/promo/addPromo.php" method="POST" enctype="multipart/form-data">
+            <form class="form" action="../src/php/promo/addPromo.php" method="POST" enctype="multipart/form-data" id="submit-items">
                 <input type="text" name="name" placeholder="Promotion Name" required>
                 <br>
                 <textarea name="description" placeholder="Description"></textarea>
@@ -377,9 +378,9 @@
                 <input type="number" step="0.01"name="price" placeholder="Price $" required>
                 <input type="number" name="discount" placeholder="Discount %" required>
                 <br><br>
-                Start date: <input type="date" name="start_date" required>
+                Start date: <input type="date" name="start_date" id="start" onchange="checkDate(true)"required>
                 <br><br>
-                End date: <input type="date" name="end_date" required>
+                End date: <input type="date" name="end_date" id="end" onchange="checkDate(false)" required>
                 <br><br>
                 <input type="file" name="image1" accept="image/*" id="upload-img" onchange="allowOnlyOneImg(false)">
                 <br><br>
@@ -390,8 +391,6 @@
                         <option value="uploads/<?= htmlspecialchars($image) ?>"><?= htmlspecialchars($image) ?></option>
                     <?php endforeach; ?>
                 </select>
-                <br><br>
-                <label><input type="checkbox" name="is_active"> Active</label>
                 <br><br>
                 <button class="promotion-btn" type="submit">Add Promotion</button>
             </form>
@@ -439,8 +438,35 @@
         function allowOnlyOneImg(isExistingImg) {
             if (isExistingImg) {
                 document.getElementById('upload-img').value = null;
+                let showImg = document.getElementById('show-img');
+                let e = document.getElementById('imageSelect');
+                let text = e.options[e.selectedIndex].text;
+                if (!showImg) {
+                    let createImg = document.createElement('img');
+                    createImg.src = "../uploads/" + text;
+                    createImg.alt = "Uploaded image";
+                    createImg.id = 'show-img';
+                    createImg.style.width = "100%";
+                    let btn = document.getElementsByClassName('promotion-btn')[0];
+                    document.getElementById('submit-items').insertBefore(createImg, btn);
+                } else {
+                    showImg.src = "../uploads/" + text;
+                }
             } else {
                 document.getElementById('imageSelect').selectedIndex = 0;
+                const [file] = document.getElementById('upload-img').files
+                let showImg = document.getElementById('show-img');
+                if (file && showImg) {
+                    showImg.src = URL.createObjectURL(file);
+                } else if (file) {
+                    let createImg = document.createElement('img');
+                    createImg.src = URL.createObjectURL(file);
+                    createImg.alt = "Uploaded image";
+                    createImg.id = 'show-img';
+                    createImg.style.width = "100%";
+                    let btn = document.getElementsByClassName('promotion-btn')[0];
+                    document.getElementById('submit-items').insertBefore(createImg, btn);
+                }
             }
         }
         function createFormAndSendToDb(orderId, status) {
@@ -460,6 +486,17 @@
             form.appendChild(status_input);
             document.body.appendChild(form);
             form.submit();
+        }
+        function checkDate(isStart) {
+            let start = new Date(document.getElementById('start').value);
+            let end = new Date(document.getElementById('end').value);
+            if (isStart && start.getTime() > end.getTime()) {
+                document.getElementById('start').value = null;
+                alert('Start date later than end date. Please put a valid date');
+            } else if (!isStart && start.getTime() > end.getTime()) {
+                document.getElementById('end').value = null;
+                alert('End date eariler than satrt date. Please put a valid date');
+            }
         }
     </script>
 </body>

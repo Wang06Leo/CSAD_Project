@@ -776,11 +776,11 @@
             { category: "drinks", title: "Wine(points redeemed)", description:"", price: "$0", img: "image/wine.webp" },
             <?php if (count($promotions) > 0): ?>
                 <?php foreach($promotions as $promo): ?>
-                    {category: "<?= $promo['type']?>", title: "<?= $promo['name'] ?>", description: "<?= $promo['description']?>", price: "$<?= $promo['price']?>", img: "<?= $promo['image']?>"}
+                    {category: "<?= $promo['type']?>", title: "<?= $promo['name'] ?>", description: "<?= $promo['description']?>", price: "$<?= $promo['price']?>", img: "<?= $promo['image']?>"},
                 <?php endforeach; ?>
             <?php endif; ?>
         ];
-        console.log(foodItems);
+        //console.log(foodItems);
 
         function openPopup(index) {
             prevInputNum = 1;
@@ -1123,22 +1123,27 @@
         </div>
         <!-- Insert seasonal items from admin here-->
         <?php if (count($promotions) > 0) :?>
-            <?php $i = 0;?>
-            <?php foreach($promotions as $promo): ?>
             <div class="container">
                 <div class="promotion">
                     <h2>Seasonal promotion</h2>
                     <p>Up to 50% off for this Month!</p>
                     <div class="promotion-items">
+                    <?php $i = 0;?>
+                    <?php foreach($promotions as $promo): ?>
+                        <?php
+                            $current_date = date("Y-m-d");
+                            if ($promo['start_date'] > $current_date || $promo['end_date'] < $current_date) {
+                                continue; // Skip invalid promotions
+                            }
+                        ?>
                         <div class="promotion-item">
                         <?php if ($promo['image']): ?>
                             <img src="<?php echo htmlspecialchars($promo['image']) ?>" width="50">
                         <?php endif; ?>
                         <p><?=$promo['name']?></p>
                         <p>$<?=$promo['price']?> (<?=$promo['discount']?>% off)</p>
-                        <button onclick="openPopup(21+<?=$i++;?>)">Add</button>
-                        </div></div></div>
-            <?php endforeach; ?>
+                        <button onclick="openPopup(21+<?=$i++?>)">Add</button>
+                        </div><?php endforeach; ?></div></div>
         <?php endif ?>
         <!-- Points Menu Section -->
         <div class="points-menu">

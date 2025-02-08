@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS promotions (
     discount DECIMAL(5,2) DEFAULT 0.00,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     price DECIMAL(5,2) DEFAULT 0.00,
     type VARCHAR(100)

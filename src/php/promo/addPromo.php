@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $end_date = $_POST["end_date"];
         $price = $_POST['price'];
         $type = $_POST['type'];
-        $is_active = isset($_POST["is_active"]) ? 1 : 0;
 
         // Handle Image Upload
         $imagePath = "";

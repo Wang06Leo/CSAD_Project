@@ -74,8 +74,10 @@
         // }
         if (isset($_SESSION['order_done']) && $_SESSION['order_done'] === TRUE && isset($order_id)) {
             unset($_SESSION['order_done']);
-            echo "<script>localStorage.clear();</script>";
-            header("Location: receipt.php");
+            echo "<script>
+                    localStorage.clear();
+                    window.location.href = 'receipt.php';
+                </script>";
             exit();
         }
     ?>
