@@ -148,7 +148,7 @@ require "src/php/db.php";
         <span class="order-id">Order ID: <?php echo htmlspecialchars($_SESSION['order_id']) ?></span>
         <?php 
             $orderStatus = getOrderStatus($pdo, $_SESSION['order_id']);
-            if ($orderStatus) echo "<h2>Order status: $orderStatus";
+            if ($orderStatus) echo "<h2>Order status: $orderStatus</h2>";
             else echo "Order not found";
         ?>
         <table class="receipt-table">

@@ -157,7 +157,6 @@
             height: 21.33px; 
             width: 100%;
             max-height: 60px; 
-            max-width: 200px; 
             min-width: 75px; 
             transform: translateY(10px);
         }
@@ -167,6 +166,7 @@
             width: 100%;
             border-collapse: collapse;
             background-color: white;
+            transform: translateX(-8%);
         }
 
         table th, table td {
@@ -204,6 +204,7 @@
 
         .order-container,
         .finished-container {
+            width: 400px;
             max-width: 700px;
             background: white;
             padding: 20px;
@@ -244,6 +245,26 @@
         }
         span.orderItems:nth-child(n+3) {
             margin-left: 51px;
+        }
+
+        @media (max-width:1024px){
+            table th, table td {
+                padding: 3px 2px;
+                font-size: 12px;
+            }
+            table{
+                transform: translateX(0%);
+            }
+        }
+
+        @media (max-width:431px) {
+            table th, table td {
+                padding: 3px 2px;
+                font-size: 8px;
+            }
+            table{
+                transform: translateX(0%);
+            }
         }
     </style>
 </head>
