@@ -321,8 +321,8 @@
     <div class="both-container">
         <div class="order-container">
             <h1>Preparing Orders</h1>
-            <?php if(isset($orders['uncompleted'])): ?>
-            <?php foreach($orders['uncompleted'] as $id => $items): ?>
+            <?php if(isset($orders['incompleted'])): ?>
+            <?php foreach($orders['incompleted'] as $id => $items): ?>
                 <div class="order">
                 <h3>Order #<?= addZerosInFront($id) ?></h3>
                 <p style="overflow-wrap: break-word">
@@ -350,7 +350,7 @@
                     <?php endforeach; ?>
                 </p>
                 <p class="status" style="color: green">Completed</p>
-                <button class="button" onclick="createFormAndSendToDb(<?=$id?>, 'uncompleted')">Undo Mark as Ready</button>
+                <button class="button" onclick="createFormAndSendToDb(<?=$id?>, 'incompleted')">Undo Mark as Ready</button>
             </div>
             <?php endforeach; ?>
             <?php endif ?>
@@ -470,7 +470,7 @@
             }
         }
         function createFormAndSendToDb(orderId, status) {
-            if (!(status === 'completed' || status === 'uncompleted')) return;
+            if (!(status === 'completed' || status === 'incompleted')) return;
             let form = document.createElement('form');
             let input = document.createElement('input');
             let status_input = document.createElement('input');
