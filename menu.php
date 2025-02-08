@@ -2,7 +2,7 @@
     session_start();
     require "src/php/db.php";
     $promotions = getPromoItems($pdo);
-    $uploadsDir = "../uploads/";
+    $uploadsDir = "uploads/";
     $images = [];
 
     if (is_dir($uploadsDir)) {
@@ -679,6 +679,9 @@
         from {opacity: 1;}
         to {opacity: 0;}
         }
+        img[src=""] {
+            display: none;
+        }
     </style>
     <script>
         let currPoints = null;
@@ -1240,6 +1243,8 @@
                         <div class="promotion-item">
                         <?php if ($promo['image']): ?>
                             <img src="<?php echo htmlspecialchars($promo['image']) ?>" width="50">
+                        <?php else: ?>
+                            <div style="width: 200px; height: 150px"></div>
                         <?php endif; ?>
                         <p><?=$promo['name']?></p>
                         <p>$<?=$promo['price']?> (<?=$promo['discount']?>% off)</p>
