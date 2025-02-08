@@ -780,7 +780,7 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         ];
-        console.log(foodItems);
+        //console.log(foodItems);
 
         function openPopup(index) {
             prevInputNum = 1;
