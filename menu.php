@@ -628,6 +628,54 @@
                 width: 100px;
             }
         }
+
+
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+        visibility: hidden; /* Hidden by default. Visible on click */
+        min-width: 250px; /* Set a default minimum width */
+        margin-left: -125px; /* Divide value of min-width by 2 */
+        background-color: #333; /* Black background color */
+        color: #fff; /* White text color */
+        text-align: center; /* Centered text */
+        border-radius: 5px; /* Rounded borders */
+        padding: 13px 0px; /* Padding */
+        position: fixed; /* Sit on top of the screen */
+        z-index: 99; /* Add a z-index if needed */
+        left: 50%; /* Center the snackbar */
+        top: 135px;
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+        However, delay the fade out process for 2.5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;  
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation-fill-mode: forwards; /* Keep the last keyframe (opacity: 0) */
+        }
+
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+        from {opacity: 0;}
+        to {opacity: 1;}
+        }
+
+        @keyframes fadein {
+        from {opacity: 0;}
+        to {opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+            from{opacity: 1;}
+            to {opacity: 0;}
+        }
+
+        @keyframes fadeout {
+        from {opacity: 1;}
+        to {opacity: 0;}
+        }
     </style>
     <script>
         let currPoints = null;
@@ -657,6 +705,7 @@
             document.getElementById('popup-price').textContent = pointsArr[i] + "pt";
             document.getElementById('popup-price').style.color = "#00DD00";
         }
+        
         function onPointsChange() {
                 const userPoints = document.getElementById('user-and-pts');
                 if (userPoints) {
@@ -1019,6 +1068,41 @@
             localStorage.setItem("pts", currPoints);
             onPointsChange();
         }
+
+        let toastTimeout;  // Global variable to track the timeout
+
+        function myFunction(i) {
+            // Get the snackbar DIV
+            var toast = document.getElementById("snackbar");
+            var username = "<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>";
+
+            // Clear any existing timeout to reset the 3-second timer
+            clearTimeout(toastTimeout);
+
+            // Remove the 'show' class to reset the animation
+            toast.classList.remove("show");
+
+            // Force reflow to retrigger the animation
+            void toast.offsetWidth;  // This line forces the reflow
+
+            if (!username) {
+                toast.textContent = "Login to use points";
+                toast.className = "show";
+            } 
+            else if (currPoints < pointsArr[i]) {
+                toast.textContent = "Not enough points";
+                toast.className = "show";
+            } 
+            else {
+                toast.className = "";
+                return;  // Exit early if no toast needs to be shown
+            }
+
+            // Start a new 3-second timeout
+            toastTimeout = setTimeout(function() {
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
+        }
     </script>
     
 </head>
@@ -1149,26 +1233,28 @@
         <div class="points-menu">
             <h2>Redeem with Points</h2>
             <p>Use your points to get free items!</p>
+            <!-- Remind user to login snackbar -->
+            <div id="snackbar">Login to use points</div>
             <div class="points-items">
                 <div class="points-item selected">
                     <img src="image/coke.webp" alt="Coke">
                     <p>Coke</p>
-                    <span class="points-badge" onclick="openPopupWithPoints(0)">175 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(0); myFunction(0);">175 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/sprite.webp" alt="Sprite">
                     <p>Sprite</p>
-                    <span class="points-badge" onclick="openPopupWithPoints(1)">175 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(1); myFunction(1);">175 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/beer.webp" alt="Beer">
                     <p>Beer</p>
-                    <span class="points-badge" onclick="openPopupWithPoints(2)">500 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(2); myFunction(2);">500 pt</span>
                 </div>
                 <div class="points-item">
                     <img src="image/wine.webp" alt="Wine">
                     <p>Wine</p>
-                    <span class="points-badge" onclick="openPopupWithPoints(3)">1000 pt</span>
+                    <span class="points-badge" onclick="openPopupWithPoints(3); myFunction(3);">1000 pt</span>
                 </div>
             </div>
         </div>
