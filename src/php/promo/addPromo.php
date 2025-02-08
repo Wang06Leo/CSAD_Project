@@ -26,9 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $imagePath = "uploads/" . $imageName; // Store relative path
             move_uploaded_file($_FILES["image2"]["tmp_name"], $targetDir . $imageName);
         }
+        if (!isset($imagePath)) $imagePath = "";
 
         $sql = "INSERT INTO promotions (name, description, image, discount, start_date, end_date, price, type)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$name, $description, $imagePath, $discount, $start_date, $end_date, $price, $type]);
 
