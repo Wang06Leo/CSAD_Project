@@ -420,6 +420,9 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        #items-unavailable {
+            font-weight: bold;
+        }
         
         #paymentLoadingAlertContainer {
             position: fixed;
@@ -844,9 +847,17 @@
             document.getElementById('popup-description').textContent = item.description;
             document.getElementById('popup-price').textContent = item.price;
             document.getElementById('popup-image').src = item.img;
+            const textarea= document.querySelector('textarea');
+            const select = document.querySelector('select');
+            const label = document.getElementById('items-unavailable');
             document.getElementById('food-popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block'; // Show overlay
             document.body.style.overflow = 'hidden';
+            textarea.style.display = "none";
+            textarea.value = "";
+            select.style.display = "none";
+            label.innerText = "";
+            select.value = "contact staff";
 
             //Reset size selection to default ("small")
             document.querySelector("input[name='size'][value='small']").checked = true;
@@ -1502,11 +1513,11 @@
         </div>
         </div>
 
-        <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea>
+        <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea><br> 
         <label id="items-unavailable"></label><br>
         <select>
-            <option>Refund items</option>   
-            <option>Contact Stuff</option>
+            <option value="contact staff">Contact Stuff</option>   
+            <option value="refund items">Refund items</option>
         </select><br>
         <div id="add-to-cart" style="display: flex; justify-content:space-between; position:relative; bottom:0">
             <div>

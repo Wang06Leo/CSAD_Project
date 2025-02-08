@@ -28,7 +28,7 @@ function addOrderToDb($items, $pdo) {
     try {
         // Insert new order
         $stmt = $pdo->prepare("INSERT INTO orders (created_at, order_status) VALUES (NOW(), :order_status)");
-        $stmt->execute([':order_status' => 'uncompleted']);
+        $stmt->execute([':order_status' => 'incompleted']);
         $orderId = $pdo->lastInsertId();
 
     
