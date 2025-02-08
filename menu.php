@@ -13,8 +13,6 @@
             }
         }
     } 
-    //var_dump($images);
-    var_dump($promotions);
 ?>
 
 <!DOCTYPE html>
