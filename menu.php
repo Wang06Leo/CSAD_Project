@@ -1531,7 +1531,7 @@
         <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea><br> 
         <label id="items-unavailable"></label><br>
         <select id="unavailable">
-            <option value="contact staff">Contact Stuff</option>   
+            <option value="contact staff">Contact Staff</option>   
             <option value="refund items">Refund items</option>
         </select><br>
         <div id="add-to-cart" style="display: flex; justify-content:space-between; position:relative; bottom:0">
