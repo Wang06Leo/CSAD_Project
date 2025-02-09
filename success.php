@@ -81,4 +81,3 @@
             exit();
         }
     ?>
-    <img class="back-img" src="image/back.png" onclick="window.location.href='main.php'">
