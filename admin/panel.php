@@ -30,14 +30,24 @@
         $s = $cnt . ' ';
         $size[0] = strtoupper($size[0]);
         if ($size !== 'N/A') $s .= $size . ' ';
-        if ($cnt > 1) $s .= $title . 's';
-        else $s .= $title;
+    
+        // Check if the title ends with "(points redeemed)"
+        if (str_ends_with($title, '(points redeemed)')) {
+            $baseTitle = substr($title, 0, -17); // Remove "(points redeemed)"
+            if ($cnt > 1) $baseTitle .= 's'; // Proper pluralization
+            $s .= $baseTitle . '(points redeemed)';
+        } else {
+            if ($cnt > 1) $s .= $title . 's';
+            else $s .= $title;
+        }
+    
         if ($type !== 'N/A') $s .= " ($type done";
-        if ($prefer === 'None' && $type !== 'N/A') return $s . ')' ;
-        else if ($prefer === 'None' && $type === 'N/A') return $s . '';
+        if ($prefer === 'None' && $type !== 'N/A') return $s . ')';
+        else if ($prefer === 'None' && $type === 'N/A') return $s;
         else if ($prefer !== 'None' && $type === 'N/A') return $s . " ($prefer)";
         return $s . " ,$prefer)";
     }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
