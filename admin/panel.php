@@ -322,7 +322,7 @@
 
     <div class="container">
         <div class="form-container">
-            <form class="form" action="../src/php/promo/addPromo.php" method="POST" enctype="multipart/form-data" id="submit-items">
+            <form class="form" action="../src/php/promo/addPromo.php" method="POST" enctype="multipart/form-data" id="submit-items" onsubmit="return checkImg()">
                 <input type="text" name="name" placeholder="Promotion Name" required>
                 <br>
                 <textarea name="description" placeholder="Description"></textarea>
@@ -460,6 +460,13 @@
                 document.getElementById('end').value = null;
                 alert('End date eariler than satrt date. Please put a valid date');
             }
+        }
+        function checkImg() {
+            if(!document.getElementById('upload-img').value && document.getElementById('imageSelect').selectedIndex === 0) {
+                alert("Please insert image");
+                return false;
+            }
+            return true;
         }
     </script>
 </body>
