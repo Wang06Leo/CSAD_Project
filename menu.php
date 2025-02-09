@@ -950,7 +950,11 @@
             }
 
             // Get preference from textarea
-            var preference = document.getElementById("preference-text").value.trim();
+            var preferencetext = document.getElementById("preference-text").value.trim();
+            if (preferencetext && preferencetext !== "None"){
+            var preferenceselect = document.getElementById("unavailable").value;
+            var preference = preferencetext + ", "  + preferenceselect;
+            }
             preference = preference ? preference : "None"; // Default to "None" if empty
 
             // Define additional price for each size
@@ -987,7 +991,7 @@
             if (existingItem) {
                 existingItem.quantity += quantity; // Increase quantity if item already exists
             } else {
-                cart.push({ title, price: [finalPrice, pointsPrice], quantity, size, meatType, preference }); // Add new item
+                cart.push({ title, price: [finalPrice, pointsPrice], quantity, size, meatType, preference, preferencetext, preferenceselect}); // Add new item
             }
 
             updateCartDisplay();
@@ -1024,9 +1028,15 @@
                     cartItemHTML += `<span style="font-size:14px;">Meat Type: ${item.meatType}</span><br>`;
                 }
 
+                console.log(item.preferncetext);
                 // Display preference only if it's not "None"
-                if (item.preference && item.preference !== "None") {
-                    cartItemHTML += `<span style="font-size:14px;">Preference: ${item.preference}</span><br>`;
+                if (item.preferencetext && item.preferencetext !== "None") {
+                    cartItemHTML += `<span style="font-size:14px;">Preference: ${item.preferencetext}</span><br>`;
+                }
+
+                //Display item unavailable
+                if (item.preferencetext && item.preferencetext !== "None") {
+                    cartItemHTML += `<span style="font-size:14px;">If unavailable: ${item.preferenceselect}</span><br>`;
                 }
 
                 cartItemHTML += `
@@ -1520,7 +1530,7 @@
 
         <textarea id="preference-text"  class="order-label" placeholder="Enter any preferences"></textarea><br> 
         <label id="items-unavailable"></label><br>
-        <select>
+        <select id="unavailable">
             <option value="contact staff">Contact Stuff</option>   
             <option value="refund items">Refund items</option>
         </select><br>
