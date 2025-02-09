@@ -364,6 +364,7 @@
             <table>
                 <tr>
                     <th>Name</th>
+                    <th>Price</th>
                     <th>Discount</th>
                     <th>Start Date</th>
                     <th>End Date</th>

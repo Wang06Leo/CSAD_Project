@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout_data'])) {
     $_SESSION['order_id'] = $orderId; // session_start() in db.php, so not needed here
     $total_price = 0;
     foreach ($data as $item) {
-        $total_price += $item['price'][0];
+        $total_price += $item['price'][0] * $item['quantity'];
     }
     $pointsIncVal = ceil($total_price * 3); // e.g. user order is $49.99, adds 150 points 
     $_SESSION['order_done'] = TRUE;
